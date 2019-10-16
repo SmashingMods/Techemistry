@@ -1,0 +1,154 @@
+{
+  "block.techemistry.fermenter": "Fermenter",
+  "block.techemistry.macerator": "Maceration Station",
+  "block.techemistry.electrolyzer": "Electrolyzer",
+  "block.techemistry.gas_collector": "Gas Collector",
+  "block.techemistry.distillery_controller": "Distillery Controller",
+  "block.techemistry.distillery_column": "Distillery Column",
+  "block.techemistry.steam_boiler": "Steam Boiler",
+  "block.techemistry.solid_fuel_heater": "Solid Fuel Heater",
+  "block.techemistry.steam_turbine": "Steam Turbine",
+  "block.techemistry.calcination_chamber": "Calcination Chamber",
+  "block.techemistry.reaction_chamber": "Reaction Chamber",
+  "block.techemistry.smeltery": "Smeltery",
+
+  "block.techemistry.fermenter.tooltip": "<TODO>>",
+  "block.techemistry.macerator.tooltip": "<TODO>",
+  "block.techemistry.electrolyzer.tooltip": "<TODO>",
+  "block.techemistry.gas_collector.tooltip": "<TODO>",
+  "block.techemistry.distillery_controller.tooltip": "<TODO>",
+  "block.techemistry.distillery_column.tooltip": "<TODO>",
+  "block.techemistry.steam_boiler.tooltip": "<TODO>>",
+  "block.techemistry.solid_fuel_heater.tooltip": "<TODO>>",
+  "block.techemistry.steam_turbine.tooltip": "<TODO>>",
+  "block.techemistry.calcination_chamber.tooltip": "<TODO>",
+  "block.techemistry.reaction_chamber.tooltip": "<TODO>",
+  "block.techemistry.smeltery.tooltip": "<TODO>",
+
+
+  "block.techemistry.dolomite": "Dolomite",
+  "block.techemistry.dolomite.tooltip": "Generates from y:80 to y:255",
+  "block.techemistry.sulfide_ore": "Sulfide Ore",
+  "block.techemistry.sulfide_ore.tooltip": "Generates at any height",
+  "block.techemistry.oxide_ore": "Oxide Ore",
+  "block.techemistry.oxide_ore.tooltip": "Generates at any height",
+  "block.techemistry.carbonate_ore": "Carbonate Ore",
+  "block.techemistry.carbonate_ore.tooltip": "Generates at any height",
+  "block.techemistry.phosphate_ore": "Phosphate Ore",
+  "block.techemistry.phosphate_ore.tooltip": "Generates at any height",
+  "block.techemistry.sulfur_ore": "Sulfur Ore",
+  "block.techemistry.sulfur_ore.tooltip": "Generates at any height",
+  "block.techemistry.sulfate_ore": "Sulfate Ore",
+  "block.techemistry.sulfate_ore.tooltip": "Generates at any height",
+
+  "item.techemistry.yeast": "Yeast",
+  "item.techemistry.yeast.tooltip": "Acquire with a Yeast Incubation Tray",
+  "item.techemistry.yeast.tooltip2":"Maximum Living Temp: %d",
+
+  "item.techemistry.beer": "Beer",
+  "item.techemistry.beer.tooltip": "",
+
+  "item.techemistry.sugar_wine": "Sugar Wine",
+  "item.techemistry.sugar_wine.tooltip": "",
+
+  "item.techemistry.crushed_wheat": "Crushed Wheat",
+  "item.techemistry.crushed_wheat.tooltip": "",
+
+  "item.techemistry.cider": "Cider",
+  "item.techemistry.cider.tooltip": "",
+
+  "item.techemistry.rum": "Rum",
+  "item.techemistry.rum.tooltip": "",
+
+  "item.techemistry.potato_wine": "Potato Wine",
+  "item.techemistry.potato_wine.tooltip": "",
+
+  "item.techemistry.vodka": "Vodka",
+  "item.techemistry.vodka.tooltip": "",
+
+  "item.techemistry.whiskey": "Whiskey",
+  "item.techemistry.whisky.tooltip": "",
+
+  "item.techemistry.apple_sauce": "Apple Sauce",
+  "item.techemistry.apple_sauce.tooltip": "",
+
+  "item.techemistry.coke": "Coke",
+  "item.techemistry.coke.tooltip": "C",
+
+  "item.techemistry.yeast_incubation_tray": "Yeast Incubation Tray",
+  "item.techemistry.yeast_incubation_tray.tooltip": "",
+
+  "item.techemistry.electrode_platinum": "Platinum Electrode",
+  "item.techemistry.electrode_platinum.tooltip": "",
+
+  "item.techemistry.gear_wood": "Wood Gear",
+  "item.techemistry.gear_wood.tooltip": "",
+
+  "item.techemistry.gear_stone": "Stone Gear",
+  "item.techemistry.gear_stone.tooltip": "",
+
+  "item.techemistry.gear_iron": "Iron Gear",
+  "item.techemistry.gear_iron.tooltip": "",
+
+  "item.techemistry.gear_copper": "Copper Gear",
+  "item.techemistry.gear_copper.tooltip": "",
+
+  "item.techemistry.gear_nickel": "Nickel Gear",
+  "item.techemistry.gear_nickel.tooltip": "",
+
+  "item.techemistry.galena": "Galena",
+  "item.techemistry.galena.tooltip": "",
+
+  "item.techemistry.pyrite": "Pyrite",
+  "item.techemistry.pyrite.tooltip": "",
+
+  "item.techemistry.sphalerite": "Sphalerite",
+  "item.techemistry.sphalerite.tooltip": "",
+
+  "item.techemistry.cassiterite": "Cassiterite",
+  "item.techemistry.cassiterite.tooltip": "",
+
+  "item.techemistry.pyrolusite": "Pyrolusite",
+  "item.techemistry.pyrolusite.tooltip": "",
+
+  "item.techemistry.strontianite": "Strontianate",
+  "item.techemistry.strontianite.tooltip": "",
+
+  "item.techemistry.millerite": "Millerite",
+  "item.techemistry.millerite.tooltip": "",
+
+  "item.techemistry.cinnabar": "Cinnabar",
+  "item.techemistry.cinnabar.tooltip": "",
+
+  "item.techemistry.stibnite": "Stibnite",
+  "item.techemistry.stibnite.tooltip": "",
+
+  "item.techemistry.sulfur_chunk": "Sulfur Chunk",
+  "item.techemistry.sulfur_chunk.tooltip": "Drops from sulfur ore",
+
+  "item.techemistry.vanadinite": "Vanadinite",
+  "item.techemistry.vanadinite.tooltip": "",
+
+  "item.techemistry.chalcocite": "Chalcocite",
+  "item.techemistry.chalcocite.tooltip": "",
+
+  "item.techemistry.crushed_melanterite": "Crushed Melanterite",
+  "item.techemistry.crushed_melanterite.tooltip": "",
+
+  "item.techemistry.melanterite": "Melanterite",
+  "item.techemistry.melanterite.tooltip": "",
+
+  "item.techemistry.sal_ammoniac": "Sal Ammoniac",
+  "item.techemistry.sal_ammoniac.tooltip": "Drops occasionally from sulfur ore",
+
+  "item.techemistry.natron": "Natron",
+  "item.techemistry.natron.tooltip": "",
+
+  "item.techemistry.braggite": "Braggite",
+  "item.techemistry.braggite.tooltip": "",
+
+  "advancements.techemistry.root.title": "Techemistry",
+  "advancements.techemistry.root.description": "Techemistry advancements",
+
+  "itemGroup.techemistry": "Techemistry"
+}

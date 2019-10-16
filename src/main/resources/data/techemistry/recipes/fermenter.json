@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "ICI",
+    "IGI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "minecraft:bucket"
+    },
+    "G": {
+      "item": "techemistry:gear_iron"
+    }
+  },
+  "result": {
+    "item": "techemistry:fermenter"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BIB",
+    "BGB",
+    "BIB"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_bars"
+    },
+    "B": {
+      "item": "minecraft:bricks"
+    },
+    "G": {
+      "item": "techemistry:gear_iron"
+    }
+  },
+  "result": {
+    "item": "techemistry:steam_turbine"
+  }
+}

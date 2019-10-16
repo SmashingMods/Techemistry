@@ -1,0 +1,27 @@
+v4
+===
+
+
+v3
+===
+-Reduced ore world gen rates some more
+-Some new ore textures
+-Sulfur ore will now drop XP
+-Increased the hardness of ores
+-Doubled the base yield of most ores in the macerator from 4 to 8 mineral chunks
+-Implemented the 'efficiency' stat for the macerator gears. It is now an output multiplier for any recipe
+ that uses efficiency, currently this only applies to ores
+-Now, whenever a gear is removed from the macerator progress instantly resets so that you can't cheese it
+ with a high-speed, low efficiency gear, then switch to a high-efficiency gear at the last second
+-Looking for gear usages in JEI now shows which macerator recipes that gear can use considering its tier
+-The logic for reaction chamber item insertion is now a little smarter
+
+v2
+===
+-Added (VERY) primitive textures so that all blocks are distinguishable
+-Decreased world gen chance for all of the ores
+-Added recipes for the electrolyzer & reaction chamber
+-Minerals with chemical formulas in the tooltip should no longer have unnecessary parentheses around them
+-Added 2 items: Sal Ammoniac & Natron
+-Added ~10-15 new machine recipes
+-Stuff
