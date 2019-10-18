@@ -10,6 +10,8 @@ import al132.techemistry.blocks.electrolyzer.ElectrolyzerScreen;
 import al132.techemistry.blocks.fermenter.FermenterContainer;
 import al132.techemistry.blocks.fermenter.FermenterRegistry;
 import al132.techemistry.blocks.fermenter.FermenterScreen;
+import al132.techemistry.blocks.froth_flotation_chamber.FrothFlotationRegistry;
+import al132.techemistry.blocks.froth_flotation_chamber.FrothFlotationScreen;
 import al132.techemistry.blocks.gas_collector.CollectorRegistry;
 import al132.techemistry.blocks.gas_collector.GasCollectorContainer;
 import al132.techemistry.blocks.gas_collector.GasCollectorScreen;
@@ -40,6 +42,8 @@ public class JEIIntegration implements IModPlugin {
     public static final String CALCINATION_CATEGORY = "calcination_recipe";
     public static final String REACTION_CATEGORY = "reaction_recipe";
     public static final String SMELTERY_CATEGORY = "smeltery_recipe";
+    public static final String FROTH_CATEGORY = "froth_recipe";
+
 
     public static final ResourceLocation COLLECTOR_RESOURCE = Utils.toLocation(COLLECTOR_CATEGORY);
     public static final ResourceLocation MACERATOR_RESOURCE = Utils.toLocation(MACERATOR_CATEGORY);
@@ -49,6 +53,7 @@ public class JEIIntegration implements IModPlugin {
     public static final ResourceLocation CALCINATION_RESOURCE = Utils.toLocation(CALCINATION_CATEGORY);
     public static final ResourceLocation REACTION_RESOURCE = Utils.toLocation(REACTION_CATEGORY);
     public static final ResourceLocation SMELTERY_RESOURCE = Utils.toLocation(SMELTERY_CATEGORY);
+    public static final ResourceLocation FROTH_RESOURCE = Utils.toLocation(FROTH_CATEGORY);
 
 
     @Override
@@ -68,7 +73,8 @@ public class JEIIntegration implements IModPlugin {
                 new ElectrolyzerRecipeCategory(guiHelper),
                 new CalcinationRecipeCategory(guiHelper),
                 new ReactionRecipeCategory(guiHelper),
-                new SmelteryRecipeCategory(guiHelper)
+                new SmelteryRecipeCategory(guiHelper),
+                new FrothFlotationCategory(guiHelper)
         );
     }
 
@@ -82,6 +88,7 @@ public class JEIIntegration implements IModPlugin {
         reg.addRecipes(CalcinationRegistry.recipes, CALCINATION_RESOURCE);
         reg.addRecipes(ReactionChamberRegistry.recipes, REACTION_RESOURCE);
         reg.addRecipes(SmelteryRegistry.recipes, SMELTERY_RESOURCE);
+        reg.addRecipes(FrothFlotationRegistry.recipes, FROTH_RESOURCE);
 
     }
 
@@ -95,6 +102,8 @@ public class JEIIntegration implements IModPlugin {
         reg.addRecipeCatalyst(new ItemStack(Ref.calcinationChamber), CALCINATION_RESOURCE);
         reg.addRecipeCatalyst(new ItemStack(Ref.reactionChamber), REACTION_RESOURCE);
         reg.addRecipeCatalyst(new ItemStack(Ref.smeltery), SMELTERY_RESOURCE);
+        reg.addRecipeCatalyst(new ItemStack(Ref.frothFlotationChamber), FROTH_RESOURCE);
+
     }
 
     @Override
@@ -107,6 +116,7 @@ public class JEIIntegration implements IModPlugin {
         reg.addRecipeClickArea(CalcinationScreen.class, 75, 40, 35, 22, CALCINATION_RESOURCE);
         reg.addRecipeClickArea(ReactionChamberScreen.class, 76, 41, 33, 22, REACTION_RESOURCE);
         reg.addRecipeClickArea(SmelteryScreen.class, 76, 41, 33, 22, SMELTERY_RESOURCE);
+        reg.addRecipeClickArea(FrothFlotationScreen.class, 76, 41, 33, 22, FROTH_RESOURCE);
 
     }
 

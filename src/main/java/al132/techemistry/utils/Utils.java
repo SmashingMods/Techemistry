@@ -87,6 +87,10 @@ public class Utils {
         return Ingredient.fromStacks(toStack(str, quantity));
     }
 
+    public static boolean isQuantityAdequate(ItemStack stack, Ingredient recipe) {
+        return recipe == Ingredient.EMPTY || stack.getCount() >= recipe.getMatchingStacks()[0].getCount();
+    }
+
     public static boolean canStack(ItemStack recipeStack, ItemStack slotStack) {
         return slotStack.isEmpty()
                 || recipeStack.isEmpty()

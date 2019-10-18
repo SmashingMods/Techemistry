@@ -1,6 +1,6 @@
 package al132.techemistry.blocks.reaction_chamber;
 
-import al132.techemistry.Formula;
+import al132.techemistry.data.Formula;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 

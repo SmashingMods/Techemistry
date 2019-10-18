@@ -1,5 +1,6 @@
-package al132.techemistry;
+package al132.techemistry.world;
 
+import al132.techemistry.Ref;
 import al132.techemistry.blocks.world.WorldBlock;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;

@@ -31,8 +31,8 @@ public class MaceratorRegistry {
         addRecipe(toStack("calcium_carbonate", 8), Items.TURTLE_EGG, 0);
         addRecipe(toStack("magnesium_carbonate"), toStack("calcium_carbonate"), new ItemStack(Ref.dolomite), 1);
         addRecipe(toStack("zinc_sulfide"), toStack(Ref.sphalerite), 1);
-        addRecipe(toStack("iron_disulfide"), toStack(Ref.pyrite), 1);
-        addRecipe(toStack("lead_sulfide"), toStack(Ref.galena), 1);
+        addRecipe(toStack(Ref.crushedPyrite), toStack(Ref.pyrite), 1);
+        addRecipe(toStack(Ref.crushedGalena), toStack(Ref.galena), 1);
         addRecipe(toStack("tin_oxide"), toStack(Ref.cassiterite), 1);
         addRecipe(toStack("manganese_oxide"), toStack(Ref.pyrolusite), 1);
         addRecipe(toStack("strontium_carbonate"), toStack(Ref.strontianite), 1);
@@ -58,17 +58,31 @@ public class MaceratorRegistry {
 
         recipes.add(new MaceratorRecipe(Lists.newArrayList(
                 weighted(Ref.cassiterite, 8, 1),
-                weighted(Ref.pyrolusite, 8, 1)),
-                ItemStack.EMPTY, toIngredient(Ref.oxideOre), 1, true));
+                weighted(Ref.pyrolusite, 8, 1),
+                weighted(Ref.cuprite, 8, 1),
+                weighted(Ref.magnetite, 8, 1),
+                weighted(Ref.hematite, 8, 1),
+                weighted(Ref.ilmenite, 8, 1),
+                weighted(Ref.uraninite, 8, 1)),
+                ItemStack.EMPTY, toIngredient(Ref.oxideOre), 2, true));
 
         recipes.add(new MaceratorRecipe(Lists.newArrayList(
                 weighted(Ref.strontianite, 8, 1),
+                weighted(Ref.cerussite, 8, 1),
+                weighted(Ref.spherocobaltite, 8, 1),
+                weighted(Ref.siderite, 8, 1),
+                weighted(Ref.rhodochrosite, 8, 1),
                 weighted(Ref.natron, 2, 1)),
                 ItemStack.EMPTY, toIngredient(Ref.carbonateOre), 1, true));
 
         recipes.add(new MaceratorRecipe(Lists.newArrayList(
                 weighted(Ref.melanterite, 4, 1)),
                 ItemStack.EMPTY, toIngredient(Ref.sulfateOre), 1, true));
+
+        recipes.add(new MaceratorRecipe(Lists.newArrayList(
+                weighted(Ref.vanadinite, 4, 1),
+                weighted(Ref.pyromorphite, 4, 1)),
+                ItemStack.EMPTY, toIngredient(Ref.phosphateOre), 1, true));
     }
 
     public static void addRecipe(ItemStack output, ItemStack output2, ItemStack input, int tier) {

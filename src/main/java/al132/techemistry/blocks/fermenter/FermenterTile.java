@@ -13,7 +13,7 @@ import al132.techemistry.capabilities.heat.IHeatStorage;
 import al132.techemistry.items.misc.YeastItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.WaterFluid;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -38,7 +38,7 @@ public class FermenterTile extends BaseInventoryTile
     protected FluidTank inputTank = new FluidTank(10000) {
         @Override
         public boolean isFluidValid(FluidStack stack) {
-            return stack.getFluid() instanceof Fluid;
+            return stack.getFluid() instanceof WaterFluid;
         }
     };
 

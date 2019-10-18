@@ -5,6 +5,7 @@ import al132.techemistry.blocks.calcination_chamber.CalcinationRegistry;
 import al132.techemistry.blocks.distillery.DistilleryRegistry;
 import al132.techemistry.blocks.electrolyzer.ElectrolyzerRegistry;
 import al132.techemistry.blocks.fermenter.FermenterRegistry;
+import al132.techemistry.blocks.froth_flotation_chamber.FrothFlotationRegistry;
 import al132.techemistry.blocks.gas_collector.CollectorRegistry;
 import al132.techemistry.blocks.macerator.MaceratorRegistry;
 import al132.techemistry.blocks.reaction_chamber.ReactionChamberRegistry;
@@ -13,9 +14,11 @@ import al132.techemistry.capabilities.heat.CapabilityHeat;
 import al132.techemistry.capabilities.player.CapabilityPlayerData;
 import al132.techemistry.capabilities.player.PlayerData;
 import al132.techemistry.capabilities.player.PlayerDataDispatcher;
+import al132.techemistry.data.ReactivitySeries;
 import al132.techemistry.setup.ClientProxy;
 import al132.techemistry.setup.IProxy;
 import al132.techemistry.setup.ServerProxy;
+import al132.techemistry.world.WorldGen;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -97,6 +100,7 @@ public class Techemistry {
         CalcinationRegistry.init();
         ReactionChamberRegistry.init();
         SmelteryRegistry.init();
+        FrothFlotationRegistry.init();
         CollectorRegistry.init(); //Make sure this is last! uses the previous machine recipes
     }
 
@@ -112,9 +116,9 @@ public class Techemistry {
         @SubscribeEvent
         public static void onItemsRegistry(final RegistryEvent.Register<Item> e) {
             Ref.initItems();
-            data.ITEMS.forEach(e.getRegistry()::register);
+            data.ITEMS.stream().forEachOrdered(e.getRegistry()::register);
             // e.getRegistry().register(Ref.rumBucket);
-            data.BLOCKS.forEach(x -> e.getRegistry()
+            data.BLOCKS.stream().forEachOrdered(x -> e.getRegistry()
                     .register(new BlockItem(x, new Item.Properties().group(data.itemGroup)).setRegistryName(x.getRegistryName())));
         }
 

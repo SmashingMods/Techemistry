@@ -1,6 +1,6 @@
 v4
 ===
-
+-Added 1 new mineral items
 
 v3
 ===

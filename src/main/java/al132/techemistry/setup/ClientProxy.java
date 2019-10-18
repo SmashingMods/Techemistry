@@ -5,6 +5,7 @@ import al132.techemistry.blocks.calcination_chamber.CalcinationScreen;
 import al132.techemistry.blocks.distillery.DistilleryScreen;
 import al132.techemistry.blocks.electrolyzer.ElectrolyzerScreen;
 import al132.techemistry.blocks.fermenter.FermenterScreen;
+import al132.techemistry.blocks.froth_flotation_chamber.FrothFlotationScreen;
 import al132.techemistry.blocks.gas_collector.GasCollectorScreen;
 import al132.techemistry.blocks.macerator.MaceratorScreen;
 import al132.techemistry.blocks.reaction_chamber.ReactionChamberScreen;
@@ -31,6 +32,7 @@ public class ClientProxy implements IProxy {
         ScreenManager.registerFactory(Ref.calcinationContainer, CalcinationScreen::new);
         ScreenManager.registerFactory(Ref.reactionChamberContainer, ReactionChamberScreen::new);
         ScreenManager.registerFactory(Ref.smelteryContainer, SmelteryScreen::new);
+        ScreenManager.registerFactory(Ref.frothFlotationContainer, FrothFlotationScreen::new);
     }
 
     @Override

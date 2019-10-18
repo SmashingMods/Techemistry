@@ -1,4 +1,4 @@
-package al132.techemistry;
+package al132.techemistry.data;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package al132.techemistry;
+package al132.techemistry.data;
 
 import al132.chemlib.chemistry.ChemicalStack;
 import al132.chemlib.items.IChemical;

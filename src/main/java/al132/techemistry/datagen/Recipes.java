@@ -1,6 +1,7 @@
 package al132.techemistry.datagen;
 
 import al132.techemistry.Ref;
+import al132.techemistry.Techemistry;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
@@ -25,7 +26,7 @@ public class Recipes extends RecipeProvider {
                 .key('I', Tags.Items.INGOTS_IRON)
                 .key('F', Items.FLINT)
                 .key('C', Tags.Items.CHESTS_WOODEN)
-                .setGroup("alchemistry2")
+                .setGroup(Techemistry.MODID)
                 .addCriterion("iron", InventoryChangeTrigger.Instance.forItems(Items.IRON_INGOT))
                 .build(consumer);
     }

@@ -36,7 +36,7 @@ public class CalcinationScreen extends BaseScreen<CalcinationContainer> {
         drawString(Minecraft.getInstance().fontRenderer, heatStr, 35, 78, 0xffffff);
         this.minecraft.textureManager.bindTexture(this.GUI);
         if (tile.progressTicks > 0) {
-            int k = this.getBarScaled(28, tile.progressTicks, tile.TICKS_PER_OPERATION);
+            int k = this.getBarScaled(28, tile.progressTicks, CalcinationTile.TICKS_PER_OPERATION);
             this.drawRightArrow(78, 54, k);
         }
     }

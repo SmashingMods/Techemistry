@@ -60,8 +60,10 @@ public class FermenterRecipeCategory implements IRecipeCategory<FermenterRecipe>
 
     @Override
     public void setIngredients(FermenterRecipe recipe, IIngredients ingredients) {
-        List<Ingredient> inputs = Lists.newArrayList(Ingredient.fromItems(Ref.yeast),recipe.input,Ingredient.fromItems(Items.GLASS_BOTTLE));
+        List<Ingredient> inputs = Lists.newArrayList(Ingredient.fromItems(Ref.yeast), recipe.input, Ingredient.fromItems(Items.GLASS_BOTTLE));
         ingredients.setInputIngredients(inputs);//VanillaTypes.ITEM, new ItemStack(Ref.yeast));
+        ingredients.setInput(VanillaTypes.FLUID, new FluidStack(Fluids.WATER, recipe.waterAmount));
+
         ingredients.setOutput(VanillaTypes.ITEM, recipe.output.copy());
     }
 

@@ -62,8 +62,8 @@ public class CalcinationRecipeCategory implements IRecipeCategory<CalcinationRec
         ingredients.setInputIngredients(Lists.newArrayList(recipe.input));
         List<ItemStack> outputs = Lists.newArrayList(recipe.output);
         if (!recipe.gas.isEmpty()) outputs.add(recipe.gas.copy());
-        if (!recipe.output2.isEmpty())outputs.add(recipe.output2.copy());
-        ingredients.setOutputs(VanillaTypes.ITEM,outputs);
+        if (!recipe.output2.isEmpty()) outputs.add(recipe.output2.copy());
+        ingredients.setOutputs(VanillaTypes.ITEM, outputs);
     }
 
     @Override

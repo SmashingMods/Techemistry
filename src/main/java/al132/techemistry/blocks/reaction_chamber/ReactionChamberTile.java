@@ -57,7 +57,11 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
                 && energy.getEnergyStored() >= ENERGY_PER_TICK
                 && Utils.canStack(currentRecipe.get().output0, getOutput().getStackInSlot(0))
                 && Utils.canStack(currentRecipe.get().output1, getOutput().getStackInSlot(1))
-                && Utils.canStack(currentRecipe.get().output2, getOutput().getStackInSlot(2));
+                && Utils.canStack(currentRecipe.get().output2, getOutput().getStackInSlot(2))
+                && Utils.isQuantityAdequate(getInput().getStackInSlot(0), currentRecipe.get().input0)
+                && Utils.isQuantityAdequate(getInput().getStackInSlot(1), currentRecipe.get().input1)
+                && Utils.isQuantityAdequate(getInput().getStackInSlot(2), currentRecipe.get().input2);
+
     }
 
     private void process() {

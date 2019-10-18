@@ -1,5 +1,6 @@
 package al132.techemistry.blocks.electrolyzer;
 
+import al132.techemistry.data.FormulaParser;
 import al132.techemistry.Ref;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,15 +22,28 @@ public class ElectrolyzerRegistry {
 
 
     public static void init() {
-        //addRecipe(Ingredient.fromItems(Items.SEAGRASS), Ingredient.EMPTY, 330.0, toStack("sodium"));
-        addRecipe(toIngredient("sodium_chloride", 2), Ingredient.EMPTY, 1074.0,
-                toStack("sodium", 2), toStack("chlorine", 2));
-        addRecipe(toIngredient("calcium_chloride"), Ingredient.EMPTY, 1045.0,
-                toStack("calcium"), toStack("chlorine", 2));
+
+        //Group 1 Chlorides
+        addRecipe("2LiCl -> 2Li + 2Cl", 880);
+        addRecipe("2NaCl -> 2Na + 2Cl", 1074);
+        addRecipe("2KCl -> 2K + 2Cl", 1040);
+        addRecipe("2RbCl -> 2Rb + 2Cl", 990);
+        addRecipe("2CsCl -> 2Cs + 2Cl", 920);
+
+        //Group 2 Chlorides
+        addRecipe("BeCl2 -> Be + 2Cl", 670);
+        addRecipe("MgCl2 -> Mg + 2Cl", 990);
+        addRecipe("CaCl2 -> Ca + 2Cl", 1045);
+        addRecipe("SrCl2 -> Sr + 2Cl", 1520);
+        addRecipe("BaCl2 -> Ba + 2Cl", 1235);
 
         //https://www.ausetute.com.au/chloralkali.html
         addRecipe(toIngredient("water", 2), toIngredient("sodium_chloride", 2), 273,
                 toStack("hydrogen", 2), toStack("chlorine", 2), toStack("sodium_hydroxide", 2));
+    }
+
+    public static void addRecipe(String formula, double heat) {
+        recipes.add(new ElectrolyzerRecipe(FormulaParser.parse(formula), heat, anode.copy(), cathode.copy()));
     }
 
     public static void addRecipe(Ingredient input1, Ingredient input2, double heat, ItemStack... outputs) {

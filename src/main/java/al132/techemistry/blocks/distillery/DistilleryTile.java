@@ -22,8 +22,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class DistilleryTile extends BaseInventoryTile implements HeatTile, GuiTile, ITickableTileEntity {//}, FluidTile {
-    // protected FluidTank inputTank = new FluidTank(10000);
-    //protected LazyOptional<IFluidHandler> fluidHolder = LazyOptional.of(()->inputTank);
+
     protected IHeatStorage heat = new HeatStorage(HeatHelper.ROOM_TEMP);
     protected LazyOptional<IHeatStorage> heatHolder = LazyOptional.of(() -> heat);
 

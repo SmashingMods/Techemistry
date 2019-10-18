@@ -22,7 +22,11 @@ public class CalcinationRegistry {
     public static void init() {
         //sulfides
         addRecipe(toStack("iron_oxide"), toStack("sulfur_dioxide"), toIngredient("iron_disulfide", 2), 820);
+        addRecipe(toStack("iron_oxide"), toStack("sulfur_dioxide"), toIngredient(Ref.crushedPyrite, 2), 820);
+
         addRecipe(toStack("lead_oxide"), toStack("sulfur_dioxide"), toIngredient("lead_sulfide"), 820);
+        addRecipe(toStack("lead_oxide"), toStack("sulfur_dioxide"), toIngredient(Ref.crushedGalena), 820);
+
         addRecipe(toStack("zinc_oxide"), toStack("sulfur_dioxide"), toIngredient("zinc_sulfide"), 820);
         addRecipe(toStack("copper_i_oxide", 2), toStack("sulfur_dioxide", 2),
                 toIngredient("copper_i_sulfide", 2), 870);

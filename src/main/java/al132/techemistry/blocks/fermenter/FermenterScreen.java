@@ -38,7 +38,6 @@ public class FermenterScreen extends BaseScreen<FermenterContainer> {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         FermenterTile tile = (FermenterTile) container.tile;
         IHeatStorage heat = container.getHeat();
-        //tile.getCapability(CapabilityHeat.HEAT_CAP).ifPresent(heat -> {
         String heatStr = "Heat: " + HeatHelper.format(heat, getTempType());
         drawString(Minecraft.getInstance().fontRenderer, heatStr, 10, 10, 0xffffff);
         //coord: 238,0 | size: 18,62

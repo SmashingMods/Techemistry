@@ -76,7 +76,7 @@ public class MaceratorRecipeCategory implements IRecipeCategory<MaceratorRecipe>
     public void draw(MaceratorRecipe recipe, double mouseX, double mouseY) {
         Minecraft.getInstance().fontRenderer.drawString("Tier: " + recipe.tier, 68 - u, 62 - u, Ref.TEXT_COLOR);
         if (recipe.useEfficiency) {
-            Minecraft.getInstance().fontRenderer.drawString("Uses Efficiency", 45 - u, 92 - u, Ref.TEXT_COLOR);
+            Minecraft.getInstance().fontRenderer.drawString("Uses Efficiency", 42 - u, 92 - u, Ref.TEXT_COLOR);
         }
 
     }

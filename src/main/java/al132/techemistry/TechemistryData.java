@@ -8,6 +8,8 @@ import al132.techemistry.blocks.electrolyzer.ElectrolyzerContainer;
 import al132.techemistry.blocks.electrolyzer.ElectrolyzerTile;
 import al132.techemistry.blocks.fermenter.FermenterContainer;
 import al132.techemistry.blocks.fermenter.FermenterTile;
+import al132.techemistry.blocks.froth_flotation_chamber.FrothFlotationContainer;
+import al132.techemistry.blocks.froth_flotation_chamber.FrothFlotationTile;
 import al132.techemistry.blocks.gas_collector.GasCollectorContainer;
 import al132.techemistry.blocks.gas_collector.GasCollectorTile;
 import al132.techemistry.blocks.macerator.MaceratorContainer;
@@ -55,6 +57,8 @@ public class TechemistryData extends al132.alib.ModData {
         Ref.calcinationTile = Techemistry.data.registerTile(CalcinationTile::new, Ref.calcinationChamber, "calcination_chamber");
         Ref.reactionChamberTile = Techemistry.data.registerTile(ReactionChamberTile::new, Ref.reactionChamber, "reaction_chamber");
         Ref.smelteryTile = Techemistry.data.registerTile(SmelteryTile::new, Ref.smeltery, "smeltery");
+        Ref.frothFlotationTile = Techemistry.data.registerTile(FrothFlotationTile::new, Ref.frothFlotationChamber, "froth_flotation_chamber");
+
         Techemistry.data.TILES.forEach(e.getRegistry()::register);
     }
 
@@ -116,6 +120,10 @@ public class TechemistryData extends al132.alib.ModData {
         Ref.smelteryContainer = IForgeContainerType.create((windowID, inv, data) ->
                 new SmelteryContainer(windowID, Techemistry.proxy.getClientWorld(), data.readBlockPos(), inv, Techemistry.proxy.getClientPlayer()));
         registerContainer(Ref.smelteryContainer, "smeltery");
+
+        Ref.frothFlotationContainer = IForgeContainerType.create((windowID, inv, data) ->
+                new FrothFlotationContainer(windowID, Techemistry.proxy.getClientWorld(), data.readBlockPos(), inv, Techemistry.proxy.getClientPlayer()));
+        registerContainer(Ref.frothFlotationContainer, "froth_flotation_chamber");
 
         Techemistry.data.CONTAINERS.forEach(e.getRegistry()::register);
     }
