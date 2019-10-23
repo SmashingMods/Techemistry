@@ -19,11 +19,21 @@ public class FrothFlotationRegistry {
 
 
     public static void init() {
-        addRecipe(toStack(Ref.galenaSlurry), ItemStack.EMPTY, toIngredient(Ref.crushedGalena), 1000);
+        addRecipe(toStack(Ref.galenaSlurry), toIngredient(Ref.crushedGalena), 1000);
+        addRecipe(toStack(Ref.pyriteSlurry), toIngredient(Ref.crushedPyrite), 1000);
+        addRecipe(toStack(Ref.sphaleriteSlurry), toIngredient(Ref.crushedSphalerite), 1000);
+        addRecipe(toStack(Ref.chalcociteSlurry), toIngredient(Ref.crushedChalcocite), 1000);
+        addRecipe(toStack(Ref.cinnabarSlurry), toIngredient(Ref.crushedCinnabar), 1000);
+        addRecipe(toStack(Ref.stibniteSlurry), toIngredient(Ref.crushedStibnite), 1000);
+        addRecipe(toStack(Ref.cassiteriteSlurry), toIngredient(Ref.crushedCassiterite), 1000);
     }
 
     public static void addRecipe(ItemStack output1, ItemStack output2, Ingredient input1, int water) {
         recipes.add(new FrothFlotationRecipe(output1, output2, input1, Ingredient.fromStacks(toStack("potassium_ethyl_xanthate")), water));
+    }
+
+    public static void addRecipe(ItemStack output1, Ingredient input1, int water) {
+        addRecipe(output1, ItemStack.EMPTY, input1, water);
     }
 
 

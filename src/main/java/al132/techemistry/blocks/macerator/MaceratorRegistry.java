@@ -30,10 +30,16 @@ public class MaceratorRegistry {
         addRecipe(toStack("calcium_carbonate", 2), Items.EGG, 0);
         addRecipe(toStack("calcium_carbonate", 8), Items.TURTLE_EGG, 0);
         addRecipe(toStack("magnesium_carbonate"), toStack("calcium_carbonate"), new ItemStack(Ref.dolomite), 1);
-        addRecipe(toStack("zinc_sulfide"), toStack(Ref.sphalerite), 1);
+        addRecipe(toStack(Ref.crushedSphalerite), toStack(Ref.sphalerite), 1);
         addRecipe(toStack(Ref.crushedPyrite), toStack(Ref.pyrite), 1);
         addRecipe(toStack(Ref.crushedGalena), toStack(Ref.galena), 1);
-        addRecipe(toStack("tin_oxide"), toStack(Ref.cassiterite), 1);
+        addRecipe(toStack(Ref.crushedChalcocite), toStack(Ref.chalcocite), 1);
+        addRecipe(toStack(Ref.crushedCinnabar), toStack(Ref.cinnabar), 1);
+        addRecipe(toStack(Ref.crushedStibnite), toStack(Ref.stibnite), 1);
+        addRecipe(toStack(Ref.crushedBraggite), toStack(Ref.braggite), 1);
+        addRecipe(toStack(Ref.crushedMillerite), toStack(Ref.millerite), 1);
+
+        addRecipe(toStack(Ref.crushedCassiterite), toStack(Ref.cassiterite), 1);
         addRecipe(toStack("manganese_oxide"), toStack(Ref.pyrolusite), 1);
         addRecipe(toStack("strontium_carbonate"), toStack(Ref.strontianite), 1);
         addRecipe(toStack("sulfur", 4), toStack(Ref.sulfurChunk), 1);
@@ -41,10 +47,6 @@ public class MaceratorRegistry {
         addRecipe(toStack("hydroxylapatite"), toStack(Items.BONE_MEAL), 0);
         addRecipe(toStack("ammonium_chloride"), toStack(Ref.salAmmoniac), 1);
         addRecipe(toStack("sodium_carbonate"), toStack(Ref.natron), 1);
-        addRecipe(toStack("copper_i_sulfide"), toStack(Ref.chalcocite), 1);
-        addRecipe(toStack("antimony_trisulfide"), toStack(Ref.stibnite), 1);
-        addRecipe(toStack("nickel_sulfide"), toStack(Ref.millerite), 1);
-        addRecipe(toStack("mercury_sulfide"), toStack(Ref.cinnabar), 1);
         addRecipe(toStack("iron_oxide", 8), toStack(Items.IRON_ORE), 1);
 
         recipes.add(new MaceratorRecipe(Lists.newArrayList(

@@ -1,15 +1,14 @@
-package al132.techemistry.items.drinks;
+package al132.techemistry.items.misc;
 
 import al132.techemistry.items.BaseItem;
 
-public abstract class DrinkItem extends BaseItem {
+public class DrinkItem extends BaseItem {
 
     public DrinkItem(String name) {
         super(name);
     }
 
-    /*
-    @Override
+    /*@Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         CompoundNBT tag = this.getShareTag(stack);
         if (tag == null) return;

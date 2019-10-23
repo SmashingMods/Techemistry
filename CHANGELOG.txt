@@ -1,6 +1,11 @@
-v4
+v6
+
+v5
 ===
--Added 1 new mineral items
+-Added 10-15 new mineral items
+-Added a new machine, the Froth Flotation Chamber (aka ore washing), still needs some polishing
+-Added miscellaneous machine recipes
+-Stuff
 
 v3
 ===

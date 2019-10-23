@@ -22,7 +22,6 @@ public class FormulaParser {
     private static ItemStack parseBit(String input) {
         int index = 0;
         int count = 1;
-        ChemicalStack output;// = new Ch();
         IChemical chemical = null;
         while (index < input.length()) {
             char current = input.charAt(index);
@@ -30,12 +29,17 @@ public class FormulaParser {
                 chemical = lookup(input.substring(index));
                 index += input.substring(index).length();
             } else if (Character.isDigit(current)) {
-                count = Character.digit(current, 10);// + "(";
-                //if (!Character.isDigit(input.charAt(index + 1))) output.append(" ");// += " ";
+                if (Character.isDigit(input.charAt(index + 1))) {
+                    count = Integer.parseInt(input.substring(index, index + 2));
+                    index++;
+                } else count = Character.digit(current, 10);
+            } else if (current != ' ' && current != '-' && current != '>' && current != '+') {
+                throw new RuntimeException("Invalid character [" + current + "] input: [" + input + "]");
             }
             index++;
         }
-        return new ChemicalStack(chemical, count).toItemStack();//output.toString();//+ ")";
+        assert count > 0;
+        return new ChemicalStack(chemical, count).toItemStack();
     }
 
     public static Formula parse(String formulaStr) {

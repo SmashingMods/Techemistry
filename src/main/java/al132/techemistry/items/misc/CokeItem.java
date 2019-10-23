@@ -2,6 +2,7 @@ package al132.techemistry.items.misc;
 
 import al132.chemlib.ChemLib;
 import al132.techemistry.items.BaseItem;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -23,6 +24,6 @@ public class CokeItem extends BaseItem {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-      tooltip.add(new StringTextComponent("item.techemistry.coke.tooltip").applyTextStyle(ChemLib.CHEM_TOOLTIP_COLOR));
+        tooltip.add(new StringTextComponent(I18n.format("item.techemistry.coke.tooltip")).applyTextStyle(ChemLib.CHEM_TOOLTIP_COLOR));
     }
 }

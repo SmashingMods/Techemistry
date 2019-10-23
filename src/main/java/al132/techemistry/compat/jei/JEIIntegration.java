@@ -116,7 +116,7 @@ public class JEIIntegration implements IModPlugin {
         reg.addRecipeClickArea(CalcinationScreen.class, 75, 40, 35, 22, CALCINATION_RESOURCE);
         reg.addRecipeClickArea(ReactionChamberScreen.class, 76, 41, 33, 22, REACTION_RESOURCE);
         reg.addRecipeClickArea(SmelteryScreen.class, 76, 41, 33, 22, SMELTERY_RESOURCE);
-        reg.addRecipeClickArea(FrothFlotationScreen.class, 76, 41, 33, 22, FROTH_RESOURCE);
+        reg.addRecipeClickArea(FrothFlotationScreen.class, 96, 49, 33, 20, FROTH_RESOURCE);
 
     }
 

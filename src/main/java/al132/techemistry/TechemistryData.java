@@ -25,7 +25,6 @@ import al132.techemistry.blocks.steam_boiler.SteamBoilerTile;
 import al132.techemistry.blocks.steam_turbine.SteamTurbineContainer;
 import al132.techemistry.blocks.steam_turbine.SteamTurbineTile;
 import al132.techemistry.utils.Utils;
-import net.minecraft.block.Blocks;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.ItemStack;
@@ -41,7 +40,7 @@ import java.util.function.Supplier;
 public class TechemistryData extends al132.alib.ModData {
 
     public TechemistryData() {
-        super(Techemistry.MODID, new ItemStack(Blocks.DIRT));
+        super(Techemistry.MODID, new ItemStack(Ref.reactionChamber));
     }
 
     @Override

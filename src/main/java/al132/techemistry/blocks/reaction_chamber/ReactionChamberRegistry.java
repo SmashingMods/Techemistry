@@ -51,6 +51,9 @@ public class ReactionChamberRegistry {
                 .forEach(ele -> {
                     addRecipe("2" + ele + " + 2H2O -> 2" + ele + "OH + 2H", 273);
                     addRecipe("HCl + " + ele + "OH -> " + ele + "Cl + H2O", 273);
+                    addRecipe("HNO3 + " + ele + "OH -> " + ele + "NO3 + H2O", 273);
+                    addRecipe("H2SO4 + 2" + ele + "OH -> " + ele + "2SO4 + 2H2O", 273);
+
                     addRecipe("2HCl + " + ele + "2CO3 -> 2" + ele + "Cl + H2O + CO2", 273);
                     addRecipe("2HNO3 + " + ele + "2CO3 -> 2" + ele + "NO3 + H2O + CO2", 273);
                     addRecipe("H2SO4 + " + ele + "2CO3 -> " + ele + "2SO4 + H2O + CO2", 273);
@@ -59,6 +62,9 @@ public class ReactionChamberRegistry {
                 .forEach(ele -> {
                     addRecipe(ele + "O + H2O -> " + ele + "OH2", 273);
                     addRecipe("2HCl + " + ele + "OH2 -> " + ele + "Cl2 + 2H2O", 273);
+                    addRecipe("2HNO3 + " + ele + "OH2 -> " + ele + "NO32 + 2H2O", 273);
+                    addRecipe("H2SO4 + " + ele + "OH2 -> " + ele + "SO4 + 2H2O", 273);
+
                     addRecipe("2HCl + " + ele + "CO3 -> " + ele + "Cl2 + H2O + CO2", 273);
                     addRecipe("2HNO3 + " + ele + "CO3 -> " + ele + "NO32 + H2O + CO2", 273);
                     addRecipe("H2SO4 + " + ele + "CO3 -> " + ele + "SO4 + H2O + CO2", 273);

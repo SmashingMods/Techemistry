@@ -20,22 +20,44 @@ public class CalcinationRegistry {
 
 
     public static void init() {
-        //sulfides
+        //=====SULFIDE=====
         addRecipe(toStack("iron_oxide"), toStack("sulfur_dioxide"), toIngredient("iron_disulfide", 2), 820);
         addRecipe(toStack("iron_oxide"), toStack("sulfur_dioxide"), toIngredient(Ref.crushedPyrite, 2), 820);
+        addRecipe(toStack("iron_oxide"), toStack("gold"), toStack("sulfur_dioxide"), toIngredient(Ref.pyriteSlurry, 2), 820);
 
         addRecipe(toStack("lead_oxide"), toStack("sulfur_dioxide"), toIngredient("lead_sulfide"), 820);
         addRecipe(toStack("lead_oxide"), toStack("sulfur_dioxide"), toIngredient(Ref.crushedGalena), 820);
+        addRecipe(toStack("lead_oxide"), toStack("silver"), toStack("sulfur_dioxide"), toIngredient(Ref.galenaSlurry), 1235);
 
-        addRecipe(toStack("zinc_oxide"), toStack("sulfur_dioxide"), toIngredient("zinc_sulfide"), 820);
-        addRecipe(toStack("copper_i_oxide", 2), toStack("sulfur_dioxide", 2),
-                toIngredient("copper_i_sulfide", 2), 870);
+        addRecipe(toStack("zinc_oxide"), toStack("sulfur_dioxide"), toIngredient("zinc_sulfide"), 1460);
+        addRecipe(toStack("zinc_oxide"), toStack("sulfur_dioxide"), toIngredient(Ref.crushedSphalerite), 1460);
+        addRecipe(toStack("zinc_oxide"), toStack("cadmium"), toStack("sulfur_dioxide"), toIngredient(Ref.sphaleriteSlurry), 1460);
+
+        addRecipe(toStack("copper_i_oxide", 2), toStack("sulfur_dioxide", 2), toIngredient("copper_i_sulfide", 2), 870);
+        addRecipe(toStack("copper_i_oxide", 2), toStack("sulfur_dioxide", 2), toIngredient(Ref.crushedChalcocite, 2), 870);
+        addRecipe(toStack("copper_i_oxide", 2), toStack("iron", 2), toStack("sulfur_dioxide", 2), toIngredient(Ref.chalcociteSlurry, 2), 870);
+
         addRecipe(toStack("mercury"), toStack("sulfur_dioxide"), toIngredient("mercury_sulfide"), 630);
-        addRecipe(toStack("antimony_trioxide"), toStack("sulfur_dioxide", 3), toIngredient("antimony_trisulfide"), 670);
+        addRecipe(toStack("mercury"), toStack("sulfur_dioxide"), toIngredient(Ref.crushedCinnabar), 630);
+        addRecipe(toStack("mercury", 2), toStack("sulfur_dioxide", 2), toIngredient(Ref.cinnabarSlurry), 630);
 
-        //other
+        addRecipe(toStack("antimony_trioxide"), toStack("sulfur_dioxide", 3), toIngredient("antimony_trisulfide"), 670);
+        addRecipe(toStack("antimony_trioxide"), toStack("sulfur_dioxide", 3), toIngredient(Ref.crushedStibnite), 670);
+        addRecipe(toStack("antimony_trioxide", 2), toStack("sulfur_dioxide", 6), toIngredient(Ref.stibniteSlurry), 670);
+
+        addRecipe(toStack("nickel_oxide"), toStack("platinum"), toStack("sulfur_dioxide"), toIngredient(Ref.milleriteSlurry), 1600);
+        //braggite?
+
+        //=====OXIDE MINERAL=====
+
+        //=====CARBONATE=====
+        addRecipe(toStack("beryllium_oxide"), toStack("carbon_dioxide"), toIngredient("beryllium_carbonate"), 373);
         addRecipe(toStack("calcium_oxide"), toStack("carbon_dioxide"), toIngredient("calcium_carbonate"), 1098.0);
         addRecipe(toStack("magnesium_oxide"), toStack("carbon_dioxide"), toIngredient("magnesium_carbonate"), 1173.0);
+        addRecipe(toStack("strontium_oxide"), toStack("carbon_dioxide"), toIngredient("strontium_carbonate"), 1400);
+        addRecipe(toStack("barium_oxide"), toStack("carbon_dioxide"), toIngredient("barium_carbonate"), 1720);
+
+        //=====OTHER=====
         // addRecipe(toStack("copper_i_oxide"), toStack("sulfur_dioxide"), toIngredient("copper_i_sulfide"), 1400);
         addRecipe(toStack("sulfuric_acid"), toStack("iron_ii_oxide"), toStack("water", 6), toIngredient(Ref.crushedMelanterite), 950);
         addRecipe(toStack(Ref.coke), ItemStack.EMPTY, toIngredient(Items.COAL), 1320.0);
@@ -43,7 +65,6 @@ public class CalcinationRegistry {
         addRecipe(toStack("calcium_oxide"), toStack("water"), toIngredient("calcium_hydroxide"), 853.0);
         addRecipe(toStack("water", 2), toStack("oxygen", 2), toStack("nitrogen_dioxide", 4),
                 toIngredient("nitric_acid", 4), 360);
-        addRecipe(toStack("lead_oxide"), toStack("silver"), toStack("sulfur_dioxide"), toIngredient(Ref.galena), 1220);
     }
 
     public static void addRecipe(ItemStack output, ItemStack gas, Ingredient input, double heat) {

@@ -66,6 +66,17 @@ public class Techemistry {
         WorldGen.run();
         CapabilityHeat.register();
         CapabilityPlayerData.register();
+
+        ReactivitySeries.init();
+        FermenterRegistry.init();
+        MaceratorRegistry.init();
+        ElectrolyzerRegistry.init();
+        DistilleryRegistry.init();
+        CalcinationRegistry.init();
+        ReactionChamberRegistry.init();
+        SmelteryRegistry.init();
+        FrothFlotationRegistry.init();
+        CollectorRegistry.init(); //Make sure this is last! uses the previous machine recipes
     }
 
     @SubscribeEvent
@@ -92,16 +103,7 @@ public class Techemistry {
 
     @SubscribeEvent
     public void serverStarting(final FMLServerStartingEvent e) {
-        ReactivitySeries.init();
-        FermenterRegistry.init();
-        MaceratorRegistry.init();
-        ElectrolyzerRegistry.init();
-        DistilleryRegistry.init();
-        CalcinationRegistry.init();
-        ReactionChamberRegistry.init();
-        SmelteryRegistry.init();
-        FrothFlotationRegistry.init();
-        CollectorRegistry.init(); //Make sure this is last! uses the previous machine recipes
+
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)

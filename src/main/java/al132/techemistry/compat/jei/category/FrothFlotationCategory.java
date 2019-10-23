@@ -71,14 +71,7 @@ public class FrothFlotationCategory implements IRecipeCategory<FrothFlotationRec
     }
 
     @Override
-    public void draw(FrothFlotationRecipe recipe, double mouseX, double mouseY) {
-        //Minecraft.getInstance().fontRenderer.drawString("Minimum Heat: " + HeatHelper.format(recipe.minimumHeat, KELVIN),
-        //        46 - u, 70, Ref.TEXT_COLOR);
-    }
-
-    @Override
     public void setRecipe(IRecipeLayout recipeLayout, FrothFlotationRecipe recipe, IIngredients ingredients) {
-
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
 

@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "techemistry:items/electrode_platinum"
+		"layer0": "techemistry:items/platinum_electrode"
 	}
 }

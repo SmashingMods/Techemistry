@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "C",
+    "P",
+    "P"
+  ],
+  "key": {
+    "C": {
+      "tag": "forge:ingots/copper"
+    },
+    "P": {
+      "tag": "forge:ingots/platinum"
+    }
+  },
+  "result": {
+    "item": "techemistry:platinum_electrode"
+  }
+}
