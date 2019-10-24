@@ -157,8 +157,7 @@ public class FermenterTile extends BaseInventoryTile
         return new FermenterContainer(i, world, pos, playerInv, player);
     }
 
-    /*
-    public void updateHeat() {
+    /*  public void updateHeat() {
         double base = Utils.getSurroundingBlocks(world, pos).stream().mapToDouble(x -> HeatHelper.getBlockHeat(world, pos, x)).sum() / 6.0;
         if (base > heat.getHeatStored() + 1) {
             heat.receiveHeat(0.15f, false);

@@ -1,4 +1,15 @@
+v7
+===
+-Fixed server startup crash
+-Re-organized/added a lot of crushed/slurry mineral items
+
 v6
+===
+-Added a bunch of miscellaneous machine recipes/re-arranged a bunch of recipes
+-Added a recipe for platinum electrode
+-Added a recipe for Froth Flotation Chamber
+-Fixed recipe click area for the Froth Flotation Chamber
+-Stuff
 
 v5
 ===

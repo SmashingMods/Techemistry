@@ -4,10 +4,8 @@ import al132.techemistry.Ref;
 import al132.techemistry.blocks.calcination_chamber.CalcinationRegistry;
 import al132.techemistry.utils.Utils;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
 
@@ -19,8 +17,9 @@ public class CollectorRegistry {
     public static List<CollectorRecipe> recipes = new ArrayList<>();
 
     public static void init() {
+
         recipes.add(new CollectorRecipe(Ingredient.fromTag(ItemTags.LEAVES), Utils.toStack("oxygen", 2)));
-        recipes.add(new CollectorRecipe(Ingredient.fromItems(SpawnEggItem.getEgg(EntityType.COW)),
+        recipes.add(new CollectorRecipe(Ingredient.fromItems(Items.COW_SPAWN_EGG),
                 Utils.toStack("methane")));
         recipes.add(new CollectorRecipe(Ingredient.fromStacks(new ItemStack(Blocks.CAMPFIRE)), Utils.toStack("carbon_dioxide")));
 

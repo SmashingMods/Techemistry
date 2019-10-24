@@ -1,6 +1,7 @@
 package al132.techemistry.blocks.macerator;
 
 import al132.techemistry.Ref;
+import al132.techemistry.items.minerals.Mineral;
 import com.google.common.collect.Lists;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -30,60 +31,57 @@ public class MaceratorRegistry {
         addRecipe(toStack("calcium_carbonate", 2), Items.EGG, 0);
         addRecipe(toStack("calcium_carbonate", 8), Items.TURTLE_EGG, 0);
         addRecipe(toStack("magnesium_carbonate"), toStack("calcium_carbonate"), new ItemStack(Ref.dolomite), 1);
-        addRecipe(toStack(Ref.crushedSphalerite), toStack(Ref.sphalerite), 1);
-        addRecipe(toStack(Ref.crushedPyrite), toStack(Ref.pyrite), 1);
-        addRecipe(toStack(Ref.crushedGalena), toStack(Ref.galena), 1);
-        addRecipe(toStack(Ref.crushedChalcocite), toStack(Ref.chalcocite), 1);
-        addRecipe(toStack(Ref.crushedCinnabar), toStack(Ref.cinnabar), 1);
-        addRecipe(toStack(Ref.crushedStibnite), toStack(Ref.stibnite), 1);
-        addRecipe(toStack(Ref.crushedBraggite), toStack(Ref.braggite), 1);
-        addRecipe(toStack(Ref.crushedMillerite), toStack(Ref.millerite), 1);
 
-        addRecipe(toStack(Ref.crushedCassiterite), toStack(Ref.cassiterite), 1);
-        addRecipe(toStack("manganese_oxide"), toStack(Ref.pyrolusite), 1);
-        addRecipe(toStack("strontium_carbonate"), toStack(Ref.strontianite), 1);
+        for (Mineral mineral : Ref.minerals) {
+            addRecipe(toStack(mineral.crushedItem), toStack(mineral.mineralItem), 1);
+        }
+        //addRecipe(toStack(Ref.crushedCassiterite), toStack(Ref.cassiterite), 1);
+       // addRecipe(toStack("manganese_oxide"), toStack(Ref.pyrolusite), 1);
+        //addRecipe(toStack("strontium_carbonate"), toStack(Ref.strontianite), 1);
         addRecipe(toStack("sulfur", 4), toStack(Ref.sulfurChunk), 1);
-        addRecipe(toStack(Ref.crushedMelanterite), toStack(Ref.melanterite), 1);
         addRecipe(toStack("hydroxylapatite"), toStack(Items.BONE_MEAL), 0);
         addRecipe(toStack("ammonium_chloride"), toStack(Ref.salAmmoniac), 1);
         addRecipe(toStack("sodium_carbonate"), toStack(Ref.natron), 1);
         addRecipe(toStack("iron_oxide", 8), toStack(Items.IRON_ORE), 1);
 
         recipes.add(new MaceratorRecipe(Lists.newArrayList(
-                weighted(Ref.galena, 8, 1),
-                weighted(Ref.pyrite, 8, 1),
-                weighted(Ref.chalcocite, 8, 1),
-                weighted(Ref.stibnite, 8, 1),
-                weighted(Ref.millerite, 8, 1),
-                weighted(Ref.cinnabar, 8, 1)),
+                weighted(Ref.galena.mineralItem, 8, 1),
+                weighted(Ref.pyrite.mineralItem, 8, 1),
+                weighted(Ref.chalcocite.mineralItem, 8, 1),
+                weighted(Ref.stibnite.mineralItem, 8, 1),
+                weighted(Ref.millerite.mineralItem, 8, 1),
+                weighted(Ref.cinnabar.mineralItem, 8, 1)),
                 ItemStack.EMPTY, toIngredient(Ref.sulfideOre), 1, true));
 
         recipes.add(new MaceratorRecipe(Lists.newArrayList(
-                weighted(Ref.cassiterite, 8, 1),
-                weighted(Ref.pyrolusite, 8, 1),
-                weighted(Ref.cuprite, 8, 1),
-                weighted(Ref.magnetite, 8, 1),
-                weighted(Ref.hematite, 8, 1),
-                weighted(Ref.ilmenite, 8, 1),
-                weighted(Ref.uraninite, 8, 1)),
+                weighted(Ref.cassiterite.mineralItem, 8, 1),
+                weighted(Ref.pyrolusite.mineralItem, 8, 1),
+                weighted(Ref.cuprite.mineralItem, 8, 1),
+                weighted(Ref.magnetite.mineralItem, 8, 1),
+                weighted(Ref.hematite.mineralItem, 8, 1),
+                weighted(Ref.ilmenite.mineralItem, 8, 1),
+                weighted(Ref.uraninite.mineralItem, 8, 1)),
                 ItemStack.EMPTY, toIngredient(Ref.oxideOre), 2, true));
 
         recipes.add(new MaceratorRecipe(Lists.newArrayList(
-                weighted(Ref.strontianite, 8, 1),
-                weighted(Ref.cerussite, 8, 1),
-                weighted(Ref.spherocobaltite, 8, 1),
-                weighted(Ref.siderite, 8, 1),
-                weighted(Ref.rhodochrosite, 8, 1),
+                weighted(Ref.strontianite.mineralItem, 8, 1),
+                weighted(Ref.cerussite.mineralItem, 8, 1),
+                weighted(Ref.spherocobaltite.mineralItem, 8, 1),
+                weighted(Ref.siderite.mineralItem, 8, 1),
+                weighted(Ref.rhodochrosite.mineralItem, 8, 1),
                 weighted(Ref.natron, 2, 1)),
                 ItemStack.EMPTY, toIngredient(Ref.carbonateOre), 1, true));
 
         recipes.add(new MaceratorRecipe(Lists.newArrayList(
-                weighted(Ref.melanterite, 4, 1)),
+                weighted(Ref.melanterite.mineralItem, 4, 1),
+                weighted(Ref.barite.mineralItem, 4, 1),
+                weighted(Ref.celestite.mineralItem, 4, 1),
+                weighted(Ref.anglesite.mineralItem, 4, 1)),
                 ItemStack.EMPTY, toIngredient(Ref.sulfateOre), 1, true));
 
         recipes.add(new MaceratorRecipe(Lists.newArrayList(
-                weighted(Ref.vanadinite, 4, 1),
-                weighted(Ref.pyromorphite, 4, 1)),
+                weighted(Ref.vanadinite.mineralItem, 4, 1),
+                weighted(Ref.pyromorphite.mineralItem, 4, 1)),
                 ItemStack.EMPTY, toIngredient(Ref.phosphateOre), 1, true));
     }
 

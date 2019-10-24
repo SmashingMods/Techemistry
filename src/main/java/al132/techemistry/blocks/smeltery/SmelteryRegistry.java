@@ -1,6 +1,5 @@
 package al132.techemistry.blocks.smeltery;
 
-import al132.techemistry.Ref;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -27,11 +26,9 @@ public class SmelteryRegistry {
         addRecipe(toStack("chemlib:ingot_lead"), toIngredient("lead_oxide", 16), 1470);
         addRecipe(toStack("chemlib:ingot_zinc"), toIngredient("zinc_oxide", 16), 1220);
         addRecipe(toStack("chemlib:ingot_tin"), toIngredient("tin_oxide", 16), 1470);
-        addRecipe(toStack("chemlib:ingot_tin"), toIngredient(Ref.crushedCassiterite, 16), 1470);
         addRecipe(toStack("chemlib:ingot_tin"), toIngredient("tin", 16), 505);
 
         addRecipe(toStack("chemlib:ingot_manganese"), toIngredient("manganese_oxide", 16), 810);
-        addRecipe(toStack("chemlib:ingot_manganese"), toIngredient(Ref.crushedPyrolusite, 16), 810);
         addRecipe(toStack("chemlib:ingot_manganese"), toIngredient("manganese", 16), 1520);
 
         addRecipe(toStack("chemlib:ingot_copper"), toIngredient("copper_i_oxide", 8), 1470);

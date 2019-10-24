@@ -18,10 +18,7 @@ public class CrushedMelanterite extends BaseItem {
 
     public CrushedMelanterite() {
         super("crushed_melanterite");
-        components.add(new ChemicalStack("iron"));
-        components.add(new ChemicalStack("sulfur"));
-        components.add(new ChemicalStack("oxygen", 4));
-        components.add(new ChemicalStack("water", 7));
+
     }
 
     @Override

@@ -5,6 +5,7 @@ import al132.chemlib.chemistry.ChemicalStack;
 import al132.techemistry.items.BaseItem;
 import com.google.common.collect.Lists;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -15,34 +16,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MineralItem extends BaseItem {
-
-    // public final List<ChemicalStack> components = new ArrayList<>();
-
-    public final List<ChemicalStack> components;//= new ArrayList<>();
     private String formula = "";
-
+    public final List<ChemicalStack> components;
 
     public MineralItem(String name, List<ChemicalStack> components) {
-        super(name);
+        super(name, new Item.Properties());
         this.components = components;
-    }
-
-    public MineralItem(String name) {
-        this(name, (List<ChemicalStack>) null);
     }
 
     public MineralItem(String name, String formula) {
         this(name, (List<ChemicalStack>) null);
         this.formula = formula;
-    }
-
-    public MineralItem(String name, String... formula) {
-        this(name, String.join("", formula));
-    }
-
-    public MineralItem(String name, ChemicalStack component) {//}, ChemicalStack... components) {
-        this(name, Lists.newArrayList(component));
-        //this.components.addAll(Arrays.asList(components));
     }
 
     public MineralItem(String name, ChemicalStack... components) {

@@ -1,7 +1,6 @@
 package al132.techemistry;
 
 import al132.alib.blocks.ABaseBlock;
-import al132.alib.items.ABaseItem;
 import al132.chemlib.Utils;
 import al132.chemlib.chemistry.ChemicalStack;
 import al132.techemistry.blocks.calcination_chamber.CalcinationBlock;
@@ -43,6 +42,7 @@ import al132.techemistry.blocks.steam_turbine.SteamTurbineContainer;
 import al132.techemistry.blocks.steam_turbine.SteamTurbineTile;
 import al132.techemistry.blocks.world.*;
 import al132.techemistry.items.BaseItem;
+import al132.techemistry.items.minerals.Mineral;
 import al132.techemistry.items.minerals.MineralItem;
 import al132.techemistry.items.misc.*;
 import al132.techemistry.items.parts.ElectrodeItem;
@@ -59,91 +59,59 @@ public class Ref {
 
     public final static int TEXT_COLOR = 16777215;
 
-    public static ABaseItem yeast;
-    public static ABaseItem sugarWine;
-    public static ABaseItem crushedWheat;
-    public static ABaseItem beer;
-    public static ABaseItem cider;
-    public static ABaseItem potatoWine;
-    public static ABaseItem rum;
-    public static ABaseItem vodka;
-    public static ABaseItem whiskey;
-    public static ABaseItem appleSauce;
-    public static ABaseItem coke;
-    public static ABaseItem yeastGrowthPlate;
-    public static ABaseItem sulfurChunk;
-    public static ABaseItem salAmmoniac;
-    public static BaseItem natron;
+    public static BaseItem yeast;
+    public static BaseItem sugarWine;
+    public static BaseItem crushedWheat;
+    public static BaseItem beer;
+    public static BaseItem cider;
+    public static BaseItem potatoWine;
+    public static BaseItem rum;
+    public static BaseItem vodka;
+    public static BaseItem whiskey;
+    public static BaseItem appleSauce;
+    public static BaseItem coke;
+    public static BaseItem yeastGrowthPlate;
+    public static BaseItem sulfurChunk;
+    public static MineralItem salAmmoniac;
+    public static MineralItem natron;
 
-    public static CrushedMelanterite crushedMelanterite;
 
+    public static List<Mineral> minerals = new ArrayList<>();
     //sulfide
-    public static MineralItem galena;
-    public static BaseItem crushedGalena;
-    public static BaseItem galenaSlurry;
-
-    public static MineralItem pyrite;
-    public static BaseItem crushedPyrite;
-    public static BaseItem pyriteSlurry;
-
-    public static MineralItem sphalerite;
-    public static BaseItem crushedSphalerite;
-    public static BaseItem sphaleriteSlurry;
-
-    public static MineralItem chalcocite;
-    public static BaseItem crushedChalcocite;
-    public static BaseItem chalcociteSlurry;
-
-    public static MineralItem cinnabar;
-    public static BaseItem crushedCinnabar;
-    public static BaseItem cinnabarSlurry;
-
-    public static MineralItem stibnite;
-    public static BaseItem crushedStibnite;
-    public static BaseItem stibniteSlurry;
-
-    public static MineralItem millerite;
-    public static BaseItem crushedMillerite;
-    public static BaseItem milleriteSlurry;
-
-    public static MineralItem braggite;
-    public static BaseItem crushedBraggite;
-    public static BaseItem braggiteSlurry;
+    public static Mineral galena;
+    public static Mineral pyrite;
+    public static Mineral sphalerite;
+    public static Mineral chalcocite;
+    public static Mineral cinnabar;
+    public static Mineral stibnite;
+    public static Mineral millerite;
+    public static Mineral braggite;
 
     //oxide
-    public static MineralItem cassiterite;
-    public static BaseItem crushedCassiterite;
-    public static BaseItem cassiteriteSlurry;
-
-    public static MineralItem pyrolusite;
-    public static BaseItem crushedPyrolusite;
-    public static BaseItem pyrolusiteSlurry;
-
-    public static MineralItem cuprite;
-    public static MineralItem ilmenite;
-    public static MineralItem magnetite;
-    public static MineralItem hematite;
-    public static MineralItem uraninite;
+    public static Mineral cassiterite;
+    public static Mineral pyrolusite;
+    public static Mineral cuprite;
+    public static Mineral ilmenite;
+    public static Mineral magnetite;
+    public static Mineral hematite;
+    public static Mineral uraninite;
 
     //carbonate
-    public static MineralItem strontianite;
-    public static BaseItem strontianiteSlurry;
-    public static BaseItem crushedStrontianite;
-
-    public static MineralItem rhodochrosite;
-    public static MineralItem cerussite;
-    public static MineralItem siderite;
-    public static MineralItem spherocobaltite;
+    public static Mineral strontianite;
+    public static Mineral rhodochrosite;
+    public static Mineral cerussite;
+    public static Mineral siderite;
+    public static Mineral spherocobaltite;
 
     //phosphate
-    public static MineralItem vanadinite;
-    public static MineralItem pyromorphite;
+    public static Mineral vanadinite;
+    public static Mineral pyromorphite;
 
     //sulfate
-    public static MineralItem melanterite;
-    public static MineralItem barite;
-    public static MineralItem celestite;
-    public static MineralItem anglesite;
+    public static Mineral melanterite;
+    public static Mineral barite;
+    public static Mineral celestite;
+    public static Mineral anglesite;
 
     public static ElectrodeItem platinumElectrode;
 
@@ -157,10 +125,8 @@ public class Ref {
     public static ABaseBlock reactionChamber;
     public static ABaseBlock smeltery;
     public static ABaseBlock frothFlotationChamber;
-
     public static ABaseBlock distilleryController;
     public static ABaseBlock distilleryColumn;
-
     public static ABaseBlock solidFuelHeater;
     public static ABaseBlock steamBoiler;
     public static ABaseBlock steamTurbine;
@@ -225,71 +191,37 @@ public class Ref {
         platinumElectrode = new ElectrodeItem("platinum_electrode");
         yeastGrowthPlate = new YeastGrowthPlate();
         sulfurChunk = new BaseItem("sulfur_chunk");
-        crushedMelanterite = new CrushedMelanterite();
         salAmmoniac = new MineralItem("sal_ammoniac", new ChemicalStack("ammonium_chloride"));
         natron = new MineralItem("natron", new ChemicalStack("sodium_carbonate"));
 
-        galena = new MineralItem("galena", new ChemicalStack("lead_oxide"));
-        crushedGalena = new BaseItem("crushed_galena");
-        galenaSlurry = new BaseItem("galena_slurry");
+        galena = new Mineral("galena", new ChemicalStack("lead_oxide"));
+        pyrite = new Mineral("pyrite", new ChemicalStack("iron_disulfide"));
+        chalcocite = new Mineral("chalcocite", new ChemicalStack("copper", 2), new ChemicalStack("sulfur"));
+        sphalerite = new Mineral("sphalerite", new ChemicalStack("zinc_sulfide"));
+        cinnabar = new Mineral("cinnabar", new ChemicalStack("mercury_sulfide"));
+        stibnite = new Mineral("stibnite", new ChemicalStack("antimony_trisulfide"));
+        millerite = new Mineral("millerite", new ChemicalStack("nickel_sulfide"));
+        braggite = new Mineral("braggite", "(Pt, Pd, Ni)S");
 
-        pyrite = new MineralItem("pyrite", new ChemicalStack("iron_disulfide"));
-        crushedPyrite = new BaseItem("crushed_pyrite");
-        pyriteSlurry = new BaseItem("pyrite_slurry");
-
-        chalcocite = new MineralItem("chalcocite", new ChemicalStack("copper", 2), new ChemicalStack("sulfur"));
-        crushedChalcocite = new BaseItem("crushed_chalcocite");
-        chalcociteSlurry = new BaseItem("chalcocite_slurry");
-
-        sphalerite = new MineralItem("sphalerite", new ChemicalStack("zinc_sulfide"));
-        crushedSphalerite = new BaseItem("crushed_sphalerite");
-        sphaleriteSlurry = new BaseItem("sphalerite_slurry");
-
-        cinnabar = new MineralItem("cinnabar", new ChemicalStack("mercury_sulfide"));
-        crushedCinnabar = new BaseItem("crushed_cinnabar");
-        cinnabarSlurry = new BaseItem("cinnabar_slurry");
-
-        stibnite = new MineralItem("stibnite", new ChemicalStack("antimony_trisulfide"));
-        crushedStibnite = new BaseItem("crushed_stibnite");
-        stibniteSlurry = new BaseItem("stibnite_slurry");
-
-        millerite = new MineralItem("millerite", new ChemicalStack("nickel_sulfide"));
-        crushedMillerite = new BaseItem("crushed_millerite");
-        milleriteSlurry = new BaseItem("millerite_slurry");
-
-        braggite = new MineralItem("braggite", "(Pt, Pd, Ni)S");
-        crushedBraggite = new BaseItem("crushed_braggite");
-        braggiteSlurry = new BaseItem("braggite_slurry");
-
-        //OXIDE
-        cassiterite = new MineralItem("cassiterite", new ChemicalStack("tin_oxide"));
-        crushedCassiterite = new BaseItem("crushed_cassiterite");
-        cassiteriteSlurry = new BaseItem("cassiterite_slurry");
-
-        pyrolusite = new MineralItem("pyrolusite", new ChemicalStack("manganese_oxide"));
-        crushedPyrolusite = new BaseItem("crushed_pyrolusite");
-        pyrolusiteSlurry = new BaseItem("pyrolusite_slurry");
-
-        strontianite = new MineralItem("strontianite", new ChemicalStack("strontium_carbonate"));
-        crushedStrontianite = new BaseItem("crushed_strontianite");
-        strontianiteSlurry = new BaseItem("strontianite_slurry");
-
-        vanadinite = new MineralItem("vanadinite", "Pb", s(5), "(VO", s(4), ")", s(3), "Cl");
-        pyromorphite = new MineralItem("pyromorphite", "Pb", s(5), "(PO", s(4), ")", s(3), "Cl");
-
-        melanterite = new MineralItem("melanterite", crushedMelanterite.components);
-        hematite = new MineralItem("hematite", new ChemicalStack("iron_oxide"));
-        ilmenite = new MineralItem("ilmenite", "FeTiO" + s(3));
-        cuprite = new MineralItem("cuprite", "Cu" + s(2) + "O");
-        magnetite = new MineralItem("magnetite", "Fe" + s(3) + "O" + s(4));
-        uraninite = new MineralItem("uraninite", "UO" + s(2));
-        rhodochrosite = new MineralItem("rhodochrosite", new ChemicalStack("manganese_carbonate"));
-        cerussite = new MineralItem("cerussite", new ChemicalStack("lead_carbonate"));
-        siderite = new MineralItem("siderite", new ChemicalStack("iron_carbonate"));
-        spherocobaltite = new MineralItem("spherocobaltite", new ChemicalStack("cobalt_carbonate"));
-        barite = new MineralItem("barite", new ChemicalStack("barium_sulfate"));
-        celestite = new MineralItem("celestite", new ChemicalStack("strontium_sulfate"));
-        anglesite = new MineralItem("anglesite", new ChemicalStack("lead_sulfate"));
+        cassiterite = new Mineral("cassiterite", new ChemicalStack("tin_oxide"));
+        pyrolusite = new Mineral("pyrolusite", new ChemicalStack("manganese_oxide"));
+        strontianite = new Mineral("strontianite", new ChemicalStack("strontium_carbonate"));
+        vanadinite = new Mineral("vanadinite", "Pb", s(5), "(VO", s(4), ")", s(3), "Cl");
+        pyromorphite = new Mineral("pyromorphite", "Pb", s(5), "(PO", s(4), ")", s(3), "Cl");
+        hematite = new Mineral("hematite", new ChemicalStack("iron_oxide"));
+        ilmenite = new Mineral("ilmenite", "FeTiO" + s(3));
+        cuprite = new Mineral("cuprite", "Cu" + s(2) + "O");
+        magnetite = new Mineral("magnetite", "Fe" + s(3) + "O" + s(4));
+        uraninite = new Mineral("uraninite", "UO" + s(2));
+        rhodochrosite = new Mineral("rhodochrosite", new ChemicalStack("manganese_carbonate"));
+        cerussite = new Mineral("cerussite", new ChemicalStack("lead_carbonate"));
+        siderite = new Mineral("siderite", new ChemicalStack("iron_carbonate"));
+        spherocobaltite = new Mineral("spherocobaltite", new ChemicalStack("cobalt_carbonate"));
+        //SULFATE
+        melanterite = new Mineral("melanterite", "FeSO", s(4), "7H", s(2), "O");
+        barite = new Mineral("barite", new ChemicalStack("barium_sulfate"));
+        celestite = new Mineral("celestite", new ChemicalStack("strontium_sulfate"));
+        anglesite = new Mineral("anglesite", new ChemicalStack("lead_sulfate"));
 
         for (PartMaterial material : PartMaterialRegistry.materials) {
             new GearItem(material);

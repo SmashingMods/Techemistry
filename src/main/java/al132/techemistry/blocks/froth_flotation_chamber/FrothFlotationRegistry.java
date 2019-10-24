@@ -1,6 +1,7 @@
 package al132.techemistry.blocks.froth_flotation_chamber;
 
 import al132.techemistry.Ref;
+import al132.techemistry.items.minerals.Mineral;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -19,13 +20,9 @@ public class FrothFlotationRegistry {
 
 
     public static void init() {
-        addRecipe(toStack(Ref.galenaSlurry), toIngredient(Ref.crushedGalena), 1000);
-        addRecipe(toStack(Ref.pyriteSlurry), toIngredient(Ref.crushedPyrite), 1000);
-        addRecipe(toStack(Ref.sphaleriteSlurry), toIngredient(Ref.crushedSphalerite), 1000);
-        addRecipe(toStack(Ref.chalcociteSlurry), toIngredient(Ref.crushedChalcocite), 1000);
-        addRecipe(toStack(Ref.cinnabarSlurry), toIngredient(Ref.crushedCinnabar), 1000);
-        addRecipe(toStack(Ref.stibniteSlurry), toIngredient(Ref.crushedStibnite), 1000);
-        addRecipe(toStack(Ref.cassiteriteSlurry), toIngredient(Ref.crushedCassiterite), 1000);
+        for(Mineral mineral: Ref.minerals){
+            addRecipe(toStack(mineral.slurryItem),toIngredient(mineral.crushedItem),1000);
+        }
     }
 
     public static void addRecipe(ItemStack output1, ItemStack output2, Ingredient input1, int water) {
