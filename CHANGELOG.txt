@@ -1,7 +1,23 @@
+v9 (1st Early Beta)
+===
+-Added a recipe for the solar heater
+-Tweaked solar heater logic, it should no longer go past ~400k on its own
+-Apple sauce is now a food
+-Stuff
+
+v8
+===
+-Added a new block, the solar heater, passively generates a little heat during the day, but has a relatively low heat cap (~400K)
+-Added simplistic tooltips for all of the machines
+-Fixed Macerator crash when gear part breaks
+-Fixed location of the froth flotation progress bar
+-Added braggite to possible output for sulfide ore, so it's actually possible to get platinum now
+-Stuff
+
 v7
 ===
 -Fixed server startup crash
--Re-organized/added a lot of crushed/slurry mineral items
+-Added a lot of crushed/slurry items for existing minerals, and associated recipes
 
 v6
 ===

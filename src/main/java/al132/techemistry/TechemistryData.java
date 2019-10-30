@@ -18,6 +18,8 @@ import al132.techemistry.blocks.reaction_chamber.ReactionChamberContainer;
 import al132.techemistry.blocks.reaction_chamber.ReactionChamberTile;
 import al132.techemistry.blocks.smeltery.SmelteryContainer;
 import al132.techemistry.blocks.smeltery.SmelteryTile;
+import al132.techemistry.blocks.solar_heater.SolarHeaterContainer;
+import al132.techemistry.blocks.solar_heater.SolarHeaterTile;
 import al132.techemistry.blocks.solid_fuel_heater.SolidHeaterContainer;
 import al132.techemistry.blocks.solid_fuel_heater.SolidHeaterTile;
 import al132.techemistry.blocks.steam_boiler.SteamBoilerContainer;
@@ -57,6 +59,7 @@ public class TechemistryData extends al132.alib.ModData {
         Ref.reactionChamberTile = Techemistry.data.registerTile(ReactionChamberTile::new, Ref.reactionChamber, "reaction_chamber");
         Ref.smelteryTile = Techemistry.data.registerTile(SmelteryTile::new, Ref.smeltery, "smeltery");
         Ref.frothFlotationTile = Techemistry.data.registerTile(FrothFlotationTile::new, Ref.frothFlotationChamber, "froth_flotation_chamber");
+        Ref.solarHeaterTile = Techemistry.data.registerTile(SolarHeaterTile::new, Ref.solarHeater, "solar_heater");
 
         Techemistry.data.TILES.forEach(e.getRegistry()::register);
     }
@@ -123,6 +126,10 @@ public class TechemistryData extends al132.alib.ModData {
         Ref.frothFlotationContainer = IForgeContainerType.create((windowID, inv, data) ->
                 new FrothFlotationContainer(windowID, Techemistry.proxy.getClientWorld(), data.readBlockPos(), inv, Techemistry.proxy.getClientPlayer()));
         registerContainer(Ref.frothFlotationContainer, "froth_flotation_chamber");
+
+        Ref.solarHeaterContainer = IForgeContainerType.create((windowID, inv, data) ->
+                new SolarHeaterContainer(windowID, Techemistry.proxy.getClientWorld(), data.readBlockPos(), inv, Techemistry.proxy.getClientPlayer()));
+        registerContainer(Ref.solarHeaterContainer, "solar_heater");
 
         Techemistry.data.CONTAINERS.forEach(e.getRegistry()::register);
     }

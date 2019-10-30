@@ -31,6 +31,9 @@ import al132.techemistry.blocks.reaction_chamber.ReactionChamberTile;
 import al132.techemistry.blocks.smeltery.SmelteryBlock;
 import al132.techemistry.blocks.smeltery.SmelteryContainer;
 import al132.techemistry.blocks.smeltery.SmelteryTile;
+import al132.techemistry.blocks.solar_heater.SolarHeaterBlock;
+import al132.techemistry.blocks.solar_heater.SolarHeaterContainer;
+import al132.techemistry.blocks.solar_heater.SolarHeaterTile;
 import al132.techemistry.blocks.solid_fuel_heater.SolidHeaterBlock;
 import al132.techemistry.blocks.solid_fuel_heater.SolidHeaterContainer;
 import al132.techemistry.blocks.solid_fuel_heater.SolidHeaterTile;
@@ -130,6 +133,7 @@ public class Ref {
     public static ABaseBlock solidFuelHeater;
     public static ABaseBlock steamBoiler;
     public static ABaseBlock steamTurbine;
+    public static ABaseBlock solarHeater;
 
     public static WorldBlock dolomite;
     public static WorldBlock sulfideOre;
@@ -157,6 +161,7 @@ public class Ref {
     public static TileEntityType<ReactionChamberTile> reactionChamberTile;
     public static TileEntityType<SmelteryTile> smelteryTile;
     public static TileEntityType<FrothFlotationTile> frothFlotationTile;
+    public static TileEntityType<SolarHeaterTile> solarHeaterTile;
 
 
     public static ContainerType<FermenterContainer> fermenterContainer;
@@ -171,6 +176,7 @@ public class Ref {
     public static ContainerType<ReactionChamberContainer> reactionChamberContainer;
     public static ContainerType<SmelteryContainer> smelteryContainer;
     public static ContainerType<FrothFlotationContainer> frothFlotationContainer;
+    public static ContainerType<SolarHeaterContainer> solarHeaterContainer;
 
     public static String s(int input) {
         return Utils.getSubscript(input);
@@ -254,6 +260,7 @@ public class Ref {
         reactionChamber = new ReactionChamberBlock();
         smeltery = new SmelteryBlock();
         frothFlotationChamber = new FrothFlotationBlock();
+        solarHeater = new SolarHeaterBlock();
 
         distilleryController = new DistilleryControllerBlock();
         distilleryColumn = new DistilleryColumnBlock();

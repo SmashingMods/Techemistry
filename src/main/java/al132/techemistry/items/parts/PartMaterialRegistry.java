@@ -8,6 +8,9 @@ public class PartMaterialRegistry {
     public static final List<PartMaterial> materials = new ArrayList<>();
     public static final List<GearItem> gears = new ArrayList<>();
 
+    public static final PartMaterial PART_DEV =
+            new PartMaterial("dev", 99, 99999, 10, 1);
+
     public static final PartMaterial PART_WOOD =
             new PartMaterial("wood", 0, 10, 1, 0.5);
 

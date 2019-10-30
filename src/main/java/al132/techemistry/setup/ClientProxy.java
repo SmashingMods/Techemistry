@@ -10,6 +10,7 @@ import al132.techemistry.blocks.gas_collector.GasCollectorScreen;
 import al132.techemistry.blocks.macerator.MaceratorScreen;
 import al132.techemistry.blocks.reaction_chamber.ReactionChamberScreen;
 import al132.techemistry.blocks.smeltery.SmelteryScreen;
+import al132.techemistry.blocks.solar_heater.SolarHeaterScreen;
 import al132.techemistry.blocks.solid_fuel_heater.SolidHeaterScreen;
 import al132.techemistry.blocks.steam_boiler.SteamBoilerScreen;
 import al132.techemistry.blocks.steam_turbine.SteamTurbineScreen;
@@ -33,6 +34,8 @@ public class ClientProxy implements IProxy {
         ScreenManager.registerFactory(Ref.reactionChamberContainer, ReactionChamberScreen::new);
         ScreenManager.registerFactory(Ref.smelteryContainer, SmelteryScreen::new);
         ScreenManager.registerFactory(Ref.frothFlotationContainer, FrothFlotationScreen::new);
+        ScreenManager.registerFactory(Ref.solarHeaterContainer, SolarHeaterScreen::new);
+
     }
 
     @Override

@@ -56,7 +56,7 @@ public class SteamTurbineTile extends BaseTile implements ITickableTileEntity, G
         Optional<IEnergyStorage> neighbors = Utils.getSurroundingEnergyTiles(world, pos).stream()
                 .filter(LazyOptional::isPresent)
                 .map(x -> x.orElse(null))
-                .filter(IEnergyStorage::canReceive)
+                .filter(x -> x.getEnergyStored() < x.getMaxEnergyStored())
                 .findFirst();
         neighbors.ifPresent(x -> energy.extractEnergy(x.receiveEnergy(100, false), false));
     }

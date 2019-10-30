@@ -50,7 +50,8 @@ public class MaceratorRegistry {
                 weighted(Ref.chalcocite.mineralItem, 8, 1),
                 weighted(Ref.stibnite.mineralItem, 8, 1),
                 weighted(Ref.millerite.mineralItem, 8, 1),
-                weighted(Ref.cinnabar.mineralItem, 8, 1)),
+                weighted(Ref.cinnabar.mineralItem, 8, 1),
+                weighted(Ref.braggite.mineralItem,8,1)),
                 ItemStack.EMPTY, toIngredient(Ref.sulfideOre), 1, true));
 
         recipes.add(new MaceratorRecipe(Lists.newArrayList(

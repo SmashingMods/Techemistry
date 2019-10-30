@@ -20,7 +20,7 @@ public class FrothFlotationScreen extends BaseScreen<FrothFlotationContainer> {
         this.minecraft.textureManager.bindTexture(this.GUI);
         if (tile.progressTicks > 0) {
             int k = this.getBarScaled(28, tile.progressTicks, FrothFlotationTile.TICKS_PER_OPERATION);
-            this.drawRightArrow(78, 54, k);
+            this.drawRightArrow(98, 54, k);
         }
     }
 }

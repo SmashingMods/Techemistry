@@ -103,16 +103,16 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
         energy.extractEnergy(ENERGY_PER_TICK, false);
         if (progressTicks >= BASE_TICKS_PER_OPERATION) {
             progressTicks = 0;
+            getOutput().setOrIncrement(0, currentRecipe.get().calculateOutput(getGear().get().material.efficiency));
+            getInputStack().shrink(1);
             ItemStack gearStack = getGearStack();
             gearStack.attemptDamageItem(1, world.rand, null);//getItem().damageItem(gearStack, 1, null, null);
             if (gearStack.getDamage() >= gearStack.getMaxDamage()) {
                 getInput().setStackInSlot(1, ItemStack.EMPTY);
             }
             updateRecipe();
-            getOutput().setOrIncrement(0, currentRecipe.get().calculateOutput(getGear().get().material.efficiency));
-            getInputStack().shrink(1);
         }
-        markDirtyClient();
+        markDirtyGUI();
     }
 
 

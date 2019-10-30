@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "B B",
-    "B B",
-    "BCB"
+    "BNB",
+    "BCB",
+    "BNB"
   ],
   "key": {
     "B": {
@@ -11,6 +11,9 @@
     },
     "C": {
       "item": "minecraft:cauldron"
+    },
+    "N": {
+      "tag": "forge:ingots/nickel"
     }
   },
   "result": {

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "BBB",
+    "CCC"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "B": {
+      "tag": "forge:dyes/black"
+    },
+    "C": {
+      "tag": "forge:ingots/copper"
+    }
+  },
+  "result": {
+    "item": "techemistry:solar_heater"
+  }
+}
