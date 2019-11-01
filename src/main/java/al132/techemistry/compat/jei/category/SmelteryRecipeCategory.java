@@ -67,7 +67,7 @@ public class SmelteryRecipeCategory implements IRecipeCategory<SmelteryRecipe> {
     @Override
     public void draw(SmelteryRecipe recipe, double mouseX, double mouseY) {
         Minecraft.getInstance().fontRenderer.drawString("Minimum Heat: " + HeatHelper.format(recipe.minimumHeat, KELVIN),
-                50 - u, 4, Ref.TEXT_COLOR);
+                45 - u, 2, Ref.TEXT_COLOR);
     }
 
     @Override

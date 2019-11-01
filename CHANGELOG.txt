@@ -1,3 +1,9 @@
+v10
+===
+-Updated to Forge 28.1.76
+-Added lots of miscellaneous machine recipes (including giving recipes to crushed minerals/mineral slurries, which previously had no use)
+-All slurry items now use a texture separate from mineral and crushed mineral items (albeit, a crappy texture..)
+
 v9 (1st Early Beta)
 ===
 -Added a recipe for the solar heater

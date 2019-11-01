@@ -125,7 +125,7 @@ public class Utils {
         } else if (outputBlock != null && outputBlock != Blocks.AIR && outputBlock != Blocks.WATER) {
             outputStack = new ItemStack(outputBlock, quantity);//.toStack(quantity = quantity, meta = actualMeta)
         }
-        if (outputStack.isEmpty()) throw new RuntimeException("Nah fam");
+        if (outputStack.isEmpty()) throw new RuntimeException("Unable to convert input [" + str + "] to an itemstack");
         return outputStack;
     }
 
