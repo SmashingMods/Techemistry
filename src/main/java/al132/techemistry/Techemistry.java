@@ -37,7 +37,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,7 +57,6 @@ public class Techemistry {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
         //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
-        //MinecraftForge.EVENT_BUS.register(this);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -100,18 +98,11 @@ public class Techemistry {
         }
     }
 
-
-    @SubscribeEvent
-    public void serverStarting(final FMLServerStartingEvent e) {
-
-    }
-
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> e) {
             Ref.initBlocks();
-            // e.getRegistry().register(Ref.rumBlock);
             data.BLOCKS.forEach(e.getRegistry()::register);
         }
 
@@ -119,7 +110,6 @@ public class Techemistry {
         public static void onItemsRegistry(final RegistryEvent.Register<Item> e) {
             Ref.initItems();
             data.ITEMS.stream().forEachOrdered(e.getRegistry()::register);
-            // e.getRegistry().register(Ref.rumBucket);
             data.BLOCKS.stream().forEachOrdered(x -> e.getRegistry()
                     .register(new BlockItem(x, new Item.Properties().group(data.itemGroup)).setRegistryName(x.getRegistryName())));
         }

@@ -35,7 +35,7 @@ public class BaseItem extends ABaseItem {
                 tooltip.add(new StringTextComponent(line));
             }
         } catch (IllegalFormatException e) {
-            //Techemistry.LOGGER.warn("Invalid tooltip for item.alchemistry." + this.name);
+            Techemistry.LOGGER.warn("Invalid tooltip for item.alchemistry." + this.name);
         }
     }
 }

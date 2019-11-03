@@ -1,5 +1,6 @@
 package al132.techemistry;
 
+import al132.alib.ModData;
 import al132.techemistry.blocks.calcination_chamber.CalcinationContainer;
 import al132.techemistry.blocks.calcination_chamber.CalcinationTile;
 import al132.techemistry.blocks.distillery.DistilleryContainer;
@@ -26,20 +27,13 @@ import al132.techemistry.blocks.steam_boiler.SteamBoilerContainer;
 import al132.techemistry.blocks.steam_boiler.SteamBoilerTile;
 import al132.techemistry.blocks.steam_turbine.SteamTurbineContainer;
 import al132.techemistry.blocks.steam_turbine.SteamTurbineTile;
-import al132.techemistry.utils.Utils;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fluids.FluidAttributes;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
 
-import java.util.function.Supplier;
-
-public class TechemistryData extends al132.alib.ModData {
+public class TechemistryData extends ModData {
 
     public TechemistryData() {
         super(Techemistry.MODID, new ItemStack(Ref.reactionChamber));
@@ -62,19 +56,6 @@ public class TechemistryData extends al132.alib.ModData {
         Ref.solarHeaterTile = Techemistry.data.registerTile(SolarHeaterTile::new, Ref.solarHeater, "solar_heater");
 
         Techemistry.data.TILES.forEach(e.getRegistry()::register);
-    }
-
-    public static <T extends Fluid> T registerFluid(String name, T fluid) {
-        ResourceLocation id = Utils.toLocation(name);
-        fluid.setRegistryName(id);
-        //ForgeRegistries.FLUIDS.register(fluid);
-        return fluid;
-    }
-
-    public static ForgeFlowingFluid.Properties fluidProperties(String name, Supplier<Fluid> still, Supplier<Fluid> flowing) {
-        String tex = "blocks/" + name;
-        return new ForgeFlowingFluid.Properties(still, flowing,
-                FluidAttributes.builder(Utils.toLocation(tex + "_still"), Utils.toLocation(tex + "_flowing")));
     }
 
     @Override
