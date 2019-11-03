@@ -38,11 +38,11 @@ public class Utils {
     public static Optional<IChemical> getChemicalByAbbreviation(String abbrev) {
         Optional<ElementItem> element = ElementRegistry.elements.values().stream()
                 .filter(ele -> ele.getAbbreviation().equals(abbrev)).findFirst();
-        if (element.isPresent()) return element.map(x -> (IChemical) x);
+        if (element.isPresent()) return element.map(x -> x);
         else {
             Optional<CompoundItem> compound = CompoundRegistry.compounds.stream()
                     .filter(c -> c.getASCIIAbbreviation().equals(abbrev)).findFirst();
-            return compound.map(x -> (IChemical) x);
+            return compound.map(x -> x);
         }
     }
 

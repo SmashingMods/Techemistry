@@ -25,7 +25,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -64,7 +63,6 @@ public class Techemistry {
         WorldGen.run();
         CapabilityHeat.register();
         CapabilityPlayerData.register();
-
         ReactivitySeries.init();
         FermenterRegistry.init();
         MaceratorRegistry.init();
@@ -103,15 +101,21 @@ public class Techemistry {
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> e) {
             Ref.initBlocks();
-            data.BLOCKS.forEach(e.getRegistry()::register);
+            //data.BLOCKS.forEach(e.getRegistry()::register);
+            for (Block block : data.BLOCKS) {
+                e.getRegistry().register(block);
+            }
         }
 
         @SubscribeEvent
         public static void onItemsRegistry(final RegistryEvent.Register<Item> e) {
             Ref.initItems();
-            data.ITEMS.stream().forEachOrdered(e.getRegistry()::register);
-            data.BLOCKS.stream().forEachOrdered(x -> e.getRegistry()
-                    .register(new BlockItem(x, new Item.Properties().group(data.itemGroup)).setRegistryName(x.getRegistryName())));
+            for (Item item : data.ITEMS) {
+                e.getRegistry().register(item);
+            }
+            for (Block block : data.BLOCKS) {
+                e.getRegistry().register(new BlockItem(block, new Item.Properties().group(data.itemGroup)).setRegistryName(block.getRegistryName()));
+            }
         }
 
         @SubscribeEvent
@@ -123,18 +127,5 @@ public class Techemistry {
         public static void onContainerRegistry(final RegistryEvent.Register<ContainerType<?>> e) {
             data.registerContainers(e);
         }
-
-        @SubscribeEvent
-        public static void onRecipeRegistry(final RegistryEvent.Register<IRecipeSerializer<?>> e) {
-        }
-
-        /*
-        @SubscribeEvent
-        public static void onFluidRegistry(final RegistryEvent.Register<Fluid> e) {
-            Ref.initFluids();
-            e.getRegistry().register(Ref.rum);
-            e.getRegistry().register(Ref.flowingRum);
-            // e.getRegistry().register();
-        }*/
     }
 }

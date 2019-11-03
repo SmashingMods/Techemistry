@@ -1,7 +1,7 @@
 package al132.techemistry.blocks.electrolyzer;
 
-import al132.techemistry.data.FormulaParser;
 import al132.techemistry.Ref;
+import al132.techemistry.data.FormulaParser;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -22,7 +22,6 @@ public class ElectrolyzerRegistry {
 
 
     public static void init() {
-
         //Group 1 Chlorides
         addRecipe("2LiCl -> 2Li + 2Cl", 880);
         addRecipe("2NaCl -> 2Na + 2Cl", 1074);
