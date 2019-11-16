@@ -90,7 +90,7 @@ public class ElectrolyzerTile extends BaseInventoryTile
             }
             getCathode().attemptDamageItem(1, world.rand, null);
             if (getCathode().getDamage() >= getCathode().getMaxDamage()) {
-                getInput().setStackInSlot(4, ItemStack.EMPTY);
+                getInput().setStackInSlot(3, ItemStack.EMPTY);
             }
         }
     }
