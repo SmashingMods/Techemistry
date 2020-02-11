@@ -11,6 +11,7 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.SlabType;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
@@ -36,7 +37,8 @@ public class YeastGrowthPlate extends BaseItem {
                 List<BlockState> surrounding = Utils.getSurroundingBlocks(world, entity.getPosition());
                 if (surrounding.stream().allMatch(x -> x.getBlock() != Blocks.WATER)) {
                     stack.shrink(1);
-                    ItemEntity yeast = new ItemEntity(world, entity.posX, entity.posY, entity.posZ, new ItemStack(Ref.yeast));
+                    BlockPos pos = entity.getPosition();
+                    ItemEntity yeast = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Ref.yeast));
                     world.addEntity(yeast);
                 }
             }

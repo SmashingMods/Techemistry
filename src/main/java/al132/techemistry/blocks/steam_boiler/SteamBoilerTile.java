@@ -71,7 +71,6 @@ public class SteamBoilerTile extends BaseTile implements ITickableTileEntity, Gu
         } else {
             heat = new HeatStorage(HeatHelper.getBiomeHeat(world, pos));
         }
-        markDirtyGUI();
     }
 
     @Override

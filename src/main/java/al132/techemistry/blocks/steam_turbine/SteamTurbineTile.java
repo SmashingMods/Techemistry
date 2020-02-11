@@ -58,7 +58,11 @@ public class SteamTurbineTile extends BaseTile implements ITickableTileEntity, G
                 .map(x -> x.orElse(null))
                 .filter(x -> x.getEnergyStored() < x.getMaxEnergyStored())
                 .findFirst();
-        neighbors.ifPresent(x -> energy.extractEnergy(x.receiveEnergy(100, false), false));
+        neighbors.ifPresent(x -> {
+            int transferred = energy.extractEnergy(x.receiveEnergy(100, true), true);
+            energy.extractEnergy(transferred, false);
+            x.receiveEnergy(transferred, false);
+        });
     }
 
     @Override

@@ -21,7 +21,9 @@ public class CalcinationScreen extends BaseScreen<CalcinationContainer> {
         List<String> strings = super.getTooltipFromItem(stack);
 
         if (this.container.getSlot(0).getStack() == stack) {
-            strings.add("Minimum heat: " + HeatHelper.format(((CalcinationTile) this.container.tile).currentRecipe.get().minimumHeat, getTempType()));
+            ((CalcinationTile) this.container.tile).currentRecipe.ifPresent(x -> {
+                strings.add("Minimum heat: " + HeatHelper.format(x.minimumHeat, getTempType()));
+            });
         }
         return strings;
     }

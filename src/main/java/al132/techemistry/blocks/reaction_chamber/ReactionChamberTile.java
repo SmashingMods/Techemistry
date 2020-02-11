@@ -80,7 +80,6 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
                 getInput().getStackInSlot(2).shrink(currentRecipe.get().input2.getMatchingStacks()[0].getCount());
             }
         }
-        markDirtyClient();
     }
 
     @Override
@@ -94,7 +93,6 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
             heat = new HeatStorage(HeatHelper.getBiomeHeat(world, pos));
         }
         updateRecipe();
-        markDirtyGUI();
     }
 
     @Override
@@ -126,7 +124,6 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
             @Override
             public void onContentsChanged(int slot) {
                 updateRecipe();
-                markDirtyGUI();
             }
         };
     }
@@ -139,12 +136,7 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
 
     @Override
     public IEnergyStorage initEnergy() {
-        return new CustomEnergyStorage(MAX_ENERGY) {
-            @Override
-            public void onEnergyChanged() {
-                markDirtyGUI();
-            }
-        };
+        return new CustomEnergyStorage(MAX_ENERGY);
     }
 
     @Override
