@@ -47,6 +47,7 @@ public class SteamBoilerTile extends BaseTile implements ITickableTileEntity, Gu
     @Override
     public void tick() {
         if (world.isRemote) return;
+        boolean evenTick = world.getGameTime() % 2 == 0;
         if (world.getGameTime() % 5 == 0) {
             if (inputTank.getFluidAmount() >= 5 && heat.getHeatStored() >= 373.15) {
                 TileEntity above = world.getTileEntity(pos.up());
@@ -59,7 +60,7 @@ public class SteamBoilerTile extends BaseTile implements ITickableTileEntity, Gu
             }
         }
         HeatHelper.balanceHeat(world, pos, heat);
-        markDirtyGUI();
+        if (evenTick) markDirtyGUI();
     }
 
     @Override
@@ -71,7 +72,7 @@ public class SteamBoilerTile extends BaseTile implements ITickableTileEntity, Gu
         } else {
             heat = new HeatStorage(HeatHelper.getBiomeHeat(world, pos));
         }
-        markDirtyGUI();
+        //markDirtyGUI();
     }
 
     @Override

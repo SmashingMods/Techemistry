@@ -139,7 +139,6 @@ public class FermenterTile extends BaseInventoryTile
         progressTicks = compound.getInt("progressTicks");
         totalTempThisOperation = compound.getInt("totalTemp");
         updateRecipe();
-        markDirtyGUI();
     }
 
     @Override

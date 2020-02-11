@@ -141,7 +141,7 @@ public class FrothFlotationTile extends BaseInventoryTile
         return new CustomEnergyStorage(MAX_ENERGY) {
             @Override
             public void onEnergyChanged() {
-                markDirtyGUI();
+                //markDirtyGUI();
             }
         };
     }

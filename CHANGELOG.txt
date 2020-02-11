@@ -1,3 +1,21 @@
+v1.14.4-17
+===
+-Fixed Steam Turbine generating infinite power
+-Added configs to disable oregen (simple true/false toggles for now, but I will probably add more detailed configs in the future)
+-Fixed significant client-side lag that happened with several machines
+
+v16
+===
+-Updated to Forge 28.1.109
+
+
+v15
+===
+-Fix Maceration Station not consuming energy
+
+v14
+===
+-
 v13
 ===
 -Fixed Electrolyzer crashing whenever the cathode was consumed

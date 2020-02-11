@@ -1,5 +1,6 @@
 package al132.techemistry.world;
 
+import al132.techemistry.Config;
 import al132.techemistry.Ref;
 import al132.techemistry.blocks.world.WorldBlock;
 import net.minecraft.world.biome.Biome;
@@ -14,13 +15,13 @@ public final class WorldGen {
 
     public static void run() {
         for (Biome biome : ForgeRegistries.BIOMES) {
-            addSurfaceOre(biome, Ref.dolomite);
-            addStandardOre(biome, Ref.sulfideOre);
-            addStandardOre(biome, Ref.oxideOre);
-            addStandardOre(biome, Ref.carbonateOre);
-            addStandardOre(biome, Ref.phosphateOre);
-            addStandardOre(biome,Ref.sulfurOre);
-            addStandardOre(biome,Ref.sulfateOre);
+            if (Config.GENERATE_DOLOMITE.get()) addSurfaceOre(biome, Ref.dolomite);
+            if (Config.GENERATE_SULFIDE.get()) addStandardOre(biome, Ref.sulfideOre);
+            if (Config.GENERATE_OXIDE.get()) addStandardOre(biome, Ref.oxideOre);
+            if (Config.GENERATE_CARBONATE.get()) addStandardOre(biome, Ref.carbonateOre);
+            if (Config.GENERATE_PHOSPHATE.get()) addStandardOre(biome, Ref.phosphateOre);
+            if (Config.GENERATE_SULFUR.get()) addStandardOre(biome, Ref.sulfurOre);
+            if (Config.GENERATE_SULFATE.get()) addStandardOre(biome, Ref.sulfateOre);
         }
     }
 
@@ -32,11 +33,12 @@ public final class WorldGen {
                 Placement.COUNT_RANGE,
                 new CountRangeConfig(ore.veinCount, 80, 0, 255)));
     }
-/*
-    public static void test(Biome biome, WorldBlock ore){
-        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,Biome.createDecoratedFeature()
-    }
-*/
+
+    /*
+        public static void test(Biome biome, WorldBlock ore){
+            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,Biome.createDecoratedFeature()
+        }
+    */
     public static void addStandardOre(Biome biome, WorldBlock ore) {
         biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
                 Feature.ORE,

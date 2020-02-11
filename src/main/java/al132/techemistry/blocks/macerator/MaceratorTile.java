@@ -27,7 +27,7 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
     public final static int MAX_ENERGY = 10000;
     public double progressTicks = 0;
     public final static int BASE_TICKS_PER_OPERATION = 240;
-    public final static int ENERGY_PER_TICK = 0;
+    public final static int ENERGY_PER_TICK = 100;
     private Optional<MaceratorRecipe> currentRecipe = Optional.empty();
 
     public MaceratorTile() {
@@ -60,7 +60,7 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
         this.progressTicks = compound.getDouble("progressTicks");
         this.energy = new EnergyStorage(MAX_ENERGY, MAX_ENERGY, MAX_ENERGY, compound.getInt("energy"));
         updateRecipe();
-        markDirtyGUI();
+        //markDirtyGUI();
     }
 
     @Override
@@ -112,7 +112,7 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
             }
             updateRecipe();
         }
-        markDirtyGUI();
+        //markDirtyGUI();
     }
 
 
@@ -130,7 +130,7 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
             public void onContentsChanged(int slot) {
                 if(slot == 1) progressTicks = 0;
                 updateRecipe();
-                markDirtyGUI();
+                //markDirtyGUI();
             }
         };
     }
@@ -146,7 +146,7 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
         return new CustomEnergyStorage(MAX_ENERGY) {
             @Override
             public void onEnergyChanged() {
-                markDirtyGUI();
+                //markDirtyGUI();
             }
         };
     }

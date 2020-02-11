@@ -98,11 +98,14 @@ public class HeatHelper {
     }
 
     public static void balanceHeat(World world, BlockPos pos, IHeatStorage heat) {
+        //int tickInterval = 5;
+        //if (world.getGameTime() % tickInterval == 0) {
         double base = Utils.getSurroundingBlocks(world, pos).stream().mapToDouble(x -> HeatHelper.getBlockHeat(world, pos, x)).sum() / 6.0;
         if (base > heat.getHeatStored() + 1) {
             heat.receiveHeat(0.01f, false);
         } else if (base + 1 < heat.getHeatStored()) {
             heat.extractHeat(0.01f, false);
         }
+        // }
     }
 }
