@@ -1,28 +1,26 @@
 package al132.techemistry.blocks.electrolyzer;
 
+import al132.techemistry.RecipeTypes;
 import al132.techemistry.Ref;
-import al132.techemistry.data.FormulaParser;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static al132.techemistry.utils.Utils.toIngredient;
-import static al132.techemistry.utils.Utils.toStack;
+import java.util.stream.Collectors;
 
 public class ElectrolyzerRegistry {
 
-    public static List<ElectrolyzerRecipe> recipes = new ArrayList<>();
+    private static List<ElectrolyzerRecipe> recipes = null;
     public static final ItemStack anode = new ItemStack(Ref.platinumElectrode);
     public static final ItemStack cathode = new ItemStack(Ref.platinumElectrode);
 
 
     public static void init() {
         //Group 1 Chlorides
+        /*
         addRecipe("2LiCl -> 2Li + 2Cl", 880);
         addRecipe("2NaCl -> 2Na + 2Cl", 1074);
         addRecipe("2KCl -> 2K + 2Cl", 1040);
@@ -39,8 +37,11 @@ public class ElectrolyzerRegistry {
         //https://www.ausetute.com.au/chloralkali.html
         addRecipe(toIngredient("water", 2), toIngredient("sodium_chloride", 2), 273,
                 toStack("hydrogen", 2), toStack("chlorine", 2), toStack("sodium_hydroxide", 2));
+
+         */
     }
 
+    /*
     public static void addRecipe(String formula, double heat) {
         recipes.add(new ElectrolyzerRecipe(FormulaParser.parse(formula), heat, anode.copy(), cathode.copy()));
     }
@@ -55,19 +56,31 @@ public class ElectrolyzerRegistry {
         } else throw new RuntimeException("Invalid electrolyzer recipe, requires 1-3 inputs");
     }
 
+     */
+
+    public static List<ElectrolyzerRecipe> getRecipes(World world){
+        if (recipes == null) {
+            recipes = world.getRecipeManager().getRecipes().stream()
+                    .filter(x -> x.getType() == RecipeTypes.ELECTROLYZER)
+                    .map(x -> (ElectrolyzerRecipe) x)
+                    .collect(Collectors.toList());
+        }
+        return recipes;
+    }
+
     public static boolean hasRecipe(ItemStack stack) {
         return recipes.stream().anyMatch(x -> matchesRecipe(x, stack));
     }
 
     public static boolean matchesRecipe(ElectrolyzerRecipe recipe, ItemStack targetStack) {
         Item targetItem = targetStack.getItem();
-        return Arrays.stream(recipe.input1.getMatchingStacks())
+        return Arrays.stream(recipe.getInput1().getMatchingStacks())
                 .map(ItemStack::getItem)
                 .anyMatch(item -> item == targetItem);
     }
 
-    public static Optional<ElectrolyzerRecipe> getRecipeForInput(ItemStack input1, ItemStack input2) {
-        return recipes.stream()
+    public static Optional<ElectrolyzerRecipe> getRecipeForInput(World world, ItemStack input1, ItemStack input2) {
+        return getRecipes(world).stream()
                 .filter(recipe -> matchesRecipe(recipe, input1))
                 .findFirst();
     }

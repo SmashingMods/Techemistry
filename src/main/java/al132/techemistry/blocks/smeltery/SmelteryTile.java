@@ -9,7 +9,8 @@ import al132.techemistry.blocks.gas_collector.GasCollectorTile;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -47,7 +48,7 @@ public class SmelteryTile extends BaseInventoryTile
     }
 
     public void updateRecipe() {
-        this.currentRecipe = SmelteryRegistry.getRecipeForInput(getInputStack());
+        if (world != null) this.currentRecipe = SmelteryRegistry.getRecipeForInput(world, getInputStack());
     }
 
     @Override
@@ -62,8 +63,10 @@ public class SmelteryTile extends BaseInventoryTile
     private boolean canProcess() {
         return currentRecipe.isPresent()
                 && heat.getHeatStored() >= currentRecipe.get().minimumHeat
-                && getInputStack().getCount() >= currentRecipe.get().input.getMatchingStacks()[0].getCount()
-                && Utils.canStack(currentRecipe.get().output, getOutputStack());
+                && getInputStack().getCount() >= currentRecipe.get().inputCount//.get().getIngredients().get(0).getMatchingStacks()[0].getCount()
+                && !getFluxStack().isEmpty()
+                && !getFuelStack().isEmpty()
+                && TUtils.canStack(currentRecipe.get().getRecipeOutput(), getOutputStack());
     }
 
     private void process() {
@@ -74,23 +77,23 @@ public class SmelteryTile extends BaseInventoryTile
             if (temp instanceof GasCollectorTile) {
                 GasCollectorTile collectorTile = (GasCollectorTile) temp;
                 ItemStack s = collectorTile.getOutputStack();
-                if (s.isEmpty() || s.getItem() == currentRecipe.get().gas.getItem()) {
-                    collectorTile.getOutput().setOrIncrement(0, currentRecipe.get().gas.copy());
+                if (s.isEmpty() || s.getItem() == currentRecipe.get().gasOutput.getItem()) {
+                    collectorTile.getOutput().setOrIncrement(0, currentRecipe.get().gasOutput.copy());
                 }
             }
         }
         if (progressTicks >= TICKS_PER_OPERATION) {
             progressTicks = 0;
-            getOutput().setOrIncrement(0, currentRecipe.get().output.copy());
-            getInputStack().shrink(currentRecipe.get().input.getMatchingStacks()[0].getCount());
+            getOutput().setOrIncrement(0, currentRecipe.get().getRecipeOutput().copy());
+            getInputStack().shrink(currentRecipe.get().inputCount);//currentRecipe.get().getIngredients().get(0).getMatchingStacks()[0].getCount());
             getFluxStack().shrink(1);
             getFuelStack().shrink(1);
         }
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void read(BlockState state, CompoundNBT compound) {
+        super.read(state, compound);
         this.progressTicks = compound.getInt("progressTicks");
         if (compound.contains("heat")) {
             heat = new HeatStorage(compound.getDouble("heat"));

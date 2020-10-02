@@ -1,0 +1,17 @@
+{
+  "type": "techemistry:calcination_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:sphalerite_slurry"
+  },
+  "result": {
+    "item": "chemlib:compound_zinc_oxide"
+  },
+  "result2": {
+    "item": "chemlib:element_cadmium"
+  },
+  "gas": {
+    "item": "chemlib:compound_sulfur_dioxide"
+  },
+  "minimumTemp": 1460
+}

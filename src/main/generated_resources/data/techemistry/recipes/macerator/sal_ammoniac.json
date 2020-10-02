@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:sal_ammoniac"
+  },
+  "result": [
+    {
+      "item": "chemlib:compound_ammonium_chloride",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

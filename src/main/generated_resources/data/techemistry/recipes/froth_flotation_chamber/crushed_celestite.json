@@ -1,0 +1,11 @@
+{
+  "type": "techemistry:forth_flotation_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:crushed_celestite"
+  },
+  "result": {
+    "item": "techemistry:celestite_slurry"
+  },
+  "waterQuantity": 1000
+}

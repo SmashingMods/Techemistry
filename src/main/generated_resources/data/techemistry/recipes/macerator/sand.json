@@ -1,0 +1,15 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "minecraft:sand"
+  },
+  "result": [
+    {
+      "item": "chemlib:compound_silicon_dioxide",
+      "count": 4,
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:strontianite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_strontianite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

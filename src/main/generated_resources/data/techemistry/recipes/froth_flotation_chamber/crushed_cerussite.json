@@ -1,0 +1,11 @@
+{
+  "type": "techemistry:forth_flotation_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:crushed_cerussite"
+  },
+  "result": {
+    "item": "techemistry:cerussite_slurry"
+  },
+  "waterQuantity": 1000
+}

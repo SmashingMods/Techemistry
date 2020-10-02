@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "SrO + H2O -> SrOH2",
+    "minimumTemp": 273
+}

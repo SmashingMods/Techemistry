@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "HCl + LiOH -> LiCl + H2O",
+    "minimumTemp": 273
+}

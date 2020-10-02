@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "2Na + 2H2O -> 2NaOH + 2H",
+    "minimumTemp": 273
+}

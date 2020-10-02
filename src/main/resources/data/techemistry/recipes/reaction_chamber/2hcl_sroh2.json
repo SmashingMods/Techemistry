@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "2HCl + SrOH2 -> SrCl2 + 2H2O",
+    "minimumTemp": 273
+}

@@ -1,0 +1,40 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:carbonate_ore"
+  },
+  "result": [
+    {
+      "item": "techemistry:strontianite",
+      "count": 8,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:cerussite",
+      "count": 8,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:spherocobaltite",
+      "count": 8,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:siderite",
+      "count": 8,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:rhodochrosite",
+      "count": 8,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:natron",
+      "count": 2,
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

@@ -1,0 +1,6 @@
+{
+  "type": "techemistry:electrolyzer",
+  "group": "minecraft:misc",
+  "formula": "SrCl2 -> Sr + 2Cl",
+  "minimumTemp": 1520
+}

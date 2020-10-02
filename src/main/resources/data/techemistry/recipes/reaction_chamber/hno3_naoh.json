@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "HNO3 + NaOH -> NaNO3 + H2O",
+    "minimumTemp": 273
+}

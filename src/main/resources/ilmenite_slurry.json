@@ -1,0 +1,16 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:ilmenite_slurry",
+    "count": 16
+  },
+  "result": {
+    "item": "chemlib:compound_titanium_dioxide",
+    "count": 16
+  },
+  "result2": {
+    "item": "minecraft:iron_ingot"
+  },
+  "minimumTemp": 2115
+}

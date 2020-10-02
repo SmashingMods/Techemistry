@@ -1,0 +1,11 @@
+{
+  "type": "techemistry:forth_flotation_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:crushed_pyromorphite"
+  },
+  "result": {
+    "item": "techemistry:pyromorphite_slurry"
+  },
+  "waterQuantity": 1000
+}

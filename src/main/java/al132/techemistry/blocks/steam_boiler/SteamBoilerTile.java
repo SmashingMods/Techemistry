@@ -9,6 +9,7 @@ import al132.techemistry.blocks.steam_turbine.SteamTurbineTile;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.WaterFluid;
@@ -51,9 +52,9 @@ public class SteamBoilerTile extends BaseTile implements ITickableTileEntity, Gu
             if (inputTank.getFluidAmount() >= 5 && heat.getHeatStored() >= 373.15) {
                 TileEntity above = world.getTileEntity(pos.up());
                 if (above instanceof SteamTurbineTile) {
-                    if (((SteamTurbineTile) above).energy.receiveEnergy(100, true) == 100) {
-                        ((SteamTurbineTile) above).energy.receiveEnergy(100, false);
-                    }
+                    int transferred = ((SteamTurbineTile) above).energy.receiveEnergy(100, true);
+                    if (transferred > 0) ((SteamTurbineTile) above).energy.receiveEnergy(transferred, false);
+
                 }
                 inputTank.drain(5, IFluidHandler.FluidAction.EXECUTE);
             }
@@ -63,8 +64,8 @@ public class SteamBoilerTile extends BaseTile implements ITickableTileEntity, Gu
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void read(BlockState state, CompoundNBT compound) {
+        super.read(state, compound);
         inputTank.readFromNBT(compound.getCompound("inputTank"));
         if (compound.contains("heat")) {
             heat = new HeatStorage(compound.getDouble("heat"));

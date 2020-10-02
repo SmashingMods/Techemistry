@@ -1,0 +1,11 @@
+{
+  "type": "techemistry:fermenter",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:crushed_wheat"
+  },
+  "result": {
+    "item": "techemistry:beer"
+  },
+  "waterAmount": 1000
+}

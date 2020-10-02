@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:cassiterite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_cassiterite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

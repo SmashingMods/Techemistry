@@ -1,0 +1,6 @@
+{
+  "type": "techemistry:electrolyzer",
+  "group": "minecraft:misc",
+  "formula": "CaCl2 -> Ca + 2Cl",
+  "minimumTemp": 1045
+}

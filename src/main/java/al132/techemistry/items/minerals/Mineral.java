@@ -9,6 +9,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -73,11 +74,11 @@ public class Mineral {
 
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if (!formula.isEmpty()) {
-            tooltip.add(new StringTextComponent(formula).applyTextStyle(ChemLib.CHEM_TOOLTIP_COLOR));
+            tooltip.add(new StringTextComponent(formula).mergeStyle(ChemLib.CHEM_TOOLTIP_COLOR));
         } else if (components != null) {
             String line = components.stream().map(ChemicalStack::getAbbreviation).collect(Collectors.joining());
             if (line.charAt(0) == '(') line = line.substring(1, line.length() - 1);
-            tooltip.add(new StringTextComponent(line).applyTextStyle(ChemLib.CHEM_TOOLTIP_COLOR));//.getAbbreviation()));
+            tooltip.add(new StringTextComponent(line).mergeStyle(ChemLib.CHEM_TOOLTIP_COLOR));//.getAbbreviation()));
         }
     }
 }

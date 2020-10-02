@@ -1,0 +1,12 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "chemlib:element_nickel",
+    "count": 16
+  },
+  "result": {
+    "item": "chemlib:ingot_nickel"
+  },
+  "minimumTemp": 1730
+}

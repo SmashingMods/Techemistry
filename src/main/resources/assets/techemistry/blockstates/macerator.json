@@ -1,5 +1,12 @@
 {
-  "variants": {
-    "": {"model": "techemistry:block/macerator"}
-  }
+    "variants": {
+        "facing=north,lit=false": { "model": "techemistry:block/macerator", "x": 90},
+        "facing=south,lit=false": { "model": "techemistry:block/macerator", "x": 90, "y": 180 },
+        "facing=west,lit=false":  { "model": "techemistry:block/macerator", "x": 90, "y": 270 },
+        "facing=east,lit=false":  { "model": "techemistry:block/macerator", "x": 90, "y": 90 },
+		"facing=north,lit=true": { "model": "techemistry:block/macerator", "x": 90},
+        "facing=south,lit=true": { "model": "techemistry:block/macerator", "x": 90, "y": 180 },
+        "facing=west,lit=true":  { "model": "techemistry:block/macerator", "x": 90, "y": 270 },
+        "facing=east,lit=true":  { "model": "techemistry:block/macerator", "x": 90, "y": 90 }
+	}
 }

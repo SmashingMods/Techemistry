@@ -1,0 +1,12 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "chemlib:compound_copper_i_oxide",
+    "count": 8
+  },
+  "result": {
+    "item": "chemlib:ingot_copper"
+  },
+  "minimumTemp": 1470
+}

@@ -8,7 +8,8 @@ import al132.techemistry.blocks.HeatTile;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -58,7 +59,7 @@ public class SolidHeaterTile extends BaseInventoryTile implements ITickableTileE
                 input.shrink(1);
             }
         }
-        List<IHeatStorage> tiles = Utils.getSurroundingHeatTiles(world, pos);
+        List<IHeatStorage> tiles = TUtils.getSurroundingHeatTiles(world, pos);
         //System.out.println("tile.size = " + tiles.size());
         for (IHeatStorage tile : tiles) {
             if (tile.getHeatStored() + 2.0 < this.heat.getHeatStored()) {
@@ -71,8 +72,8 @@ public class SolidHeaterTile extends BaseInventoryTile implements ITickableTileE
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void read(BlockState state, CompoundNBT compound) {
+        super.read(state, compound);
         this.fuelTicksRemaining = compound.getInt("fuelTicks");
         this.currentFuelMaxTicks = compound.getInt("currentFuelMaxTicks");
         heat = new HeatStorage(compound.getDouble("heat"));

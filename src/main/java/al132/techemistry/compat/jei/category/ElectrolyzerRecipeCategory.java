@@ -6,6 +6,7 @@ import al132.techemistry.blocks.electrolyzer.ElectrolyzerRecipe;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.compat.jei.JEIIntegration;
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -60,21 +61,21 @@ public class ElectrolyzerRecipeCategory implements IRecipeCategory<ElectrolyzerR
 
     @Override
     public void setIngredients(ElectrolyzerRecipe recipe, IIngredients ingredients) {
-        List<Ingredient> inputs = Lists.newArrayList(recipe.input1);
+        List<Ingredient> inputs = Lists.newArrayList(recipe.getInput1());
         if (!recipe.input2.hasNoMatchingItems()) inputs.add(recipe.input2);
-        inputs.add(Ingredient.fromStacks(recipe.cathode));
-        inputs.add(Ingredient.fromStacks(recipe.anode));
+        inputs.add(recipe.cathode);//.cathode));
+        inputs.add(Ingredient.fromItems(Ref.platinumElectrode));//.anode));
         ingredients.setInputIngredients(inputs);
 
-        List<ItemStack> outputs = Lists.newArrayList(recipe.output1.copy());
+        List<ItemStack> outputs = Lists.newArrayList(recipe.getOutput1().copy());
         if (!recipe.output2.isEmpty()) outputs.add(recipe.output2);
         if (!recipe.output3.isEmpty()) outputs.add(recipe.output3);
         ingredients.setOutputs(VanillaTypes.ITEM, outputs);
     }
 
     @Override
-    public void draw(ElectrolyzerRecipe recipe, double mouseX, double mouseY) {
-        Minecraft.getInstance().fontRenderer.drawString("Minimum Heat: " + HeatHelper.format(recipe.heat, KELVIN),
+    public void draw(ElectrolyzerRecipe recipe, MatrixStack ms, double mouseX, double mouseY) {
+        Minecraft.getInstance().fontRenderer.drawString(ms, "Minimum Heat: " + HeatHelper.format(recipe.minimumHeat, KELVIN),
                 35 - u, 72, Ref.TEXT_COLOR);
     }
 
@@ -86,7 +87,7 @@ public class ElectrolyzerRecipeCategory implements IRecipeCategory<ElectrolyzerR
         int x = 39 - u;
         int y = 49 - v;
         guiItemStacks.init(0, true, x, y);
-        guiItemStacks.set(0, Lists.newArrayList(recipe.input1.getMatchingStacks()));
+        guiItemStacks.set(0, Lists.newArrayList(recipe.getInput1().getMatchingStacks()));
         if (!recipe.input2.hasNoMatchingItems()) {
             x = 80 - u;
             guiItemStacks.init(1, true, x, y);
@@ -96,17 +97,17 @@ public class ElectrolyzerRecipeCategory implements IRecipeCategory<ElectrolyzerR
         x = 38 - u;
         y = 10 - v;
         guiItemStacks.init(2, true, x, y);
-        guiItemStacks.set(2, recipe.anode.copy());
+        guiItemStacks.set(2, recipe.anode.getMatchingStacks()[0].copy());
 
         x = 80 - u;
         y = 10 - v;
         guiItemStacks.init(3, true, x, y);
-        guiItemStacks.set(3, recipe.cathode.copy());
+        guiItemStacks.set(3, recipe.cathode.getMatchingStacks()[0].copy());
 
         x = 142 - u;
         y = 33 - v;
         guiItemStacks.init(4, false, x, y);
-        guiItemStacks.set(4, recipe.output1.copy());
+        guiItemStacks.set(4, recipe.getOutput1().copy());
 
         if (!recipe.output2.isEmpty()) {
             y += 18;

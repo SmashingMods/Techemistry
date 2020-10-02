@@ -1,0 +1,6 @@
+{
+  "type": "techemistry:reaction_chamber",
+  "group": "minecraft:misc",
+  "formula": "H2SO4 + NaCl -> HCl + NaHSO4",
+  "minimumTemp": 273
+}

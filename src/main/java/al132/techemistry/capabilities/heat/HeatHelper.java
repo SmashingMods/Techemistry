@@ -1,6 +1,6 @@
 package al132.techemistry.capabilities.heat;
 
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -64,19 +64,9 @@ public class HeatHelper {
     }
 
     public static double getBiomeHeat(World world, BlockPos pos) {
-        Biome.TempCategory cat = world.func_226691_t_(pos).getTempCategory();
-        switch (cat) {
-            case COLD:
-                return 245;
-            case OCEAN:
-                return 282;
-            case WARM:
-                return 305;
-            case MEDIUM:
-            default:
-                return ROOM_TEMP;
-        }
+        return world.getBiome(pos).getTemperature(pos);
     }
+
 
     public static double getBlockHeat(World world, BlockPos pos, BlockState state) {
         Block block = state.getBlock();
@@ -100,7 +90,7 @@ public class HeatHelper {
     public static void balanceHeat(World world, BlockPos pos, IHeatStorage heat) {
         //int tickInterval = 5;
         //if (world.getGameTime() % tickInterval == 0) {
-        double base = Utils.getSurroundingBlocks(world, pos).stream().mapToDouble(x -> HeatHelper.getBlockHeat(world, pos, x)).sum() / 6.0;
+        double base = TUtils.getSurroundingBlocks(world, pos).stream().mapToDouble(x -> HeatHelper.getBlockHeat(world, pos, x)).sum() / 6.0;
         if (base > heat.getHeatStored() + 1) {
             heat.receiveHeat(0.01f, false);
         } else if (base + 1 < heat.getHeatStored()) {

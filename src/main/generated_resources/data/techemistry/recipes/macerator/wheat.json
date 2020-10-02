@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "minecraft:wheat"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_wheat",
+      "weight": 1
+    }
+  ],
+  "tier": 0
+}

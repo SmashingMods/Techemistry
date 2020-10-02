@@ -1,0 +1,11 @@
+{
+  "type": "techemistry:distillery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:potato_wine"
+  },
+  "result": {
+    "item": "techemistry:vodka"
+  },
+  "minimumTemp": 350
+}

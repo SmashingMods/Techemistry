@@ -5,7 +5,8 @@ import al132.alib.tiles.EnergyTile;
 import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
 import al132.techemistry.blocks.BaseTile;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -32,8 +33,8 @@ public class SteamTurbineTile extends BaseTile implements ITickableTileEntity, G
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void read(BlockState state, CompoundNBT compound) {
+        super.read(state, compound);
         this.energy = new EnergyStorage(MAX_ENERGY, MAX_ENERGY, MAX_ENERGY, compound.getInt("energy"));
         markDirtyGUI();
     }
@@ -53,7 +54,7 @@ public class SteamTurbineTile extends BaseTile implements ITickableTileEntity, G
     }
 
     private void distributeEnergy() {
-        Optional<IEnergyStorage> neighbors = Utils.getSurroundingEnergyTiles(world, pos).stream()
+        Optional<IEnergyStorage> neighbors = TUtils.getSurroundingEnergyTiles(world, pos).stream()
                 .filter(LazyOptional::isPresent)
                 .map(x -> x.orElse(null))
                 .filter(x -> x.getEnergyStored() < x.getMaxEnergyStored())

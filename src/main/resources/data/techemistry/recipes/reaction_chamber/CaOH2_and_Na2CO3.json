@@ -1,0 +1,6 @@
+{
+  "type": "techemistry:reaction_chamber",
+  "group": "minecraft:misc",
+  "formula": "CaOH2 + Na2CO3 -> CaCO3 + 2NaOH",
+  "minimumTemp": 273
+}

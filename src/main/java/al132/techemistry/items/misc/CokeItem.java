@@ -7,6 +7,8 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -24,6 +26,6 @@ public class CokeItem extends BaseItem {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new StringTextComponent(I18n.format("item.techemistry.coke.tooltip")).applyTextStyle(ChemLib.CHEM_TOOLTIP_COLOR));
+        tooltip.add(new StringTextComponent(I18n.format("item.techemistry.coke.tooltip")).mergeStyle(ChemLib.CHEM_TOOLTIP_COLOR));
     }
 }

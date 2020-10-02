@@ -3,6 +3,7 @@ package al132.techemistry.blocks.distillery;
 import al132.techemistry.blocks.BaseScreen;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.IHeatStorage;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -14,15 +15,15 @@ public class DistilleryScreen extends BaseScreen<DistilleryContainer> {
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    protected void drawGuiContainerBackgroundLayer(MatrixStack ms, float f, int mouseX, int mouseY) {
+        super.drawGuiContainerBackgroundLayer(ms, f, mouseX, mouseY);
         IHeatStorage heat = container.getHeat();
         String heatStr = "Heat: " + HeatHelper.format(heat, getTempType());
         DistilleryTile tile = (DistilleryTile) container.tile;
-        drawString(Minecraft.getInstance().fontRenderer, heatStr, 10, 10, 0xffffff);
+        drawString(ms, Minecraft.getInstance().fontRenderer, heatStr, guiLeft + 10, guiTop + 10, 0xffffff);
         if (tile.progressTicks > 0) {
             int k = this.getBarScaled(28, tile.progressTicks, DistilleryTile.TICKS_PER_OPERATION);
-            this.drawRightArrow(81, 47, k);
+            this.drawRightArrow(ms, guiLeft + 81, guiTop + 47, k);
         }
     }
 }

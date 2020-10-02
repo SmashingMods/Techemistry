@@ -1,0 +1,13 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:barite_slurry",
+    "count": 16
+  },
+  "result": {
+    "item": "chemlib:compound_barium_sulfide",
+    "count": 16
+  },
+  "minimumTemp": 1870
+}

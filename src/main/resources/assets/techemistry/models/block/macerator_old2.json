@@ -1,0 +1,12 @@
+{
+	"parent": "block/cube",
+	"textures": {
+		"particle": "techemistry:blocks/macerator_side",
+		"down": "techemistry:blocks/macerator_side",
+		"up": "techemistry:blocks/macerator_side",
+		"east": "techemistry:blocks/macerator_side",
+		"west": "techemistry:blocks/macerator_side",
+		"south": "techemistry:blocks/macerator_back",
+		"north": "techemistry:blocks/macerator_front"
+	}
+}

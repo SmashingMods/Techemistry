@@ -8,7 +8,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static al132.techemistry.utils.Utils.toStack;
+import static al132.techemistry.utils.TUtils.toStack;
 
 public class FluxRegistry {
 

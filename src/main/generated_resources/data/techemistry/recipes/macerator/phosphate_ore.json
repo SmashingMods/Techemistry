@@ -1,0 +1,20 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:phosphate_ore"
+  },
+  "result": [
+    {
+      "item": "techemistry:vanadinite",
+      "count": 4,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:pyromorphite",
+      "count": 4,
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

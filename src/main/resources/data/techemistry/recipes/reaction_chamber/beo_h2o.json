@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "BeO + H2O -> BeOH2",
+    "minimumTemp": 273
+}

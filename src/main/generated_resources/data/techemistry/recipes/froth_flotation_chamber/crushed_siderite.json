@@ -1,0 +1,11 @@
+{
+  "type": "techemistry:forth_flotation_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:crushed_siderite"
+  },
+  "result": {
+    "item": "techemistry:siderite_slurry"
+  },
+  "waterQuantity": 1000
+}

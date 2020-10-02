@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:pyrolusite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_pyrolusite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

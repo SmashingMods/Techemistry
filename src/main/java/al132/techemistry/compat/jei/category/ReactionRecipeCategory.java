@@ -6,6 +6,7 @@ import al132.techemistry.blocks.reaction_chamber.ReactionChamberRecipe;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.compat.jei.JEIIntegration;
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -68,12 +69,12 @@ public class ReactionRecipeCategory implements IRecipeCategory<ReactionChamberRe
         List<ItemStack> outputs = Lists.newArrayList(recipe.output0.copy());
         if (!recipe.output1.isEmpty()) outputs.add(recipe.output1.copy());
         if (!recipe.output2.isEmpty()) outputs.add(recipe.output2.copy());
-        ingredients.setOutputs(VanillaTypes.ITEM,outputs);
+        ingredients.setOutputs(VanillaTypes.ITEM, outputs);
     }
 
     @Override
-    public void draw(ReactionChamberRecipe recipe, double mouseX, double mouseY) {
-        Minecraft.getInstance().fontRenderer.drawString("Minimum Heat: " + HeatHelper.format(recipe.minimumHeat, KELVIN),
+    public void draw(ReactionChamberRecipe recipe, MatrixStack ms, double mouseX, double mouseY) {
+        Minecraft.getInstance().fontRenderer.drawString(ms, "Minimum Heat: " + HeatHelper.format(recipe.minimumHeat, KELVIN),
                 50 - u, 66, Ref.TEXT_COLOR);
     }
 

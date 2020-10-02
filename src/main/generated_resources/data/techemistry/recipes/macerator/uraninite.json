@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:uraninite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_uraninite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

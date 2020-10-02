@@ -4,10 +4,12 @@ import al132.alib.client.ABaseScreen;
 import al132.techemistry.Techemistry;
 import al132.techemistry.capabilities.heat.HeatHelper.TempType;
 import al132.techemistry.capabilities.player.CapabilityPlayerData;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 
 public class BaseScreen<T extends BaseContainer> extends ABaseScreen<T> {
 
@@ -27,13 +29,13 @@ public class BaseScreen<T extends BaseContainer> extends ABaseScreen<T> {
     protected void init() {
         super.init();
         if (this.container.tile instanceof HeatTile) {
-            tempTypeButton = new Button(guiLeft, guiTop + ySize, 20, 20, "", (Button x) -> {
+            tempTypeButton = new Button(guiLeft, guiTop + ySize, 20, 20, new StringTextComponent(""), (Button x) -> {
                 container.player.getCapability(CapabilityPlayerData.PLAYER_DATA_CAP).ifPresent(data -> {
                     data.tempType = data.tempType.next();
-                    x.setMessage(data.tempType.symbol);
+                    x.setMessage(new StringTextComponent(data.tempType.symbol));
                 });
             });
-            tempTypeButton.setMessage(getTempType().symbol);
+            tempTypeButton.setMessage(new StringTextComponent(getTempType().symbol));
             //tempTypeButton.setMessage(tempType.symbol);
             this.addButton(tempTypeButton);
         }

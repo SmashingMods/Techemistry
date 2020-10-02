@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "minecraft:bone_meal"
+  },
+  "result": [
+    {
+      "item": "chemlib:compound_hydroxylapatite",
+      "weight": 1
+    }
+  ],
+  "tier": 0
+}

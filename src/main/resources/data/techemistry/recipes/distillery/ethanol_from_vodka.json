@@ -1,0 +1,15 @@
+{
+  "type": "techemistry:distillery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:vodka"
+  },
+  "result": {
+    "item": "chemlib:compound_ethanol",
+    "count": 16
+  },
+  "result2": {
+    "item": "minecraft:glass_bottle"
+  },
+  "minimumTemp": 350
+}

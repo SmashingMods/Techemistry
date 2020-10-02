@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:calcination_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "chemlib:compound_lead_carbonate"
+  },
+  "result": {
+    "item": "chemlib:compound_lead_oxide"
+  },
+  "gas": {
+    "item": "chemlib:compound_carbon_dioxide"
+  },
+  "minimumTemp": 590
+}

@@ -60,11 +60,11 @@ public class FermenterRecipeCategory implements IRecipeCategory<FermenterRecipe>
 
     @Override
     public void setIngredients(FermenterRecipe recipe, IIngredients ingredients) {
-        List<Ingredient> inputs = Lists.newArrayList(Ingredient.fromItems(Ref.yeast), recipe.input, Ingredient.fromItems(Items.GLASS_BOTTLE));
+        List<Ingredient> inputs = Lists.newArrayList(Ingredient.fromItems(Ref.yeast), recipe.getIngredients().get(0), Ingredient.fromItems(Items.GLASS_BOTTLE));
         ingredients.setInputIngredients(inputs);//VanillaTypes.ITEM, new ItemStack(Ref.yeast));
         ingredients.setInput(VanillaTypes.FLUID, new FluidStack(Fluids.WATER, recipe.waterAmount));
 
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.output.copy());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput().copy());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class FermenterRecipeCategory implements IRecipeCategory<FermenterRecipe>
 
         y = 44 - v;
         guiItemStacks.init(1, true, x, y);
-        guiItemStacks.set(1, Lists.newArrayList(recipe.input.getMatchingStacks()));
+        guiItemStacks.set(1, Lists.newArrayList(recipe.getIngredients().get(0).getMatchingStacks()));
 
         y = 62 - v;
         guiItemStacks.init(2, true, x, y);
@@ -89,7 +89,7 @@ public class FermenterRecipeCategory implements IRecipeCategory<FermenterRecipe>
         x = 143 - u;
         y = 44 - v;
         guiItemStacks.init(3, false, x, y);
-        guiItemStacks.set(3, recipe.output.copy());
+        guiItemStacks.set(3, recipe.getRecipeOutput().copy());
 
         x = 35 - u;
         y = 23 - v;

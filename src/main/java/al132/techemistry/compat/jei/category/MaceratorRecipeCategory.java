@@ -6,6 +6,7 @@ import al132.techemistry.blocks.macerator.MaceratorRecipe;
 import al132.techemistry.compat.jei.JEIIntegration;
 import al132.techemistry.items.parts.PartMaterialRegistry;
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -59,8 +60,8 @@ public class MaceratorRecipeCategory implements IRecipeCategory<MaceratorRecipe>
     @Override
     public void setIngredients(MaceratorRecipe recipe, IIngredients ingredients) {
         List<List<ItemStack>> inputs = Lists.newArrayList(Lists.newArrayList());
-        inputs.add(Lists.newArrayList(recipe.input.getMatchingStacks()));
-        inputs.add(PartMaterialRegistry.gears.stream()
+        inputs.add(Lists.newArrayList(recipe.getIngredients().get(0).getMatchingStacks()));
+        inputs.add(Ref.gears.stream()
                 .filter(gear -> gear.material.tier >= recipe.tier)
                 .map(ItemStack::new)
                 .collect(Collectors.toList()));
@@ -73,10 +74,10 @@ public class MaceratorRecipeCategory implements IRecipeCategory<MaceratorRecipe>
     }
 
     @Override
-    public void draw(MaceratorRecipe recipe, double mouseX, double mouseY) {
-        Minecraft.getInstance().fontRenderer.drawString("Tier: " + recipe.tier, 68 - u, 62 - u, Ref.TEXT_COLOR);
+    public void draw(MaceratorRecipe recipe, MatrixStack ms, double mouseX, double mouseY) {
+        Minecraft.getInstance().fontRenderer.drawString(ms, "Tier: " + recipe.tier, 68 - u, 62 - u, Ref.TEXT_COLOR);
         if (recipe.useEfficiency) {
-            Minecraft.getInstance().fontRenderer.drawString("Uses Efficiency", 42 - u, 92 - u, Ref.TEXT_COLOR);
+            Minecraft.getInstance().fontRenderer.drawString(ms, "Uses Efficiency", 42 - u, 92 - u, Ref.TEXT_COLOR);
         }
 
     }
@@ -89,12 +90,12 @@ public class MaceratorRecipeCategory implements IRecipeCategory<MaceratorRecipe>
         int x = 43 - u;
         int y = 42 - v;
         guiItemStacks.init(0, true, x, y);
-        guiItemStacks.set(0, Lists.newArrayList(recipe.input.getMatchingStacks()));
+        guiItemStacks.set(0, Lists.newArrayList(recipe.getIngredients().get(0).getMatchingStacks()));
 
         x = 83 - u;
         y = 15 - v;
         guiItemStacks.init(1, true, x, y);
-        guiItemStacks.set(1, PartMaterialRegistry.gears.stream()
+        guiItemStacks.set(1, Ref.gears.stream()
                 .filter(gear -> gear.material.tier >= recipe.tier)
                 .map(ItemStack::new)
                 .collect(Collectors.toList()));

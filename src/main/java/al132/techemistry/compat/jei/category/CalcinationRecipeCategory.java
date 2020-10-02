@@ -6,6 +6,7 @@ import al132.techemistry.blocks.calcination_chamber.CalcinationRecipe;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.compat.jei.JEIIntegration;
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -17,6 +18,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 
 import java.util.List;
 
@@ -59,16 +61,16 @@ public class CalcinationRecipeCategory implements IRecipeCategory<CalcinationRec
 
     @Override
     public void setIngredients(CalcinationRecipe recipe, IIngredients ingredients) {
-        ingredients.setInputIngredients(Lists.newArrayList(recipe.input));
-        List<ItemStack> outputs = Lists.newArrayList(recipe.output);
-        if (!recipe.gas.isEmpty()) outputs.add(recipe.gas.copy());
-        if (!recipe.output2.isEmpty()) outputs.add(recipe.output2.copy());
+        ingredients.setInputIngredients(recipe.getIngredients());
+        List<ItemStack> outputs = Lists.newArrayList(recipe.getRecipeOutput());
+        if (!recipe.getRecipeGas().isEmpty()) outputs.add(recipe.getRecipeGas().copy());
+        if (!recipe.getRecipeOutput2().isEmpty()) outputs.add(recipe.getRecipeOutput2().copy());
         ingredients.setOutputs(VanillaTypes.ITEM, outputs);
     }
 
     @Override
-    public void draw(CalcinationRecipe recipe, double mouseX, double mouseY) {
-        Minecraft.getInstance().fontRenderer.drawString("Minimum Heat: " + HeatHelper.format(recipe.minimumHeat, KELVIN),
+    public void draw(CalcinationRecipe recipe, MatrixStack ms, double mouseX, double mouseY) {
+        Minecraft.getInstance().fontRenderer.drawString(ms, "Minimum Heat: " + HeatHelper.format(recipe.minimumHeat, KELVIN),
                 46 - u, 70, Ref.TEXT_COLOR);
     }
 
@@ -77,31 +79,31 @@ public class CalcinationRecipeCategory implements IRecipeCategory<CalcinationRec
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
         guiItemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
             if (slotIndex == 1) {
-                tooltip.add("Capture this gas by placing a Gas Collector above the Calcination Chamber");
+                tooltip.add(new StringTextComponent("Capture this gas by placing a Gas Collector above the Calcination Chamber"));
             }
         });
         int x = 43 - u;
         int y = 50 - v;
         guiItemStacks.init(0, true, x, y);
-        guiItemStacks.set(0, Lists.newArrayList(recipe.input.getMatchingStacks()));
+        guiItemStacks.set(0, Lists.newArrayList(recipe.getIngredients().get(0).getMatchingStacks()));
 
-        if (!recipe.gas.isEmpty()) {
+        if (!recipe.getRecipeGas().isEmpty()) {
             x = 82 - u;
             y = 12 - v;
             guiItemStacks.init(1, false, x, y);
-            guiItemStacks.set(1, recipe.gas.copy());
+            guiItemStacks.set(1, recipe.getRecipeGas().copy());
         }
 
         x = 123 - u;
         y = 41 - v;
         guiItemStacks.init(2, false, x, y);
-        guiItemStacks.set(2, recipe.output.copy());
+        guiItemStacks.set(2, recipe.getRecipeOutput().copy());
 
-        if (!recipe.output2.isEmpty()) {
+        if (!recipe.getRecipeOutput2().isEmpty()) {
             x = 123 - u;
             y = 59 - v;
             guiItemStacks.init(3, false, x, y);
-            guiItemStacks.set(3, recipe.output2.copy());
+            guiItemStacks.set(3, recipe.getRecipeOutput2().copy());
         }
     }
 }

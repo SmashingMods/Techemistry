@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:rhodochrosite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_rhodochrosite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

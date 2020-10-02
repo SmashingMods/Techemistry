@@ -1,25 +1,23 @@
 package al132.techemistry.blocks.calcination_chamber;
 
-import al132.techemistry.Ref;
+import al132.techemistry.RecipeTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static al132.techemistry.utils.Utils.toIngredient;
-import static al132.techemistry.utils.Utils.toStack;
+import java.util.stream.Collectors;
 
 public class CalcinationRegistry {
 
-    public static List<CalcinationRecipe> recipes = new ArrayList<>();
+    private static List<CalcinationRecipe> recipes = null;
 
 
     public static void init() {
+    }
+    /*
         //=====SULFATE=====
         addRecipe(toStack("lead_oxide"), toStack("sulfur_trioxide"), toIngredient(Ref.anglesite.crushedItem), 1360);
         addRecipe(toStack("lead_oxide"), toStack("sulfur_trioxide"), toIngredient(Ref.anglesite.slurryItem), 1360);
@@ -107,20 +105,32 @@ public class CalcinationRegistry {
     public static void addRecipe(ItemStack output, ItemStack output2, ItemStack gas, Ingredient input, double heat) {
         recipes.add(new CalcinationRecipe(output, output2, gas, input, heat));
     }
+    */
 
-    public static boolean hasRecipe(ItemStack stack) {
-        return recipes.stream().anyMatch(x -> matchesRecipe(x, stack));
+    public static List<CalcinationRecipe> getRecipes(World world) {
+        if (recipes == null) {
+            recipes = world.getRecipeManager().getRecipes().stream()
+                    .filter(x -> x.getType() == RecipeTypes.CALCINATION_CHAMBER)
+                    .map(x -> (CalcinationRecipe) x)
+                    .collect(Collectors.toList());
+        }
+        return recipes;
+    }
+
+    public static boolean hasRecipe(World world, ItemStack stack) {
+        return getRecipes(world).stream().anyMatch(x -> matchesRecipe(x, stack));
     }
 
     public static boolean matchesRecipe(CalcinationRecipe recipe, ItemStack targetStack) {
         Item targetItem = targetStack.getItem();
-        return Arrays.stream(recipe.input.getMatchingStacks())
+        if(recipe.getIngredients().size() < 1) return false;
+        return Arrays.stream(recipe.getIngredients().get(0).getMatchingStacks())
                 .map(ItemStack::getItem)
                 .anyMatch(item -> item == targetItem);
     }
 
-    public static Optional<CalcinationRecipe> getRecipeForInput(ItemStack input1) {
-        return recipes.stream()
+    public static Optional<CalcinationRecipe> getRecipeForInput(World world,ItemStack input1) {
+        return getRecipes(world).stream()
                 .filter(recipe -> matchesRecipe(recipe, input1))
                 .findFirst();
     }

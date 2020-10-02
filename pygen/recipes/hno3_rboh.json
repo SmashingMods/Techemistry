@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "HNO3 + RbOH -> RbNO3 + H2O",
+    "minimumTemp": 273
+}

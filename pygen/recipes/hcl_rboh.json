@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "HCl + RbOH -> RbCl + H2O",
+    "minimumTemp": 273
+}
