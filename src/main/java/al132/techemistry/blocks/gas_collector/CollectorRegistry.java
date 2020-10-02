@@ -1,8 +1,6 @@
 package al132.techemistry.blocks.gas_collector;
 
-import al132.techemistry.Ref;
-import al132.techemistry.blocks.calcination_chamber.CalcinationRegistry;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -18,15 +16,17 @@ public class CollectorRegistry {
 
     public static void init() {
 
-        recipes.add(new CollectorRecipe(Ingredient.fromTag(ItemTags.LEAVES), Utils.toStack("oxygen", 2)));
+        recipes.add(new CollectorRecipe(Ingredient.fromTag(ItemTags.LEAVES), TUtils.toStack("oxygen", 2)));
         recipes.add(new CollectorRecipe(Ingredient.fromItems(Items.COW_SPAWN_EGG),
-                Utils.toStack("methane")));
-        recipes.add(new CollectorRecipe(Ingredient.fromStacks(new ItemStack(Blocks.CAMPFIRE)), Utils.toStack("carbon_dioxide")));
+                TUtils.toStack("methane")));
+        recipes.add(new CollectorRecipe(Ingredient.fromStacks(new ItemStack(Blocks.CAMPFIRE)), TUtils.toStack("carbon_dioxide")));
 
-        CalcinationRegistry.recipes.stream()
-                .map(recipe -> recipe.gas.getItem())
+
+        /*CalcinationRegistry.getRecipes(world).stream()
+                .map(recipe -> recipe.getRecipeGas().getItem())
                 .filter(item -> item != Items.AIR)
                 .distinct()
                 .forEach(item -> recipes.add(new CollectorRecipe(Ingredient.fromStacks(new ItemStack(Ref.calcinationChamber)), new ItemStack(item))));
+    */
     }
 }

@@ -2,7 +2,7 @@ package al132.techemistry.data;
 
 import al132.chemlib.chemistry.ChemicalStack;
 import al132.chemlib.items.IChemical;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class FormulaParser {
 
     private static IChemical lookup(String abbreviation) {
-        Optional<IChemical> output = Utils.getChemicalByAbbreviation(abbreviation);
+        Optional<IChemical> output = TUtils.getChemicalByAbbreviation(abbreviation);
         if (output.isPresent()) {
             return output.get();
         } else throw new RuntimeException("Unable to lookup chemical [" + abbreviation + "]");

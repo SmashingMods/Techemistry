@@ -1,0 +1,15 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:hematite_slurry",
+    "count": 8
+  },
+  "result": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result2": {
+    "item": "chemlib:element_iron"
+  },
+  "minimumTemp": 2270
+}

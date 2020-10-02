@@ -3,34 +3,17 @@ package al132.techemistry;
 import al132.alib.blocks.ABaseBlock;
 import al132.chemlib.Utils;
 import al132.chemlib.chemistry.ChemicalStack;
-import al132.techemistry.blocks.calcination_chamber.CalcinationBlock;
-import al132.techemistry.blocks.calcination_chamber.CalcinationContainer;
-import al132.techemistry.blocks.calcination_chamber.CalcinationTile;
-import al132.techemistry.blocks.distillery.DistilleryColumnBlock;
-import al132.techemistry.blocks.distillery.DistilleryContainer;
-import al132.techemistry.blocks.distillery.DistilleryControllerBlock;
-import al132.techemistry.blocks.distillery.DistilleryTile;
-import al132.techemistry.blocks.electrolyzer.ElectrolyzerBlock;
-import al132.techemistry.blocks.electrolyzer.ElectrolyzerContainer;
-import al132.techemistry.blocks.electrolyzer.ElectrolyzerTile;
-import al132.techemistry.blocks.fermenter.FermenterBlock;
-import al132.techemistry.blocks.fermenter.FermenterContainer;
-import al132.techemistry.blocks.fermenter.FermenterTile;
-import al132.techemistry.blocks.froth_flotation_chamber.FrothFlotationBlock;
-import al132.techemistry.blocks.froth_flotation_chamber.FrothFlotationContainer;
-import al132.techemistry.blocks.froth_flotation_chamber.FrothFlotationTile;
+import al132.techemistry.blocks.calcination_chamber.*;
+import al132.techemistry.blocks.distillery.*;
+import al132.techemistry.blocks.electrolyzer.*;
+import al132.techemistry.blocks.fermenter.*;
+import al132.techemistry.blocks.froth_flotation_chamber.*;
 import al132.techemistry.blocks.gas_collector.GasCollectorBlock;
 import al132.techemistry.blocks.gas_collector.GasCollectorContainer;
 import al132.techemistry.blocks.gas_collector.GasCollectorTile;
-import al132.techemistry.blocks.macerator.MaceratorBlock;
-import al132.techemistry.blocks.macerator.MaceratorContainer;
-import al132.techemistry.blocks.macerator.MaceratorTile;
-import al132.techemistry.blocks.reaction_chamber.ReactionChamberBlock;
-import al132.techemistry.blocks.reaction_chamber.ReactionChamberContainer;
-import al132.techemistry.blocks.reaction_chamber.ReactionChamberTile;
-import al132.techemistry.blocks.smeltery.SmelteryBlock;
-import al132.techemistry.blocks.smeltery.SmelteryContainer;
-import al132.techemistry.blocks.smeltery.SmelteryTile;
+import al132.techemistry.blocks.macerator.*;
+import al132.techemistry.blocks.reaction_chamber.*;
+import al132.techemistry.blocks.smeltery.*;
 import al132.techemistry.blocks.solar_heater.SolarHeaterBlock;
 import al132.techemistry.blocks.solar_heater.SolarHeaterContainer;
 import al132.techemistry.blocks.solar_heater.SolarHeaterTile;
@@ -53,6 +36,7 @@ import al132.techemistry.items.parts.GearItem;
 import al132.techemistry.items.parts.PartMaterial;
 import al132.techemistry.items.parts.PartMaterialRegistry;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.item.Food;
 import net.minecraft.tileentity.TileEntityType;
 
 import java.util.ArrayList;
@@ -61,6 +45,8 @@ import java.util.List;
 public class Ref {
 
     public final static int TEXT_COLOR = 16777215;
+
+    public static final List<GearItem> gears = new ArrayList<>();
 
     public static BaseItem yeast;
     public static BaseItem sugarWine;
@@ -71,6 +57,7 @@ public class Ref {
     public static BaseItem rum;
     public static BaseItem vodka;
     public static BaseItem whiskey;
+    public static BaseItem appleBrandy;
     public static BaseItem appleSauce;
     public static BaseItem coke;
     public static BaseItem yeastGrowthPlate;
@@ -182,16 +169,27 @@ public class Ref {
         return Utils.getSubscript(input);
     }
 
+    public static DistilleryRecipeSerializer<DistilleryRecipe> DISTILLERY_SERIALIZER = new DistilleryRecipeSerializer<>(DistilleryRecipe::new, 350);
+    public static CalcinationRecipeSerializer<CalcinationRecipe> CALCINATION_SERIALIZER = new CalcinationRecipeSerializer<>(CalcinationRecipe::new, 350);
+    public static ElectrolyzerRecipeSerializer<ElectrolyzerRecipe> ELECTROLYZER_SERIALIZER = new ElectrolyzerRecipeSerializer<>(ElectrolyzerRecipe::new, 350);
+    public static FermenterRecipeSerializer<FermenterRecipe> FERMENTER_SERIALIZER = new FermenterRecipeSerializer<>(FermenterRecipe::new, 1000);
+    public static FrothFlotationRecipeSerializer<FrothFlotationRecipe> FROTH_FLOTATION_SERIALIZER = new FrothFlotationRecipeSerializer<>(FrothFlotationRecipe::new, 1000);
+    public static MaceratorRecipeSerializer<MaceratorRecipe> MACERATOR_SERIALIZER = new MaceratorRecipeSerializer<MaceratorRecipe>(MaceratorRecipe::new, 1000);
+    public static ReactionChamberRecipeSerializer<ReactionChamberRecipe> REACTION_CHAMBER_SERIALIZER = new ReactionChamberRecipeSerializer<ReactionChamberRecipe>(ReactionChamberRecipe::new, 1000);
+    public static SmelteryRecipeSerializer<SmelteryRecipe> SMELTERY_SERIALIZER = new SmelteryRecipeSerializer<SmelteryRecipe>(SmelteryRecipe::new, 1000);
+
+
     public static void initItems() {
         yeast = new YeastItem();
         sugarWine = new DrinkItem("sugar_wine");
         crushedWheat = new CrushedWheatItem();
-        beer = new DrinkItem("beer");
-        cider = new DrinkItem("cider");
+        beer = new DrinkItem("beer", new Food.Builder().hunger(6).saturation(0.4f).build());
+        cider = new DrinkItem("cider", new Food.Builder().hunger(6).saturation(0.4f).build());
         rum = new DrinkItem("rum");
         potatoWine = new DrinkItem("potato_wine");
         vodka = new DrinkItem("vodka");
         whiskey = new DrinkItem("whiskey");
+        appleBrandy = new DrinkItem("apple_brandy");
         appleSauce = new AppleSauceItem();
         coke = new CokeItem();
         platinumElectrode = new ElectrodeItem("platinum_electrode");

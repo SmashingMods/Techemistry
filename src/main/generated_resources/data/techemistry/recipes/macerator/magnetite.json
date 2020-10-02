@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:magnetite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_magnetite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

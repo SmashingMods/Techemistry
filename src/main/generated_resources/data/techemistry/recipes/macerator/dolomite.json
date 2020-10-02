@@ -1,0 +1,17 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:dolomite"
+  },
+  "result": [
+    {
+      "item": "chemlib:compound_calcium_carbonate",
+      "weight": 1
+    }
+  ],
+  "result2": {
+    "item": "chemlib:compound_magnesium_carbonate"
+  },
+  "tier": 1
+}

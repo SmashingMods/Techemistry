@@ -1,0 +1,11 @@
+{
+  "type": "techemistry:fermenter",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "minecraft:sugar"
+  },
+  "result": {
+    "item": "techemistry:sugar_wine"
+  },
+  "waterAmount": 1000
+}

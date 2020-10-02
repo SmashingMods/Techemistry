@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "2Cs + 2H2O -> 2CsOH + 2H",
+    "minimumTemp": 273
+}

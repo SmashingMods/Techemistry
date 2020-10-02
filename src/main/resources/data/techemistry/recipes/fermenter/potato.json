@@ -1,0 +1,11 @@
+{
+  "type": "techemistry:fermenter",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "minecraft:potato"
+  },
+  "result": {
+    "item": "techemistry:potato_wine"
+  },
+  "waterAmount": 1000
+}

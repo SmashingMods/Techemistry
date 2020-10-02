@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:cinnabar"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_cinnabar",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

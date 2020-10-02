@@ -1,0 +1,30 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:sulfate_ore"
+  },
+  "result": [
+    {
+      "item": "techemistry:melanterite",
+      "count": 4,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:barite",
+      "count": 4,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:celestite",
+      "count": 4,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:anglesite",
+      "count": 4,
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

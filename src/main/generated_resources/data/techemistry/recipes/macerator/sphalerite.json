@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:sphalerite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_sphalerite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

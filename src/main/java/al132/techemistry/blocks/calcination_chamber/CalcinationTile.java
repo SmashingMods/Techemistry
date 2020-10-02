@@ -9,7 +9,7 @@ import al132.techemistry.blocks.gas_collector.GasCollectorTile;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -46,7 +46,7 @@ public class CalcinationTile extends BaseInventoryTile
     }
 
     public void updateRecipe() {
-        this.currentRecipe = CalcinationRegistry.getRecipeForInput(getInputStack());
+        if (world != null) this.currentRecipe = CalcinationRegistry.getRecipeForInput(world, getInputStack());
     }
 
     @Override
@@ -61,9 +61,9 @@ public class CalcinationTile extends BaseInventoryTile
     private boolean canProcess() {
         return currentRecipe.isPresent()
                 && heat.getHeatStored() >= currentRecipe.get().minimumHeat
-                && getInputStack().getCount() >= currentRecipe.get().input.getMatchingStacks()[0].getCount()
-                && Utils.canStack(currentRecipe.get().output, getOutputStack())
-                && Utils.canStack(currentRecipe.get().output2, getOutput2Stack());
+                && getInputStack().getCount() >= currentRecipe.get().getIngredients().get(0).getMatchingStacks()[0].getCount()
+                && TUtils.canStack(currentRecipe.get().getRecipeOutput(), getOutputStack())
+                && TUtils.canStack(currentRecipe.get().getRecipeOutput2(), getOutput2Stack());
     }
 
     private void process() {
@@ -73,14 +73,14 @@ public class CalcinationTile extends BaseInventoryTile
             if (temp instanceof GasCollectorTile) {
                 GasCollectorTile collectorTile = (GasCollectorTile) temp;
                 ItemStack s = collectorTile.getOutputStack();
-                if (s.isEmpty() || s.getItem() == currentRecipe.get().gas.getItem()) {
-                    collectorTile.getOutput().setOrIncrement(0, currentRecipe.get().gas.copy());
+                if (s.isEmpty() || s.getItem() == currentRecipe.get().getRecipeGas().getItem()) {
+                    collectorTile.getOutput().setOrIncrement(0, currentRecipe.get().getRecipeGas().copy());
                 }
             }
             progressTicks = 0;
-            getOutput().setOrIncrement(0, currentRecipe.get().output.copy());
-            getOutput().setOrIncrement(1, currentRecipe.get().output2.copy());
-            getInput().getStackInSlot(0).shrink(currentRecipe.get().input.getMatchingStacks()[0].getCount());
+            getOutput().setOrIncrement(0, currentRecipe.get().getRecipeOutput().copy());
+            getOutput().setOrIncrement(1, currentRecipe.get().getRecipeOutput2().copy());
+            getInput().getStackInSlot(0).shrink(currentRecipe.get().getIngredients().get(0).getMatchingStacks()[0].getCount());
         }
     }
 
@@ -120,7 +120,7 @@ public class CalcinationTile extends BaseInventoryTile
         return new CustomStackHandler(this, 1) {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return CalcinationRegistry.hasRecipe(stack);
+                return CalcinationRegistry.hasRecipe(world, stack);
             }
         };
     }

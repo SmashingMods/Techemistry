@@ -1,0 +1,45 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:oxide_ore"
+  },
+  "result": [
+    {
+      "item": "techemistry:cassiterite",
+      "count": 8,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:pyrolusite",
+      "count": 8,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:cuprite",
+      "count": 8,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:magnetite",
+      "count": 8,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:hematite",
+      "count": 8,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:ilmenite",
+      "count": 8,
+      "weight": 1
+    },
+    {
+      "item": "techemistry:uraninite",
+      "count": 8,
+      "weight": 1
+    }
+  ],
+  "tier": 2
+}

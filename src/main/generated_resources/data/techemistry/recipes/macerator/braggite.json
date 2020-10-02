@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:braggite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_braggite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

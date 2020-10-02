@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:stibnite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_stibnite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

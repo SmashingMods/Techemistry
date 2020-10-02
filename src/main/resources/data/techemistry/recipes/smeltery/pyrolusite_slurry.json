@@ -1,0 +1,12 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:pyrolusite_slurry",
+    "count": 12
+  },
+  "result": {
+    "item": "chemlib:ingot_manganese"
+  },
+  "minimumTemp": 800
+}

@@ -28,9 +28,9 @@ public final class WorldGen {
 
     //CountRangeConfig(veins,bottomOffset(min-height?),topOffset,max-height?)
     public static void addSurfaceOre(Biome biome, WorldBlock ore) {
-        biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, Feature.ORE.func_225566_b_(
+        biome.addFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, Feature.ORE.withConfiguration(
                 new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ore.getDefaultState(), ore.veinSize))
-                .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(
+                .withPlacement(Placement.COUNT_RANGE.configure(
                         new CountRangeConfig(ore.veinCount, 80, 0, 255))));
     }
 
@@ -40,9 +40,9 @@ public final class WorldGen {
         }
     */
     public static void addStandardOre(Biome biome, WorldBlock ore) {
-        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.func_225566_b_(
+        biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(
                 new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ore.getDefaultState(), ore.veinSize))
-                .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(
+                .withPlacement(Placement.COUNT_RANGE.configure(
                         new CountRangeConfig(ore.veinCount, 0, 0, 200))));
     }
 }

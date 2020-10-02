@@ -10,7 +10,13 @@ public class DataGenerators {
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent e) {
+
         DataGenerator gen = e.getGenerator();
-        //gen.addProvider(new Recipes(gen));
+
+        if (e.includeServer()) {
+            gen.addProvider(new Recipes(gen));
+            gen.addProvider(new Tags(gen));
+        }
     }
 }
+

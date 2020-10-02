@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:calcination_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "chemlib:compound_potassium_carbonate"
+  },
+  "result": {
+    "item": "chemlib:compound_potassium_oxide"
+  },
+  "gas": {
+    "item": "chemlib:compound_carbon_dioxide"
+  },
+  "minimumTemp": 1165
+}

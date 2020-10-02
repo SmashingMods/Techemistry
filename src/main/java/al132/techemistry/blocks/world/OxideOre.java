@@ -1,6 +1,6 @@
 package al132.techemistry.blocks.world;
 
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -17,6 +17,6 @@ public class OxideOre extends WorldBlock {
     @Override
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
-        Utils.addBlockTooltip(tooltip, this);
+        TUtils.addBlockTooltip(tooltip, this);
     }
 }

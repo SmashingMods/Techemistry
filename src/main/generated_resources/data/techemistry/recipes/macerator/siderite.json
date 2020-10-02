@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:siderite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_siderite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

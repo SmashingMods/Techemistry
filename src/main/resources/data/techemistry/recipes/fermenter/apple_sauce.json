@@ -1,0 +1,11 @@
+{
+  "type": "techemistry:fermenter",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:apple_sauce"
+  },
+  "result": {
+    "item": "techemistry:cider"
+  },
+  "waterAmount": 1000
+}

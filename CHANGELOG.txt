@@ -1,3 +1,25 @@
+v1.15.2-4
+===
+
+v1.15.2-3
+===
+This version involved huge changes to underlying code and is more likely to introduce new bugs
+so please update at your own risk.
+
+-The following machines now use JSON/datapack recipes:
+    * Calcination Chamber
+    * Distillery
+    * Electrolyzer
+    * Fermenter
+    * Froth Flotation Chamber
+    * Macerator
+    * Reaction Chamber
+    * Smeltery
+-Updated to Forge 31.2.36
+-New texture for macerator (Thanks to 5B)
+-Beer and cider are now consumable
+-Added new item - Apple Brandy (distilled from cider, distills into ethanol)
+
 v1.15.2-2
 ===
 -Fixed Steam Turbine generating infinite power

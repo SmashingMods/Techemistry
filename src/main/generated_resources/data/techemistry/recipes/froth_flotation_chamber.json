@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "techemistry",
+  "pattern": [
+    "BNB",
+    "BCB",
+    "BNB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bricks"
+    },
+    "C": {
+      "item": "minecraft:cauldron"
+    },
+    "N": {
+      "tag": "forge:ingots/nickel"
+    }
+  },
+  "result": {
+    "item": "techemistry:froth_flotation_chamber"
+  }
+}

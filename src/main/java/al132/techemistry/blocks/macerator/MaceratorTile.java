@@ -7,7 +7,7 @@ import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
 import al132.techemistry.blocks.BaseInventoryTile;
 import al132.techemistry.items.parts.GearItem;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -43,7 +43,7 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
 
     public void updateRecipe() {
         if (!getInputStack().isEmpty()) {
-            currentRecipe = MaceratorRegistry.getRecipeForInput(getInputStack());
+            currentRecipe = MaceratorRegistry.getRecipeForInput(world,getInputStack());
         }
     }
 
@@ -95,7 +95,7 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
                 && energy.getEnergyStored() >= ENERGY_PER_TICK
                 && !getInputStack().isEmpty()
                 && (getOutput1Stack().isEmpty() || (currentRecipe.get().output.size() == 1 && ItemStack.areItemsEqual(currentRecipe.get().output.get(0).stack, getOutput1Stack())))
-                && Utils.canStack(currentRecipe.get().output2, getOutput2Stack());
+                && TUtils.canStack(currentRecipe.get().output2, getOutput2Stack());
     }
 
     private void process() {
@@ -121,7 +121,7 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
         return new CustomStackHandler(this, 2) {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                if (slot == 0) return MaceratorRegistry.hasRecipe(stack);
+                if (slot == 0) return MaceratorRegistry.hasRecipe(world,stack);
                 else return stack.getItem() instanceof GearItem;
             }
 

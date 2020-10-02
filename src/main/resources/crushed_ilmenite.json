@@ -1,0 +1,13 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:crushed_ilmenite",
+    "count": 16
+  },
+  "result": {
+    "item": "chemlib:compound_titanium_dioxide",
+    "count": 16
+  },
+  "minimumTemp": 2115
+}

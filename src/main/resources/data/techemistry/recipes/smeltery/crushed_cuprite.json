@@ -1,0 +1,12 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:crushed_cuprite",
+    "count": 16
+  },
+  "result": {
+    "item": "chemlib:ingot_copper"
+  },
+  "minimumTemp": 1500
+}

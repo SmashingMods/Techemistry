@@ -23,13 +23,15 @@ import al132.techemistry.blocks.reaction_chamber.ReactionChamberScreen;
 import al132.techemistry.blocks.smeltery.SmelteryRegistry;
 import al132.techemistry.blocks.smeltery.SmelteryScreen;
 import al132.techemistry.compat.jei.category.*;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.*;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 @JeiPlugin
 public class JEIIntegration implements IModPlugin {
@@ -45,20 +47,20 @@ public class JEIIntegration implements IModPlugin {
     public static final String FROTH_CATEGORY = "froth_recipe";
 
 
-    public static final ResourceLocation COLLECTOR_RESOURCE = Utils.toLocation(COLLECTOR_CATEGORY);
-    public static final ResourceLocation MACERATOR_RESOURCE = Utils.toLocation(MACERATOR_CATEGORY);
-    public static final ResourceLocation FERMENTER_RESOURCE = Utils.toLocation(FERMENTER_CATEGORY);
-    public static final ResourceLocation DISTILLERY_RESOURCE = Utils.toLocation(DISTILLERY_CATEGORY);
-    public static final ResourceLocation ELECTROLYZER_RESOURCE = Utils.toLocation(ELECTROLYZER_CATEGORY);
-    public static final ResourceLocation CALCINATION_RESOURCE = Utils.toLocation(CALCINATION_CATEGORY);
-    public static final ResourceLocation REACTION_RESOURCE = Utils.toLocation(REACTION_CATEGORY);
-    public static final ResourceLocation SMELTERY_RESOURCE = Utils.toLocation(SMELTERY_CATEGORY);
-    public static final ResourceLocation FROTH_RESOURCE = Utils.toLocation(FROTH_CATEGORY);
+    public static final ResourceLocation COLLECTOR_RESOURCE = TUtils.toLocation(COLLECTOR_CATEGORY);
+    public static final ResourceLocation MACERATOR_RESOURCE = TUtils.toLocation(MACERATOR_CATEGORY);
+    public static final ResourceLocation FERMENTER_RESOURCE = TUtils.toLocation(FERMENTER_CATEGORY);
+    public static final ResourceLocation DISTILLERY_RESOURCE = TUtils.toLocation(DISTILLERY_CATEGORY);
+    public static final ResourceLocation ELECTROLYZER_RESOURCE = TUtils.toLocation(ELECTROLYZER_CATEGORY);
+    public static final ResourceLocation CALCINATION_RESOURCE = TUtils.toLocation(CALCINATION_CATEGORY);
+    public static final ResourceLocation REACTION_RESOURCE = TUtils.toLocation(REACTION_CATEGORY);
+    public static final ResourceLocation SMELTERY_RESOURCE = TUtils.toLocation(SMELTERY_CATEGORY);
+    public static final ResourceLocation FROTH_RESOURCE = TUtils.toLocation(FROTH_CATEGORY);
 
 
     @Override
     public ResourceLocation getPluginUid() {
-        return Utils.toLocation("jei");
+        return TUtils.toLocation("jei");
     }
 
 
@@ -80,15 +82,16 @@ public class JEIIntegration implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration reg) {
+        World world = Minecraft.getInstance().world;
         reg.addRecipes(CollectorRegistry.recipes, COLLECTOR_RESOURCE);
-        reg.addRecipes(MaceratorRegistry.recipes, MACERATOR_RESOURCE);
-        reg.addRecipes(FermenterRegistry.recipes, FERMENTER_RESOURCE);
-        reg.addRecipes(DistilleryRegistry.recipes, DISTILLERY_RESOURCE);
-        reg.addRecipes(ElectrolyzerRegistry.recipes, ELECTROLYZER_RESOURCE);
-        reg.addRecipes(CalcinationRegistry.recipes, CALCINATION_RESOURCE);
-        reg.addRecipes(ReactionChamberRegistry.recipes, REACTION_RESOURCE);
-        reg.addRecipes(SmelteryRegistry.recipes, SMELTERY_RESOURCE);
-        reg.addRecipes(FrothFlotationRegistry.recipes, FROTH_RESOURCE);
+        reg.addRecipes(MaceratorRegistry.getRecipes(world), MACERATOR_RESOURCE);
+        reg.addRecipes(FermenterRegistry.getRecipes(world), FERMENTER_RESOURCE);
+        reg.addRecipes(DistilleryRegistry.getRecipes(world), DISTILLERY_RESOURCE);
+        reg.addRecipes(ElectrolyzerRegistry.getRecipes(world), ELECTROLYZER_RESOURCE);
+        reg.addRecipes(CalcinationRegistry.getRecipes(world), CALCINATION_RESOURCE);
+        reg.addRecipes(ReactionChamberRegistry.getRecipes(world), REACTION_RESOURCE);
+        reg.addRecipes(SmelteryRegistry.getRecipes(world), SMELTERY_RESOURCE);
+        reg.addRecipes(FrothFlotationRegistry.getRecipes(world), FROTH_RESOURCE);
 
     }
 

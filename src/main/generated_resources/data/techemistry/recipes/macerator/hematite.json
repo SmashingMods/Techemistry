@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:hematite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_hematite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

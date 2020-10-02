@@ -8,7 +8,7 @@ import al132.techemistry.blocks.HeatTile;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -60,19 +60,19 @@ public class DistilleryTile extends BaseInventoryTile implements HeatTile, GuiTi
         return isStructureFormed()
                 && currentRecipe.isPresent()
                 && this.heat.getHeatStored() >= currentRecipe.get().minimumHeat
-                && Utils.canStack(currentRecipe.get().output, getOutput1Stack())
-                && Utils.canStack(currentRecipe.get().output2, getOutput2Stack());
+                && TUtils.canStack(currentRecipe.get().getRecipeOutput(), getOutput1Stack())
+                && TUtils.canStack(currentRecipe.get().output2, getOutput2Stack());
     }
 
     private void updateRecipe() {
-        this.currentRecipe = DistilleryRegistry.getRecipeForInput(getInputStack());
+        this.currentRecipe = DistilleryRegistry.getRecipeForInput(world, getInputStack());
     }
 
     private void process() {
         progressTicks++;
         if (progressTicks >= TICKS_PER_OPERATION) {
             progressTicks = 0;
-            getOutput().setOrIncrement(0, currentRecipe.get().output.copy());
+            getOutput().setOrIncrement(0, currentRecipe.get().getRecipeOutput().copy());
             getOutput().setOrIncrement(1, currentRecipe.get().output2.copy());
             getInput().getStackInSlot(0).shrink(1);
         }
@@ -111,7 +111,7 @@ public class DistilleryTile extends BaseInventoryTile implements HeatTile, GuiTi
         return new CustomStackHandler(this, 1) {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return DistilleryRegistry.inputHasRecipe(stack);
+                return DistilleryRegistry.inputHasRecipe(world, stack);
             }
         };
     }

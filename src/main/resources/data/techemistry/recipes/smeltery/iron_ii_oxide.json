@@ -1,0 +1,12 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "chemlib:compound_iron_ii_oxide",
+    "count": 16
+  },
+  "result": {
+    "item": "minecraft:iron_ingot"
+  },
+  "minimumTemp": 2270
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "techemistry",
+  "pattern": [
+    " M ",
+    "MSM",
+    " M "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "M": {
+      "tag": "forge:ingots/nickel"
+    }
+  },
+  "result": {
+    "item": "techemistry:gear_nickel"
+  }
+}

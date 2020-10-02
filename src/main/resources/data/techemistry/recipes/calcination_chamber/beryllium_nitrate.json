@@ -1,0 +1,17 @@
+{
+  "type": "techemistry:calcination_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "chemlib:compound_beryllium_nitrate",
+    "count": 2
+  },
+  "result": {
+    "item": "chemlib:compound_beryllium_oxide",
+    "count": 2
+  },
+  "gas": {
+    "item": "chemlib:compound_nitrogen_dioxide",
+    "count": 4
+  },
+  "minimumTemp": 415
+}

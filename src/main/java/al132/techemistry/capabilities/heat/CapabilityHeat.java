@@ -22,7 +22,7 @@ public class CapabilityHeat {
             @Nullable
             @Override
             public INBT writeNBT(Capability<IHeatStorage> capability, IHeatStorage instance, Direction side) {
-                return DoubleNBT.func_229684_a_(instance.getHeatStored());
+                return DoubleNBT.valueOf(instance.getHeatStored());
                 // return new DoubleNBT(instance.getHeatStored());
             }
 

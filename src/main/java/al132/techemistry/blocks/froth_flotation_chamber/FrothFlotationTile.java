@@ -3,7 +3,7 @@ package al132.techemistry.blocks.froth_flotation_chamber;
 import al132.alib.tiles.*;
 import al132.techemistry.Ref;
 import al132.techemistry.blocks.BaseInventoryTile;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.WaterFluid;
@@ -49,7 +49,7 @@ public class FrothFlotationTile extends BaseInventoryTile
     }
 
     public void updateRecipe() {
-        this.currentRecipe = FrothFlotationRegistry.getRecipeForInput(getInputStack());
+        this.currentRecipe = FrothFlotationRegistry.getRecipeForInput(world,getInputStack());
     }
 
     @Override
@@ -64,10 +64,10 @@ public class FrothFlotationTile extends BaseInventoryTile
         return currentRecipe.isPresent()
                 && energy.getEnergyStored() >= ENERGY_PER_TICK
                 && inputTank.getFluidAmount() >= currentRecipe.get().water
-                && Utils.canStack(currentRecipe.get().output, getOutputStack())
-                && Utils.canStack(currentRecipe.get().output2, getOutput2Stack())
-                && Utils.isQuantityAdequate(getInputStack(),currentRecipe.get().input)
-                && Utils.isQuantityAdequate(getInputStack(),currentRecipe.get().input2);
+                && TUtils.canStack(currentRecipe.get().output, getOutputStack())
+                && TUtils.canStack(currentRecipe.get().output2, getOutput2Stack())
+                && TUtils.isQuantityAdequate(getInputStack(),currentRecipe.get().input)
+                && TUtils.isQuantityAdequate(getInputStack(),currentRecipe.get().input2);
     }
 
     private void process() {

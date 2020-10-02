@@ -1,26 +1,26 @@
 package al132.techemistry.blocks.smeltery;
 
-import al132.techemistry.Ref;
+import al132.techemistry.RecipeTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import static al132.techemistry.utils.Utils.toIngredient;
-import static al132.techemistry.utils.Utils.toStack;
+import static al132.techemistry.utils.TUtils.toIngredient;
+import static al132.techemistry.utils.TUtils.toStack;
 
 public class SmelteryRegistry {
 
-    public static List<SmelteryRecipe> recipes = new ArrayList<>();
+    private static List<SmelteryRecipe> recipes = null;
 
 
     public static void init() {
         FluxRegistry.init();
+        /*
         addRecipe(toStack(Items.IRON_INGOT), toIngredient("iron_oxide", 8), 2270);
         addRecipe(toStack(Items.IRON_INGOT), toIngredient(Ref.hematite.crushedItem, 8), 2270);
         addRecipe(toStack(Items.IRON_INGOT), toStack("iron"), toIngredient(Ref.hematite.slurryItem, 8), 2270);
@@ -62,14 +62,28 @@ public class SmelteryRegistry {
         addRecipe(toStack("barium_sulfide"), toIngredient("barium_sulfate"), 1870); // && carbon monoxide?
         addRecipe(toStack("barium_sulfide"), toIngredient(Ref.barite.crushedItem), 1870);
         addRecipe(toStack("barium_sulfide"), toIngredient(Ref.barite.slurryItem), 1870);
+
+         */
     }
 
+    /*
     public static void addRecipe(ItemStack output, Ingredient input, double temp) {
         addRecipe(output, ItemStack.EMPTY, input, temp);
     }
 
     public static void addRecipe(ItemStack output, ItemStack output2, Ingredient input, double temp) {
         recipes.add(new SmelteryRecipe(output, output2, input, temp));
+    }
+*/
+
+    public static List<SmelteryRecipe> getRecipes(World world) {
+        if (recipes == null) {
+            recipes = world.getRecipeManager().getRecipes().stream()
+                    .filter(x -> x.getType() == RecipeTypes.SMELTERY)
+                    .map(x -> (SmelteryRecipe) x)
+                    .collect(Collectors.toList());
+        }
+        return recipes;
     }
 
     public static boolean hasRecipe(ItemStack stack) {
@@ -78,13 +92,13 @@ public class SmelteryRegistry {
 
     public static boolean matchesRecipe(SmelteryRecipe recipe, ItemStack targetStack) {
         Item targetItem = targetStack.getItem();
-        return Arrays.stream(recipe.input.getMatchingStacks())
+        return Arrays.stream(recipe.getIngredients().get(0).getMatchingStacks())
                 .map(ItemStack::getItem)
                 .anyMatch(item -> item == targetItem);
     }
 
-    public static Optional<SmelteryRecipe> getRecipeForInput(ItemStack input1) {
-        return recipes.stream()
+    public static Optional<SmelteryRecipe> getRecipeForInput(World world, ItemStack input1) {
+        return getRecipes(world).stream()
                 .filter(recipe -> matchesRecipe(recipe, input1))
                 .findFirst();
     }

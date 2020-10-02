@@ -2,7 +2,7 @@ package al132.techemistry.items.misc;
 
 import al132.techemistry.Ref;
 import al132.techemistry.items.BaseItem;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SlabBlock;
@@ -34,7 +34,7 @@ public class YeastGrowthPlate extends BaseItem {
                     && state.get(BlockStateProperties.WATERLOGGED)
                     && state.has(BlockStateProperties.SLAB_TYPE)
                     && state.get(BlockStateProperties.SLAB_TYPE) == SlabType.BOTTOM) {
-                List<BlockState> surrounding = Utils.getSurroundingBlocks(world, entity.getPosition());
+                List<BlockState> surrounding = TUtils.getSurroundingBlocks(world, entity.getPosition());
                 if (surrounding.stream().allMatch(x -> x.getBlock() != Blocks.WATER)) {
                     stack.shrink(1);
                     BlockPos pos = entity.getPosition();

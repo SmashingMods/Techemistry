@@ -1,0 +1,13 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:crushed_magnetite",
+    "count": 5
+  },
+  "result": {
+    "item": "chemlib:element_iron",
+    "count": 15
+  },
+  "minimumTemp": 1870
+}

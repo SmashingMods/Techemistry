@@ -1,0 +1,15 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:sulfur_chunk"
+  },
+  "result": [
+    {
+      "item": "chemlib:element_sulfur",
+      "count": 4,
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

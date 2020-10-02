@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "techemistry",
+  "pattern": [
+    "III",
+    "IBI",
+    "IGI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "G": {
+      "tag": "forge:gears/iron"
+    }
+  },
+  "result": {
+    "item": "techemistry:fermenter"
+  }
+}

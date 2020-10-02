@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "H2SO4 + BaOH2 -> BaSO4 + 2H2O",
+    "minimumTemp": 273
+}

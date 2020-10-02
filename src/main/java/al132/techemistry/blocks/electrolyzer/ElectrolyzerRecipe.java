@@ -1,20 +1,59 @@
 package al132.techemistry.blocks.electrolyzer;
 
-import al132.techemistry.data.Formula;
+import al132.techemistry.RecipeTypes;
+import al132.techemistry.Ref;
+import al132.techemistry.utils.ProcessingRecipe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 
-public class ElectrolyzerRecipe {
+public class ElectrolyzerRecipe extends ProcessingRecipe {
 
-    public Ingredient input1;
     public Ingredient input2;
-    public double heat;
-    public ItemStack anode;
-    public ItemStack cathode;
-    public ItemStack output1;
+    public double minimumHeat;
+    public Ingredient anode = Ingredient.fromItems(Ref.platinumElectrode);
+    public Ingredient cathode = Ingredient.fromItems(Ref.platinumElectrode);
     public ItemStack output2;
     public ItemStack output3;
 
+
+    public ElectrolyzerRecipe(ResourceLocation id, String group, Ingredient input1, Ingredient input2, double minimumHeat,
+                              ItemStack output1, ItemStack output2, ItemStack output3)  {
+        super(RecipeTypes.ELECTROLYZER, id, group, input1, output1);
+        if(input2 == null) this.input2 = Ingredient.EMPTY;
+        else this.input2 = input2;
+        this.output2 = output2;
+        this.output3 = output3;
+        this.minimumHeat = minimumHeat;
+    }
+
+    public Ingredient getInput1() {
+        return input1;
+    }
+
+    public ItemStack getOutput1(){
+        return output1;
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        NonNullList<Ingredient> temp = NonNullList.create();
+        temp.add(this.input1);
+        temp.add(this.input2);
+        return temp;
+    }
+
+    public NonNullList<ItemStack> getOutputs(){
+        NonNullList temp = NonNullList.create();
+        temp.add(output1);
+        temp.add(output2);
+        temp.add(output3);
+        return temp;
+    }
+
+    /*
     //https://en.wikipedia.org/wiki/Glasswort
     //https://en.wikipedia.org/wiki/Castner_process
     public ElectrolyzerRecipe(Ingredient input1, Ingredient input2, ItemStack anode, ItemStack cathode, double heat,
@@ -46,5 +85,10 @@ public class ElectrolyzerRecipe {
         this.output1 = (formula.outputs.size() >= 1) ? formula.outputs.get(0).copy() : ItemStack.EMPTY;
         this.output2 = (formula.outputs.size() >= 2) ? formula.outputs.get(1).copy() : ItemStack.EMPTY;
         this.output3 = (formula.outputs.size() >= 3) ? formula.outputs.get(2).copy() : ItemStack.EMPTY;
+    }
+*/
+    @Override
+    public IRecipeSerializer<?> getSerializer() {
+        return Ref.ELECTROLYZER_SERIALIZER;
     }
 }

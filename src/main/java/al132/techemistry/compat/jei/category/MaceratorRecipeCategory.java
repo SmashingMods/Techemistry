@@ -59,8 +59,8 @@ public class MaceratorRecipeCategory implements IRecipeCategory<MaceratorRecipe>
     @Override
     public void setIngredients(MaceratorRecipe recipe, IIngredients ingredients) {
         List<List<ItemStack>> inputs = Lists.newArrayList(Lists.newArrayList());
-        inputs.add(Lists.newArrayList(recipe.input.getMatchingStacks()));
-        inputs.add(PartMaterialRegistry.gears.stream()
+        inputs.add(Lists.newArrayList(recipe.getIngredients().get(0).getMatchingStacks()));
+        inputs.add(Ref.gears.stream()
                 .filter(gear -> gear.material.tier >= recipe.tier)
                 .map(ItemStack::new)
                 .collect(Collectors.toList()));
@@ -89,12 +89,12 @@ public class MaceratorRecipeCategory implements IRecipeCategory<MaceratorRecipe>
         int x = 43 - u;
         int y = 42 - v;
         guiItemStacks.init(0, true, x, y);
-        guiItemStacks.set(0, Lists.newArrayList(recipe.input.getMatchingStacks()));
+        guiItemStacks.set(0, Lists.newArrayList(recipe.getIngredients().get(0).getMatchingStacks()));
 
         x = 83 - u;
         y = 15 - v;
         guiItemStacks.init(1, true, x, y);
-        guiItemStacks.set(1, PartMaterialRegistry.gears.stream()
+        guiItemStacks.set(1, Ref.gears.stream()
                 .filter(gear -> gear.material.tier >= recipe.tier)
                 .map(ItemStack::new)
                 .collect(Collectors.toList()));

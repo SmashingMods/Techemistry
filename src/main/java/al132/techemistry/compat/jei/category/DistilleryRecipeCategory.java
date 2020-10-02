@@ -59,8 +59,8 @@ public class DistilleryRecipeCategory implements IRecipeCategory<DistilleryRecip
 
     @Override
     public void setIngredients(DistilleryRecipe recipe, IIngredients ingredients) {
-        ingredients.setInputIngredients(Lists.newArrayList(recipe.input));
-        List<ItemStack> outputs = Lists.newArrayList(recipe.output.copy());
+        ingredients.setInputIngredients(recipe.getIngredients());
+        List<ItemStack> outputs = Lists.newArrayList(recipe.getRecipeOutput().copy());
         if (!recipe.output2.isEmpty()) outputs.add(recipe.output2.copy());
         ingredients.setOutputs(VanillaTypes.ITEM, outputs);
     }
@@ -79,12 +79,12 @@ public class DistilleryRecipeCategory implements IRecipeCategory<DistilleryRecip
         int x = 46 - u;
         int y = 43 - v;
         guiItemStacks.init(0, true, x, y);
-        guiItemStacks.set(0, Lists.newArrayList(recipe.input.getMatchingStacks()));
+        guiItemStacks.set(0, Lists.newArrayList(recipe.getIngredients().get(0).getMatchingStacks()));
 
         x = 126 - u;
         y = 34 - v;
         guiItemStacks.init(1, false, x, y);
-        guiItemStacks.set(1, recipe.output.copy());
+        guiItemStacks.set(1, recipe.getRecipeOutput().copy());
         y += 18;
         if (!recipe.output2.isEmpty()) {
             guiItemStacks.init(2, false, x, y);

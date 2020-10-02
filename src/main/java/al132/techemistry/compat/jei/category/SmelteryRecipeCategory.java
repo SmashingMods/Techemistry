@@ -60,8 +60,8 @@ public class SmelteryRecipeCategory implements IRecipeCategory<SmelteryRecipe> {
     @Override
     public void setIngredients(SmelteryRecipe recipe, IIngredients ingredients) {
         Ingredient flux = Ingredient.fromStacks(FluxRegistry.fluxes.toArray(new ItemStack[0]));
-        ingredients.setInputIngredients(Lists.newArrayList(recipe.input, Ingredient.fromItems(Ref.coke), flux));
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.output.copy());
+        ingredients.setInputIngredients(Lists.newArrayList(recipe.getIngredients().get(0), Ingredient.fromItems(Ref.coke), flux));
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput().copy());
     }
 
     @Override
@@ -77,7 +77,9 @@ public class SmelteryRecipeCategory implements IRecipeCategory<SmelteryRecipe> {
         int x = 43 - u;
         int y = 23 - v;
         guiItemStacks.init(0, true, x, y);
-        guiItemStacks.set(0, Lists.newArrayList(recipe.input.getMatchingStacks()));
+        ItemStack input = recipe.getIngredients().get(0).getMatchingStacks()[0].copy();
+        input.setCount(recipe.inputCount);
+        guiItemStacks.set(0, Lists.newArrayList(input));
 
         y += 18;
         guiItemStacks.init(1, true, x, y);
@@ -89,7 +91,7 @@ public class SmelteryRecipeCategory implements IRecipeCategory<SmelteryRecipe> {
         x = 123 - u;
         y = 32 - v;
         guiItemStacks.init(3, false, x, y);
-        guiItemStacks.set(3, recipe.output.copy());
+        guiItemStacks.set(3, recipe.getRecipeOutput().copy());
 
         y += 18;
         /*

@@ -1,0 +1,6 @@
+{
+  "type": "techemistry:reaction_chamber",
+  "group": "minecraft:misc",
+  "formula": "H2S + SO2 + Al2O3 -> 3S + 2H2O + Al2O3",
+  "minimumTemp": 1320
+}

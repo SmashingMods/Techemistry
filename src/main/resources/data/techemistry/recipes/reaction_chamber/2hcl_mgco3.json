@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "2HCl + MgCO3 -> MgCl2 + H2O + CO2",
+    "minimumTemp": 273
+}

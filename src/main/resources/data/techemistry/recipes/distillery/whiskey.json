@@ -1,0 +1,11 @@
+{
+  "type": "techemistry:distillery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:beer"
+  },
+  "result": {
+    "item": "techemistry:whiskey"
+  },
+  "minimumTemp": 350
+}

@@ -1,0 +1,6 @@
+{
+  "type": "techemistry:electrolyzer",
+  "group": "minecraft:misc",
+  "formula": "BeCl2 -> Be + 2Cl",
+  "minimumTemp": 670
+}

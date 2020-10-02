@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "H2SO4 + CaCO3 -> CaSO4 + H2O + CO2",
+    "minimumTemp": 273
+}

@@ -1,6 +1,8 @@
 {
-	"parent": "block/cube_all",
+	"parent": "block/cube_bottom_top",
 	"textures": {
-		"all": "techemistry:blocks/macerator"
+		"top": "techemistry:blocks/macerator_front",
+		"side": "techemistry:blocks/macerator_side",
+		"bottom": "techemistry:blocks/macerator_back"
 	}
 }

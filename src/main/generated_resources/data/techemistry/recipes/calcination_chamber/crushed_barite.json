@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:calcination_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:crushed_barite"
+  },
+  "result": {
+    "item": "chemlib:compound_barium_oxide"
+  },
+  "gas": {
+    "item": "chemlib:compound_sulfur_trioxide"
+  },
+  "minimumTemp": 1360
+}

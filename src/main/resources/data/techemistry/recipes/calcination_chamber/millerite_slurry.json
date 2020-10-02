@@ -1,0 +1,16 @@
+{
+  "type": "techemistry:calcination_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:millerite_slurry"
+  },
+  "result": {
+    "item": "chemlib:compound_nickel_oxide",
+    "count": 2
+  },
+  "gas": {
+    "item": "chemlib:compound_sulfur_dioxide",
+    "count": 2
+  },
+  "minimumTemp": 1600
+}

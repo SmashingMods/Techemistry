@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "techemistry",
+  "pattern": [
+    "S",
+    "B"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:brick"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "result": {
+    "item": "techemistry:yeast_incubation_tray"
+  }
+}

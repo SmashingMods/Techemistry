@@ -19,8 +19,11 @@ archivesBaseName = 'techemistry'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+sourceSets{
+    main.resources.srcDirs += 'src/main/generated_resources'
+}
 minecraft {
-    mappings channel: 'snapshot', version: '20191010-1.14.3'
+    mappings channel: 'snapshot', version: '20200514-1.15.1'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -69,7 +72,7 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'techemistry', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'techemistry', '--all', '--output', file('src/main/generated_resources/')
 
             mods {
                 techemistry {

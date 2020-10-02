@@ -11,7 +11,7 @@ import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
 import al132.techemistry.items.parts.ElectrodeItem;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -37,7 +37,7 @@ public class ElectrolyzerTile extends BaseInventoryTile
     protected int progressTicks = 0;
 
     public static final int TICKS_PER_OPERATION = 100;
-    public static final int ENERGY_PER_TICK = 0;
+    public static final int ENERGY_PER_TICK = 50;
 
     public ElectrolyzerTile() {
         super(Ref.electrolyzerTile);
@@ -50,7 +50,7 @@ public class ElectrolyzerTile extends BaseInventoryTile
     }
 
     public void updateRecipe() {
-        this.currentRecipe = ElectrolyzerRegistry.getRecipeForInput(getInput1Stack(), getInput2Stack());
+        this.currentRecipe = ElectrolyzerRegistry.getRecipeForInput(world, getInput1Stack(), getInput2Stack());
     }
 
     @Override
@@ -64,23 +64,23 @@ public class ElectrolyzerTile extends BaseInventoryTile
 
     private boolean canProcess() {
         return currentRecipe.isPresent()
-                && heat.getHeatStored() >= currentRecipe.get().heat
+                && heat.getHeatStored() >= currentRecipe.get().minimumHeat
                 && energy.getEnergyStored() >= ENERGY_PER_TICK
                 && !getAnode().isEmpty()
                 && !getCathode().isEmpty()
-                && Utils.canStack(currentRecipe.get().output1, getOutput().getStackInSlot(0))
-                && Utils.canStack(currentRecipe.get().output2, getOutput().getStackInSlot(1))
-                && Utils.canStack(currentRecipe.get().output3, getOutput().getStackInSlot(2));
+                && TUtils.canStack(currentRecipe.get().getOutput1(), getOutput().getStackInSlot(0))
+                && TUtils.canStack(currentRecipe.get().output2, getOutput().getStackInSlot(1))
+                && TUtils.canStack(currentRecipe.get().output3, getOutput().getStackInSlot(2));
     }
 
     private void process() {
         progressTicks++;
         if (progressTicks >= TICKS_PER_OPERATION) {
             progressTicks = 0;
-            getOutput().setOrIncrement(0, currentRecipe.get().output1.copy());
+            getOutput().setOrIncrement(0, currentRecipe.get().getOutput1().copy());
             getOutput().setOrIncrement(1, currentRecipe.get().output2.copy());
             getOutput().setOrIncrement(2, currentRecipe.get().output3.copy());
-            getInput().getStackInSlot(0).shrink(currentRecipe.get().input1.getMatchingStacks()[0].getCount());
+            getInput().getStackInSlot(0).shrink(currentRecipe.get().getInput1().getMatchingStacks()[0].getCount());
             if (!currentRecipe.get().input2.hasNoMatchingItems()) {
                 getInput().getStackInSlot(1).shrink(currentRecipe.get().input2.getMatchingStacks()[0].getCount());
             }

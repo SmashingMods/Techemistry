@@ -1,0 +1,12 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "chemlib:element_iron",
+    "count": 16
+  },
+  "result": {
+    "item": "minecraft:iron_ingot"
+  },
+  "minimumTemp": 1810
+}

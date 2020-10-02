@@ -1,0 +1,6 @@
+{
+  "type": "techemistry:reaction_chamber",
+  "group": "minecraft:misc",
+  "formula": "Cr2O3 + 2Al -> 2Cr + Al2O3",
+  "minimumTemp": 800
+}

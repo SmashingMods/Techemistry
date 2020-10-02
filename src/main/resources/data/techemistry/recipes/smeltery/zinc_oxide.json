@@ -1,0 +1,12 @@
+{
+  "type": "techemistry:smeltery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "chemlib:compound_zinc_oxide",
+    "count": 16
+  },
+  "result": {
+    "item": "chemlib:ingot_zinc"
+  },
+  "minimumTemp": 1220
+}

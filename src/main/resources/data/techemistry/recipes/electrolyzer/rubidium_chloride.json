@@ -1,0 +1,6 @@
+{
+  "type": "techemistry:electrolyzer",
+  "group": "minecraft:misc",
+  "formula": "2RbCl -> 2Rb + 2Cl",
+  "minimumTemp": 990
+}

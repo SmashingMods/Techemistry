@@ -1,0 +1,6 @@
+{
+  "type": "techemistry:reaction_chamber",
+  "group": "minecraft:misc",
+  "formula": "2H2SO4 + S -> 3SO2 + 2H2O",
+  "minimumTemp": 370
+}

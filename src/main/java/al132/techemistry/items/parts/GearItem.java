@@ -1,5 +1,6 @@
 package al132.techemistry.items.parts;
 
+import al132.techemistry.Ref;
 import al132.techemistry.items.BaseItem;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
@@ -17,7 +18,7 @@ public class GearItem extends BaseItem {
 
     public GearItem(PartMaterial material) {
         super("gear_" + material.materialName, new Item.Properties().maxDamage(material.durability));
-        PartMaterialRegistry.gears.add(this);
+        Ref.gears.add(this);
         this.material = material;
     }
 

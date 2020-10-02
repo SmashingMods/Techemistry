@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "techemistry",
+  "pattern": [
+    "GGG",
+    "BBB",
+    "CCC"
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:glass"
+    },
+    "B": {
+      "tag": "forge:dyes/black"
+    },
+    "C": {
+      "tag": "forge:ingots/copper"
+    }
+  },
+  "result": {
+    "item": "techemistry:solar_heater"
+  }
+}

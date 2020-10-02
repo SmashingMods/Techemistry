@@ -1,10 +1,16 @@
 package al132.techemistry.items.misc;
 
 import al132.techemistry.items.BaseItem;
+import net.minecraft.item.Food;
+import net.minecraft.item.Item;
 
 public class DrinkItem extends BaseItem {
 
-    public DrinkItem(String name) {
+    public DrinkItem(String name, Food food) {
+        super(name, new Item.Properties().food(food));
+    }
+
+    public DrinkItem(String name){
         super(name);
     }
 

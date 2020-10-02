@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "techemistry",
+  "pattern": [
+    "B B",
+    "FLF",
+    "B B"
+  ],
+  "key": {
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "B": {
+      "item": "minecraft:bricks"
+    },
+    "L": {
+      "item": "minecraft:blast_furnace"
+    }
+  },
+  "result": {
+    "item": "techemistry:smeltery"
+  }
+}

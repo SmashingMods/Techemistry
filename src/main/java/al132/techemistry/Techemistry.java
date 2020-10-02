@@ -25,6 +25,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -64,7 +65,7 @@ public class Techemistry {
         Config.loadConfig(Config.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("techemistry-common.toml"));
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
+    private void commonSetup(final FMLCommonSetupEvent e) {
         proxy.init();
         WorldGen.run();
         CapabilityHeat.register();
@@ -132,6 +133,18 @@ public class Techemistry {
         @SubscribeEvent
         public static void onContainerRegistry(final RegistryEvent.Register<ContainerType<?>> e) {
             data.registerContainers(e);
+        }
+
+        @SubscribeEvent
+        public static void onRecipeSerializerRegistry(final RegistryEvent.Register<IRecipeSerializer<?>> e){
+            e.getRegistry().register(Ref.DISTILLERY_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"distillery")));
+            e.getRegistry().register(Ref.CALCINATION_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"calcination_chamber")));
+            e.getRegistry().register(Ref.ELECTROLYZER_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"electrolyzer")));
+            e.getRegistry().register(Ref.FERMENTER_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"fermenter")));
+            e.getRegistry().register(Ref.FROTH_FLOTATION_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"forth_flotation_chamber")));
+            e.getRegistry().register(Ref.MACERATOR_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"macerator")));
+            e.getRegistry().register(Ref.REACTION_CHAMBER_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"reaction_chamber")));
+            e.getRegistry().register(Ref.SMELTERY_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"smeltery")));
         }
     }
 }

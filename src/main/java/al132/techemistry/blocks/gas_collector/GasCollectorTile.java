@@ -4,7 +4,7 @@ import al132.alib.tiles.CustomStackHandler;
 import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
 import al132.techemistry.blocks.BaseInventoryTile;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -44,14 +44,14 @@ public class GasCollectorTile extends BaseInventoryTile implements GuiTile, ITic
             Block down2 = world.getBlockState(pos.down(2)).getBlock();
             if (down1 instanceof AirBlock) {
                 if (down2 instanceof FireBlock) {
-                    ItemStack carbonDioxide = Utils.toStack("carbon_dioxide");
+                    ItemStack carbonDioxide = TUtils.toStack("carbon_dioxide");
                     if (canStackWithOutput(carbonDioxide)) { //Maybe "smoke" instead of co2?
                         getOutput().setOrIncrement(0, carbonDioxide);
                     }
                 } else {
                     BlockPos corner1 = this.pos.down().north().west();
                     BlockPos corner2 = this.pos.down().south().east();
-                    ItemStack methane = Utils.toStack("methane");
+                    ItemStack methane = TUtils.toStack("methane");
                     if (canStackWithOutput(methane)) {
                         if (!world.getEntitiesWithinAABB(EntityType.COW, new AxisAlignedBB(corner1, corner2), (entity -> true)).isEmpty()) {
                             getOutput().setOrIncrement(0, methane);
@@ -59,12 +59,12 @@ public class GasCollectorTile extends BaseInventoryTile implements GuiTile, ITic
                     }
                 }
             } else if (down1.getBlock() instanceof LeavesBlock) {
-                ItemStack oxygen = Utils.toStack("oxygen", 2);
+                ItemStack oxygen = TUtils.toStack("oxygen", 2);
                 if (canStackWithOutput(oxygen)) {
                     getOutput().setOrIncrement(0, oxygen);
                 }
             } else if (down1.getBlock() instanceof CampfireBlock) {
-                ItemStack carbonDioxide = Utils.toStack("carbon_dioxide");
+                ItemStack carbonDioxide = TUtils.toStack("carbon_dioxide");
                 if (canStackWithOutput(carbonDioxide)) {
                     getOutput().setOrIncrement(0, carbonDioxide);
                 }

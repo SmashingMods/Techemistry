@@ -1,0 +1,18 @@
+{
+  "type": "techemistry:calcination_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:pyrite_slurry",
+    "count": 2
+  },
+  "result": {
+    "item": "chemlib:compound_iron_oxide"
+  },
+  "result2": {
+    "item": "chemlib:element_gold"
+  },
+  "gas": {
+    "item": "chemlib:compound_sulfur_dioxide"
+  },
+  "minimumTemp": 820
+}

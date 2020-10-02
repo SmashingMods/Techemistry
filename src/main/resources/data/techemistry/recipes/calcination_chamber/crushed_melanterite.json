@@ -1,0 +1,18 @@
+{
+  "type": "techemistry:calcination_chamber",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:crushed_melanterite"
+  },
+  "result": {
+    "item": "chemlib:compound_sulfuric_acid"
+  },
+  "result2": {
+    "item": "chemlib:compound_iron_ii_oxide"
+  },
+  "gas": {
+    "item": "chemlib:compound_water",
+    "count": 6
+  },
+  "minimumTemp": 950
+}

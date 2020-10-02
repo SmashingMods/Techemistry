@@ -59,10 +59,10 @@ public class CalcinationRecipeCategory implements IRecipeCategory<CalcinationRec
 
     @Override
     public void setIngredients(CalcinationRecipe recipe, IIngredients ingredients) {
-        ingredients.setInputIngredients(Lists.newArrayList(recipe.input));
-        List<ItemStack> outputs = Lists.newArrayList(recipe.output);
-        if (!recipe.gas.isEmpty()) outputs.add(recipe.gas.copy());
-        if (!recipe.output2.isEmpty()) outputs.add(recipe.output2.copy());
+        ingredients.setInputIngredients(recipe.getIngredients());
+        List<ItemStack> outputs = Lists.newArrayList(recipe.getRecipeOutput());
+        if (!recipe.getRecipeGas().isEmpty()) outputs.add(recipe.getRecipeGas().copy());
+        if (!recipe.getRecipeOutput2().isEmpty()) outputs.add(recipe.getRecipeOutput2().copy());
         ingredients.setOutputs(VanillaTypes.ITEM, outputs);
     }
 
@@ -83,25 +83,25 @@ public class CalcinationRecipeCategory implements IRecipeCategory<CalcinationRec
         int x = 43 - u;
         int y = 50 - v;
         guiItemStacks.init(0, true, x, y);
-        guiItemStacks.set(0, Lists.newArrayList(recipe.input.getMatchingStacks()));
+        guiItemStacks.set(0, Lists.newArrayList(recipe.getIngredients().get(0).getMatchingStacks()));
 
-        if (!recipe.gas.isEmpty()) {
+        if (!recipe.getRecipeGas().isEmpty()) {
             x = 82 - u;
             y = 12 - v;
             guiItemStacks.init(1, false, x, y);
-            guiItemStacks.set(1, recipe.gas.copy());
+            guiItemStacks.set(1, recipe.getRecipeGas().copy());
         }
 
         x = 123 - u;
         y = 41 - v;
         guiItemStacks.init(2, false, x, y);
-        guiItemStacks.set(2, recipe.output.copy());
+        guiItemStacks.set(2, recipe.getRecipeOutput().copy());
 
-        if (!recipe.output2.isEmpty()) {
+        if (!recipe.getRecipeOutput2().isEmpty()) {
             x = 123 - u;
             y = 59 - v;
             guiItemStacks.init(3, false, x, y);
-            guiItemStacks.set(3, recipe.output2.copy());
+            guiItemStacks.set(3, recipe.getRecipeOutput2().copy());
         }
     }
 }

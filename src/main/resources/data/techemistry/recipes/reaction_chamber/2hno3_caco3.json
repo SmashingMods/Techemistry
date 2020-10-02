@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "2HNO3 + CaCO3 -> CaNO32 + H2O + CO2",
+    "minimumTemp": 273
+}

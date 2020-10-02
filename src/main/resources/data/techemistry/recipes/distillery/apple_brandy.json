@@ -1,0 +1,11 @@
+{
+  "type": "techemistry:distillery",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:cider"
+  },
+  "result": {
+    "item": "techemistry:apple_brandy"
+  },
+  "minimumTemp": 350
+}

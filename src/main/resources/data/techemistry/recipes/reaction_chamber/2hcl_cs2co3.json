@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "2HCl + Cs2CO3 -> 2CsCl + H2O + CO2",
+    "minimumTemp": 273
+}

@@ -1,0 +1,14 @@
+{
+  "type": "techemistry:macerator",
+  "group": "minecraft:misc",
+  "ingredient": {
+    "item": "techemistry:ilmenite"
+  },
+  "result": [
+    {
+      "item": "techemistry:crushed_ilmenite",
+      "weight": 1
+    }
+  ],
+  "tier": 1
+}

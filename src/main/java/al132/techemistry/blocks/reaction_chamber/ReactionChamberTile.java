@@ -10,7 +10,7 @@ import al132.techemistry.blocks.HeatTile;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
-import al132.techemistry.utils.Utils;
+import al132.techemistry.utils.TUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -39,7 +39,7 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
     }
 
     public void updateRecipe() {
-        currentRecipe = ReactionChamberRegistry.getRecipeForInput(getInput());
+        currentRecipe = ReactionChamberRegistry.getRecipeForInput(world,getInput());
     }
 
     @Override
@@ -55,12 +55,12 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
         return currentRecipe.isPresent()
                 && heat.getHeatStored() >= currentRecipe.get().minimumHeat
                 && energy.getEnergyStored() >= ENERGY_PER_TICK
-                && Utils.canStack(currentRecipe.get().output0, getOutput().getStackInSlot(0))
-                && Utils.canStack(currentRecipe.get().output1, getOutput().getStackInSlot(1))
-                && Utils.canStack(currentRecipe.get().output2, getOutput().getStackInSlot(2))
-                && Utils.isQuantityAdequate(getInput().getStackInSlot(0), currentRecipe.get().input0)
-                && Utils.isQuantityAdequate(getInput().getStackInSlot(1), currentRecipe.get().input1)
-                && Utils.isQuantityAdequate(getInput().getStackInSlot(2), currentRecipe.get().input2);
+                && TUtils.canStack(currentRecipe.get().output0, getOutput().getStackInSlot(0))
+                && TUtils.canStack(currentRecipe.get().output1, getOutput().getStackInSlot(1))
+                && TUtils.canStack(currentRecipe.get().output2, getOutput().getStackInSlot(2))
+                && TUtils.isQuantityAdequate(getInput().getStackInSlot(0), currentRecipe.get().input0)
+                && TUtils.isQuantityAdequate(getInput().getStackInSlot(1), currentRecipe.get().input1)
+                && TUtils.isQuantityAdequate(getInput().getStackInSlot(2), currentRecipe.get().input2);
 
     }
 
@@ -118,7 +118,7 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return ReactionChamberRegistry.hasRecipe(stack, slot) && itemNotInOtherSlots(slot, stack);
+                return ReactionChamberRegistry.hasRecipe(world,stack, slot) && itemNotInOtherSlots(slot, stack);
             }
 
             @Override

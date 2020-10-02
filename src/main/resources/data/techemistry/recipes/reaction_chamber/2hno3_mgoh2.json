@@ -1,0 +1,6 @@
+{
+    "type": "techemistry:reaction_chamber",
+    "group": "minecraft:misc",
+    "formula": "2HNO3 + MgOH2 -> MgNO32 + 2H2O",
+    "minimumTemp": 273
+}
