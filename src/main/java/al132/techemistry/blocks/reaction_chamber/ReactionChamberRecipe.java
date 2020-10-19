@@ -54,7 +54,9 @@ public class ReactionChamberRecipe extends ProcessingRecipe {
     @Override
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> temp = NonNullList.create();
+        temp.add(this.input0);
         temp.add(this.input1);
+        temp.add(this.input2);
         return temp;
     }
 

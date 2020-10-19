@@ -83,9 +83,9 @@ public class ElectrolyzerRecipeSerializer<T extends ElectrolyzerRecipe>
         recipe.getIngredients().get(0).write(buffer);
         recipe.getIngredients().get(1).write(buffer);
         buffer.writeDouble(recipe.minimumHeat);
-        for (ItemStack outputStack : recipe.getOutputs()) {
-            buffer.writeItemStack(outputStack);
-        }
+        buffer.writeItemStack(recipe.getOutputs().get(0));
+        buffer.writeItemStack(recipe.output2);
+        buffer.writeItemStack(recipe.output3);
     }
 
     public interface IFactory<T extends ProcessingRecipe> {

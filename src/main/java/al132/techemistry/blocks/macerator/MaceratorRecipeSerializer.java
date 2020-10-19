@@ -79,9 +79,16 @@ public class MaceratorRecipeSerializer<T extends MaceratorRecipe>
         Ingredient ingredient = Ingredient.read(buffer);
         int tier = buffer.readInt();
         boolean useEfficiency = buffer.readBoolean();
-        WeightedItemStack output1 = new WeightedItemStack(buffer.readItemStack(), 1);
+        ArrayList<WeightedItemStack> outputs = Lists.newArrayList();
+        int size = buffer.readInt();
+        for (int i = 0; i < size; i++) {
+            ItemStack stack = buffer.readItemStack();
+            int weight = buffer.readInt();
+            outputs.add(new WeightedItemStack(stack,weight));
+        }
+        //WeightedItemStack output1 = new WeightedItemStack(buffer.readItemStack(), 1);
         ItemStack output2 = buffer.readItemStack();
-        return this.factory.create(recipeId, s, ingredient, Lists.newArrayList(output1), output2, tier, useEfficiency);
+        return this.factory.create(recipeId, s, ingredient, outputs, output2, tier, useEfficiency);
     }
 
     @Override
@@ -90,6 +97,11 @@ public class MaceratorRecipeSerializer<T extends MaceratorRecipe>
         recipe.getIngredients().get(0).write(buffer);
         buffer.writeInt(recipe.tier);
         buffer.writeBoolean(recipe.useEfficiency);
+        buffer.writeInt(recipe.output.size());
+        for (WeightedItemStack stack : recipe.output) {
+            buffer.writeItemStack(stack.stack);
+            buffer.writeInt(stack.weight);
+        }
         buffer.writeItemStack(recipe.output2);
     }
 

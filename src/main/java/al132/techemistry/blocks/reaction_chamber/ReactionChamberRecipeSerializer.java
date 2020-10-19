@@ -81,20 +81,23 @@ public class ReactionChamberRecipeSerializer<T extends ReactionChamberRecipe>
         Ingredient input = Ingredient.read(buffer);
         Ingredient input2 = Ingredient.read(buffer);
         Ingredient input3 = Ingredient.read(buffer);
+        ItemStack output = buffer.readItemStack();
         ItemStack output1 = buffer.readItemStack();
         ItemStack output2 = buffer.readItemStack();
-        ItemStack gas = buffer.readItemStack();
         double minimumHeat = buffer.readDouble();
-        return this.factory.create(recipeId, s, input, input2, input3, output1, output2, gas, minimumHeat);
+        return this.factory.create(recipeId, s, input, input2, input3, output, output1, output2, minimumHeat);
     }
 
     @Override
     public void write(PacketBuffer buffer, T recipe) {
         buffer.writeString(recipe.getGroup());
         recipe.getIngredients().get(0).write(buffer);
+        recipe.getIngredients().get(1).write(buffer);
+        recipe.getIngredients().get(2).write(buffer);
+        buffer.writeItemStack(recipe.output0);
+        buffer.writeItemStack(recipe.output1);
+        buffer.writeItemStack(recipe.output2);
         buffer.writeDouble(recipe.minimumHeat);
-        buffer.writeItemStack(recipe.getRecipeOutput());
-
     }
 
     public interface IFactory<T extends ProcessingRecipe> {

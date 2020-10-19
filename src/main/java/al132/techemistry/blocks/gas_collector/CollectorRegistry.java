@@ -18,7 +18,16 @@ public class CollectorRegistry {
     public static List<CollectorRecipe> recipes = new ArrayList<>();
 
     public static void init() {
-        Ingredient leaves = Ingredient.fromTag(ItemTags.createOptional(new ResourceLocation("minecraft","leaves")));
+        //This is an awful hack that won't support modded leaves, how do I use tags properly here?
+        Ingredient leaves =
+                Ingredient.fromStacks(
+                        new ItemStack(Items.OAK_LEAVES),
+                        new ItemStack(Items.ACACIA_LEAVES),
+                        new ItemStack(Items.BIRCH_LEAVES),
+                        new ItemStack(Items.DARK_OAK_LEAVES),
+                        new ItemStack(Items.JUNGLE_LEAVES),
+                        new ItemStack(Items.ACACIA_LEAVES));
+        // Ingredient.fromTag(ItemTags.createOptional(new ResourceLocation("minecraft","leaves")));
         recipes.add(new CollectorRecipe(leaves, TUtils.toStack("oxygen", 2)));
         recipes.add(new CollectorRecipe(Ingredient.fromItems(Items.COW_SPAWN_EGG),
                 TUtils.toStack("methane")));

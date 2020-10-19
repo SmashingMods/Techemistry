@@ -143,14 +143,14 @@ public class Techemistry {
 
         @SubscribeEvent
         public static void onRecipeSerializerRegistry(final RegistryEvent.Register<IRecipeSerializer<?>> e){
-            e.getRegistry().register(Ref.DISTILLERY_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"distillery")));
-            e.getRegistry().register(Ref.CALCINATION_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"calcination_chamber")));
-            e.getRegistry().register(Ref.ELECTROLYZER_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"electrolyzer")));
-            e.getRegistry().register(Ref.FERMENTER_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"fermenter")));
-            e.getRegistry().register(Ref.FROTH_FLOTATION_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"forth_flotation_chamber")));
-            e.getRegistry().register(Ref.MACERATOR_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"macerator")));
-            e.getRegistry().register(Ref.REACTION_CHAMBER_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"reaction_chamber")));
-            e.getRegistry().register(Ref.SMELTERY_SERIALIZER.setRegistryName(new ResourceLocation(MODID,"smeltery")));
+            e.getRegistry().register(Ref.DISTILLERY_SERIALIZER.setRegistryName(MODID,"distillery"));
+            e.getRegistry().register(Ref.CALCINATION_SERIALIZER.setRegistryName(MODID,"calcination_chamber"));
+            e.getRegistry().register(Ref.ELECTROLYZER_SERIALIZER.setRegistryName(MODID,"electrolyzer"));
+            e.getRegistry().register(Ref.FERMENTER_SERIALIZER.setRegistryName(MODID,"fermenter"));
+            e.getRegistry().register(Ref.FROTH_FLOTATION_SERIALIZER.setRegistryName(MODID,"forth_flotation_chamber"));
+            e.getRegistry().register(Ref.MACERATOR_SERIALIZER.setRegistryName(MODID,"macerator"));
+            e.getRegistry().register(Ref.REACTION_CHAMBER_SERIALIZER.setRegistryName(MODID,"reaction_chamber"));
+            e.getRegistry().register(Ref.SMELTERY_SERIALIZER.setRegistryName(MODID,"smeltery"));
         }
     }
 }

@@ -74,8 +74,10 @@ public class SmelteryRecipeSerializer<T extends SmelteryRecipe>
     public void write(PacketBuffer buffer, T recipe) {
         buffer.writeString(recipe.getGroup());
         recipe.getIngredients().get(0).write(buffer);
-        buffer.writeDouble(recipe.minimumHeat);
+        buffer.writeInt(recipe.inputCount);
         buffer.writeItemStack(recipe.getRecipeOutput());
+        buffer.writeItemStack(recipe.gasOutput);
+        buffer.writeDouble(recipe.minimumHeat);
 
     }
 

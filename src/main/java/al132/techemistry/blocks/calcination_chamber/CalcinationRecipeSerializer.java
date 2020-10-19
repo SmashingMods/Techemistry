@@ -4,6 +4,7 @@ import al132.techemistry.utils.ProcessingRecipe;
 import al132.techemistry.utils.RecipeUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
@@ -34,7 +35,7 @@ public class CalcinationRecipeSerializer<T extends CalcinationRecipe>
         Ingredient ingredient = Ingredient.deserialize(jsonelement);
         //Forge: Check if primitive string to keep vanilla or a object which can contain a count field.
         if (!json.has("result"))
-            throw new com.google.gson.JsonSyntaxException("Missing result, expected to find a string or object");
+            throw new JsonSyntaxException("Missing result, expected to find a string or object");
         ItemStack output1;
         if (json.get("result").isJsonObject())
             output1 = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
@@ -66,10 +67,10 @@ public class CalcinationRecipeSerializer<T extends CalcinationRecipe>
     public void write(PacketBuffer buffer, T recipe) {
         buffer.writeString(recipe.getGroup());
         recipe.getIngredients().get(0).write(buffer);
-        buffer.writeDouble(recipe.minimumHeat);
         buffer.writeItemStack(recipe.getRecipeOutput());
         buffer.writeItemStack(recipe.getRecipeOutput2());
         buffer.writeItemStack(recipe.getRecipeGas());
+        buffer.writeDouble(recipe.minimumHeat);
     }
 
     public interface IFactory<T extends ProcessingRecipe> {

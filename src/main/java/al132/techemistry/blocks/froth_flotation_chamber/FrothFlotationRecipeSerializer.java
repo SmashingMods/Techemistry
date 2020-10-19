@@ -53,9 +53,9 @@ public class FrothFlotationRecipeSerializer<T extends FrothFlotationRecipe>
     public T read(ResourceLocation recipeId, PacketBuffer buffer) {
         String s = buffer.readString(32767);
         Ingredient ingredient = Ingredient.read(buffer);
-        Ingredient ingredient2 = Ingredient.read(buffer);
+        Ingredient ingredient2 = Ingredient.EMPTY;//Ingredient.read(buffer);
         ItemStack output1 = buffer.readItemStack();
-        ItemStack output2 = buffer.readItemStack();
+        ItemStack output2 = ItemStack.EMPTY;//buffer.readItemStack();
         int waterAmount = buffer.readInt();
         return this.factory.create(recipeId, s, ingredient, ingredient2, waterAmount, output1, output2);
     }
