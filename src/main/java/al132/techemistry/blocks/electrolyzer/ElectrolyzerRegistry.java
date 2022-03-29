@@ -2,9 +2,11 @@ package al132.techemistry.blocks.electrolyzer;
 
 import al132.techemistry.RecipeTypes;
 import al132.techemistry.Ref;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import al132.techemistry.Registration;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +16,8 @@ import java.util.stream.Collectors;
 public class ElectrolyzerRegistry {
 
     private static List<ElectrolyzerRecipe> recipes = null;
-    public static final ItemStack anode = new ItemStack(Ref.platinumElectrode);
-    public static final ItemStack cathode = new ItemStack(Ref.platinumElectrode);
+    public static final ItemStack anode = new ItemStack(Registration.PLATINUM_ELECTRODE_ITEM.get());
+    public static final ItemStack cathode = new ItemStack(Registration.PLATINUM_ELECTRODE_ITEM.get());
 
 
     public static void init() {
@@ -58,9 +60,9 @@ public class ElectrolyzerRegistry {
 
      */
 
-    public static List<ElectrolyzerRecipe> getRecipes(World world){
+    public static List<ElectrolyzerRecipe> getRecipes(Level level){
         if (recipes == null) {
-            recipes = world.getRecipeManager().getRecipes().stream()
+            recipes = level.getRecipeManager().getRecipes().stream()
                     .filter(x -> x.getType() == RecipeTypes.ELECTROLYZER)
                     .map(x -> (ElectrolyzerRecipe) x)
                     .collect(Collectors.toList());
@@ -74,13 +76,13 @@ public class ElectrolyzerRegistry {
 
     public static boolean matchesRecipe(ElectrolyzerRecipe recipe, ItemStack targetStack) {
         Item targetItem = targetStack.getItem();
-        return Arrays.stream(recipe.getInput1().getMatchingStacks())
+        return Arrays.stream(recipe.getInput1().getItems())
                 .map(ItemStack::getItem)
                 .anyMatch(item -> item == targetItem);
     }
 
-    public static Optional<ElectrolyzerRecipe> getRecipeForInput(World world, ItemStack input1, ItemStack input2) {
-        return getRecipes(world).stream()
+    public static Optional<ElectrolyzerRecipe> getRecipeForInput(Level level, ItemStack input1, ItemStack input2) {
+        return getRecipes(level).stream()
                 .filter(recipe -> matchesRecipe(recipe, input1))
                 .findFirst();
     }

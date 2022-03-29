@@ -2,12 +2,14 @@ package al132.techemistry.blocks.calcination_chamber;
 
 import al132.techemistry.RecipeTypes;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.utils.ProcessingRecipe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.NonNullList;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.Arrays;
 
@@ -27,8 +29,8 @@ public class CalcinationRecipe extends ProcessingRecipe {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
-        return Ref.CALCINATION_SERIALIZER;
+    public RecipeSerializer<?> getSerializer() {
+        return Registration.CALCINATION_SERIALIZER.get();
     }
 
     @Override
@@ -48,7 +50,7 @@ public class CalcinationRecipe extends ProcessingRecipe {
 
     @Override
     public String toString() {
-        return "Input1: " + Arrays.toString(input1.getMatchingStacks()) + '\n' +
+        return "Input1: " + Arrays.toString(input1.getItems()) + '\n' +
                 "Output1: " + output1 + '\n' +
                 "Output2: " + output2 + '\n' +
                 "Gas: " + gas + '\n' +

@@ -3,26 +3,26 @@ package al132.techemistry.blocks.distillery;
 import al132.alib.tiles.CustomStackHandler;
 import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.BaseInventoryTile;
 import al132.techemistry.blocks.HeatTile;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
 import al132.techemistry.utils.TUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class DistilleryTile extends BaseInventoryTile implements HeatTile, GuiTile, ITickableTileEntity {//}, FluidTile {
+public class DistilleryTile extends BaseInventoryTile implements HeatTile, GuiTile {//}, FluidTile {
 
     protected IHeatStorage heat = new HeatStorage(HeatHelper.ROOM_TEMP);
     protected LazyOptional<IHeatStorage> heatHolder = LazyOptional.of(() -> heat);
@@ -32,17 +32,18 @@ public class DistilleryTile extends BaseInventoryTile implements HeatTile, GuiTi
     protected int progressTicks = 0;
     public static final int TICKS_PER_OPERATION = 200;
 
-    public DistilleryTile() {
-        super(Ref.distilleryTile);
+    public DistilleryTile(BlockPos pos, BlockState state) {
+        super(Registration.DISTILLERY_BE.get(), pos, state);
     }
 
-    @Override
-    public void tick() {
-        if (world.isRemote) return;
+    public void tickServer() {
+        if (level.isClientSide) return;
         updateRecipe();
         if (canProcess()) process();
-        HeatHelper.balanceHeat(world, pos, heat);
-        markDirtyGUI();
+        HeatHelper.balanceHeat(level, getBlockPos(), heat);
+        setChanged();
+        updateGUIEvery(5);
+
     }
 
     public ItemStack getInputStack() {
@@ -61,46 +62,46 @@ public class DistilleryTile extends BaseInventoryTile implements HeatTile, GuiTi
         return isStructureFormed()
                 && currentRecipe.isPresent()
                 && this.heat.getHeatStored() >= currentRecipe.get().minimumHeat
-                && TUtils.canStack(currentRecipe.get().getRecipeOutput(), getOutput1Stack())
+                && TUtils.canStack(currentRecipe.get().getResultItem(), getOutput1Stack())
                 && TUtils.canStack(currentRecipe.get().output2, getOutput2Stack());
     }
 
     private void updateRecipe() {
-        this.currentRecipe = DistilleryRegistry.getRecipeForInput(world, getInputStack());
+        this.currentRecipe = DistilleryRegistry.getRecipeForInput(level, getInputStack());
     }
 
     private void process() {
         progressTicks++;
         if (progressTicks >= TICKS_PER_OPERATION) {
             progressTicks = 0;
-            getOutput().setOrIncrement(0, currentRecipe.get().getRecipeOutput().copy());
+            getOutput().setOrIncrement(0, currentRecipe.get().getResultItem().copy());
             getOutput().setOrIncrement(1, currentRecipe.get().output2.copy());
             getInput().getStackInSlot(0).shrink(1);
         }
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         this.progressTicks = compound.getInt("progressTicks");
         if (compound.contains("heat")) {
             heat = new HeatStorage(compound.getDouble("heat"));
         } else {
-            heat = new HeatStorage(HeatHelper.getBiomeHeat(world, pos));
+            heat = new HeatStorage(HeatHelper.getBiomeHeat(level, getBlockPos()));
         }
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putInt("progressTicks", progressTicks);
         compound.putDouble("heat", heat.getHeatStored());
-        return super.write(compound);
     }
 
 
     public boolean isStructureFormed() {
         for (int i = 1; i <= 3; i++) {
-            if (world.getBlockState(pos.up(i)).getBlock() != Ref.distilleryColumn) {
+            if (level.getBlockState(getBlockPos().above(i)).getBlock() != Registration.DISTILLERY_COLUMN_BLOCK.get()) {
                 return false;
             }
         }
@@ -112,15 +113,9 @@ public class DistilleryTile extends BaseInventoryTile implements HeatTile, GuiTi
         return new CustomStackHandler(this, 1) {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return DistilleryRegistry.inputHasRecipe(world, stack);
+                return DistilleryRegistry.inputHasRecipe(level, stack);
             }
         };
-    }
-
-    @Nullable
-    @Override
-    public Container createMenu(int id, PlayerInventory inv, PlayerEntity player) {
-        return new DistilleryContainer(id, world, pos, inv, player);
     }
 
     @Override
@@ -131,5 +126,10 @@ public class DistilleryTile extends BaseInventoryTile implements HeatTile, GuiTi
     @Override
     public int outputSlots() {
         return 2;
+    }
+
+    @Override
+    public Component getName() {
+        return null;
     }
 }

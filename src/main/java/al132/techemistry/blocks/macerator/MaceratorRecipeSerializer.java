@@ -6,14 +6,13 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
@@ -21,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MaceratorRecipeSerializer<T extends MaceratorRecipe>
-        extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
+        extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
 
     private final int tier;
     private IFactory<T> factory;
@@ -32,10 +31,12 @@ public class MaceratorRecipeSerializer<T extends MaceratorRecipe>
     }
 
     @Override
-    public T read(ResourceLocation recipeId, JsonObject json) {
-        String s = JSONUtils.getString(json, "group", "");
-        JsonElement jsonelement = (JsonElement) (JSONUtils.isJsonArray(json, "ingredient") ? JSONUtils.getJsonArray(json, "ingredient") : JSONUtils.getJsonObject(json, "ingredient"));
-        Ingredient input = Ingredient.deserialize(jsonelement);
+    public T fromJson(ResourceLocation recipeId, JsonObject json) {
+        String s = json.get("group").getAsString();//JSONUtils.getString(json, "group", "");
+        JsonElement jsonelement = (JsonElement) (json.get("ingredient").isJsonArray()
+                ? json.getAsJsonArray("ingredient")
+                : json.getAsJsonObject("ingredient"));
+        Ingredient input = Ingredient.fromJson(jsonelement);
         //Forge: Check if primitive string to keep vanilla or a object which can contain a count field.
         if (!json.has("result")) {
             throw new com.google.gson.JsonSyntaxException("Missing result, expected to find a string or object");
@@ -44,7 +45,7 @@ public class MaceratorRecipeSerializer<T extends MaceratorRecipe>
         List<WeightedItemStack> outputs = new ArrayList<>();
         //System.out.println(json.get("result").toString());
         if (json.get("result").isJsonObject()) {
-            output1 = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
+            output1 = ShapedRecipe.itemStackFromJson(json.getAsJsonObject("result"));//.getJsonObject(json, "result"));
         } else if (json.get("result").isJsonArray()) {
             //System.out.println("array");
             JsonArray resultArray = json.getAsJsonArray("result");
@@ -53,20 +54,20 @@ public class MaceratorRecipeSerializer<T extends MaceratorRecipe>
                 int weight = 1;
                 ItemStack tempStack = ItemStack.EMPTY;
                 if (temp.has("weight")) weight = temp.get("weight").getAsInt();
-                String s1 = JSONUtils.getString(temp, "item");
+                String s1 = temp.get("item").getAsString();//JSONUtils.getString(temp, "item");
                 ResourceLocation resourcelocation = new ResourceLocation(s1);
-                tempStack = new ItemStack(Registry.ITEM.getOrDefault(resourcelocation));
+                tempStack = new ItemStack(Registry.ITEM.get(resourcelocation));
 
                 if (temp.has("count")) tempStack.setCount(temp.get("count").getAsInt());
                 outputs.add(new WeightedItemStack(tempStack, weight));
             });
         } else {
-            String s1 = JSONUtils.getString(json, "result");
+            String s1 = json.get("result").getAsString();// JSONUtils.getString(json, "result");
             ResourceLocation resourcelocation = new ResourceLocation(s1);
-            output1 = new ItemStack(Registry.ITEM.getOrDefault(resourcelocation));
+            output1 = new ItemStack(Registry.ITEM.get(resourcelocation));
         }
         ItemStack output2 = RecipeUtils.getOptionalStack(json, "result2");
-        int tier = JSONUtils.getInt(json, "tier", this.tier);
+        int tier = json.get("tier").getAsInt();//JSONUtils.getInt(json, "tier", this.tier);
         boolean useEfficiency = true; //TODO
         if (!output1.isEmpty()) outputs.add(new WeightedItemStack(output1, 1));
         return this.factory.create(recipeId, s, input, outputs, output2, tier, useEfficiency);
@@ -74,35 +75,35 @@ public class MaceratorRecipeSerializer<T extends MaceratorRecipe>
 
     @Nullable
     @Override
-    public T read(ResourceLocation recipeId, PacketBuffer buffer) {
-        String s = buffer.readString(32767);
-        Ingredient ingredient = Ingredient.read(buffer);
+    public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        String s = buffer.readUtf(32767);
+        Ingredient ingredient = Ingredient.fromNetwork(buffer);
         int tier = buffer.readInt();
         boolean useEfficiency = buffer.readBoolean();
         ArrayList<WeightedItemStack> outputs = Lists.newArrayList();
         int size = buffer.readInt();
         for (int i = 0; i < size; i++) {
-            ItemStack stack = buffer.readItemStack();
+            ItemStack stack = buffer.readItem();
             int weight = buffer.readInt();
             outputs.add(new WeightedItemStack(stack,weight));
         }
         //WeightedItemStack output1 = new WeightedItemStack(buffer.readItemStack(), 1);
-        ItemStack output2 = buffer.readItemStack();
+        ItemStack output2 = buffer.readItem();
         return this.factory.create(recipeId, s, ingredient, outputs, output2, tier, useEfficiency);
     }
 
     @Override
-    public void write(PacketBuffer buffer, T recipe) {
-        buffer.writeString(recipe.getGroup());
-        recipe.getIngredients().get(0).write(buffer);
+    public void toNetwork(FriendlyByteBuf buffer, T recipe) {
+        buffer.writeUtf(recipe.getGroup());
+        recipe.getIngredients().get(0).toNetwork(buffer);
         buffer.writeInt(recipe.tier);
         buffer.writeBoolean(recipe.useEfficiency);
         buffer.writeInt(recipe.output.size());
         for (WeightedItemStack stack : recipe.output) {
-            buffer.writeItemStack(stack.stack);
+            buffer.writeItem(stack.stack);
             buffer.writeInt(stack.weight);
         }
-        buffer.writeItemStack(recipe.output2);
+        buffer.writeItem(recipe.output2);
     }
 
     public interface IFactory<T extends ProcessingRecipe> {

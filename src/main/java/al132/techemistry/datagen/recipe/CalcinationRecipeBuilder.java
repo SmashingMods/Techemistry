@@ -1,28 +1,27 @@
 package al132.techemistry.datagen.recipe;
 
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.datagen.DatagenUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.IRequirementsStrategy;
-import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 public class CalcinationRecipeBuilder extends BaseRecipeBuilder {
 
-    private final Advancement.Builder advancementBuilder = Advancement.Builder.builder();
+    private final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
     private String group = "minecraft:misc";
     private Ingredient input;
     private ItemStack result;
@@ -60,23 +59,23 @@ public class CalcinationRecipeBuilder extends BaseRecipeBuilder {
     }
 
 
-    public void build(Consumer<IFinishedRecipe> consumerIn) {
-        String name = input.getMatchingStacks()[0].getItem().getRegistryName().getPath();
+    public void build(Consumer<FinishedRecipe> consumerIn) {
+        String name = input.getItems()[0].getItem().getRegistryName().getPath();
         this.build(consumerIn, new ResourceLocation("techemistry", "calcination_chamber/" + name));
         //        Registry.ITEM.getKey(this.result));
     }
 
     @Override
-    public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+    public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
         this.validate(id);
-        this.advancementBuilder.withParentId(new ResourceLocation("recipes/root"))
-                .withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(id))
-                .withRewards(AdvancementRewards.Builder.recipe(id)).withRequirementsStrategy(IRequirementsStrategy.OR);
+        this.advancementBuilder.parent(new ResourceLocation("recipes/root"))
+                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(id))
+                .rewards(AdvancementRewards.Builder.recipe(id)).requirements(RequirementsStrategy.OR);
 
         consumerIn.accept(new CalcinationRecipeBuilder.Result
                 (id, this.result, this.group == null ? "" : this.group, this.input, this.gas, this.minimumTemp,
                         this.advancementBuilder, new ResourceLocation(id.getNamespace(),
-                        "recipes/" + this.result.getItem().getGroup().getPath() + "/" + id.getPath())));
+                        "recipes/" + this.result.getItem().getItemCategory().getRecipeFolderName() + "/" + id.getPath())));
 
     }
 
@@ -85,7 +84,7 @@ public class CalcinationRecipeBuilder extends BaseRecipeBuilder {
 
     }
 
-    public class Result implements IFinishedRecipe {
+    public class Result implements FinishedRecipe {
         private final ResourceLocation id;
         private final ItemStack result;
         private final int minimumTemp;
@@ -100,14 +99,15 @@ public class CalcinationRecipeBuilder extends BaseRecipeBuilder {
             this.id = idIn;
             this.result = result;
             this.group = groupIn;
-            this.input = input.getMatchingStacks()[0];
+            this.input = input.getItems()[0];
             this.gas = gas;
             this.advancementBuilder = advancementBuilderIn;
             this.advancementId = advancementIdIn;
             this.minimumTemp = minimumTemp;
         }
 
-        public void serialize(JsonObject json) {
+        @Override
+        public void serializeRecipeData(JsonObject json) {
             if (!this.group.isEmpty()) json.addProperty("group", this.group);
 
             DatagenUtils.addStackToJson(json, "ingredient", input);
@@ -116,23 +116,25 @@ public class CalcinationRecipeBuilder extends BaseRecipeBuilder {
             json.add("minimumTemp", new JsonPrimitive(minimumTemp));
         }
 
-        public ResourceLocation getID() {
+        @Override
+        public ResourceLocation getId() {
             return this.id;
         }
 
-        public IRecipeSerializer<?> getSerializer() {
-            return Ref.CALCINATION_SERIALIZER;
+        @Override
+        public RecipeSerializer<?> getType() {
+            return Registration.CALCINATION_SERIALIZER.get();
         }
 
         @Nullable
         @Override
-        public JsonObject getAdvancementJson() {
-            return this.advancementBuilder.serialize();
+        public JsonObject serializeAdvancement() {
+            return this.advancementBuilder.serializeToJson();
         }
 
         @Nullable
         @Override
-        public ResourceLocation getAdvancementID() {
+        public ResourceLocation getAdvancementId() {
             return this.advancementId;
         }
     }

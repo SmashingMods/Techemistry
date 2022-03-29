@@ -5,19 +5,19 @@ import al132.alib.tiles.CustomStackHandler;
 import al132.alib.tiles.EnergyTile;
 import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.BaseInventoryTile;
 import al132.techemistry.blocks.HeatTile;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
 import al132.techemistry.utils.TUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 
@@ -25,7 +25,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class ReactionChamberTile extends BaseInventoryTile implements ITickableTileEntity, EnergyTile, GuiTile, HeatTile {
+public class ReactionChamberTile extends BaseInventoryTile implements EnergyTile, GuiTile, HeatTile {
 
     public final static int MAX_ENERGY = 10000;
     public int progressTicks = 0;
@@ -35,21 +35,22 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
     protected IHeatStorage heat = new HeatStorage(HeatHelper.ROOM_TEMP);
     public LazyOptional<IHeatStorage> heatHolder = LazyOptional.of(() -> heat);
 
-    public ReactionChamberTile() {
-        super(Ref.reactionChamberTile);
+    public ReactionChamberTile(BlockPos pos, BlockState state) {
+        super(Registration.REACTION_CHAMBER_BE.get(), pos, state);
     }
 
     public void updateRecipe() {
-        currentRecipe = ReactionChamberRegistry.getRecipeForInput(world, getInput());
+        currentRecipe = ReactionChamberRegistry.getRecipeForInput(level, getInput());
     }
 
-    @Override
-    public void tick() {
-        if (world.isRemote) return;
+    public void tickServer() {
+        if (level.isClientSide) return;
         updateRecipe();
         if (canProcess()) process();
-        HeatHelper.balanceHeat(world, pos, heat);
-        markDirtyGUI();
+        HeatHelper.balanceHeat(level, getBlockPos(), heat);
+        setChanged();
+        updateGUIEvery(5);
+
     }
 
     private boolean canProcess() {
@@ -73,35 +74,35 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
             getOutput().setOrIncrement(0, currentRecipe.get().output0.copy());
             getOutput().setOrIncrement(1, currentRecipe.get().output1.copy());
             getOutput().setOrIncrement(2, currentRecipe.get().output2.copy());
-            getInput().getStackInSlot(0).shrink(currentRecipe.get().input0.getMatchingStacks()[0].getCount());
-            if (currentRecipe.get().input1.getMatchingStacks().length > 0) {
-                getInput().getStackInSlot(1).shrink(currentRecipe.get().input1.getMatchingStacks()[0].getCount());
+            getInput().getStackInSlot(0).shrink(currentRecipe.get().input0.getItems()[0].getCount());
+            if (currentRecipe.get().input1.getItems().length > 0) {
+                getInput().getStackInSlot(1).shrink(currentRecipe.get().input1.getItems()[0].getCount());
             }
-            if (currentRecipe.get().input2.getMatchingStacks().length > 0) {
-                getInput().getStackInSlot(2).shrink(currentRecipe.get().input2.getMatchingStacks()[0].getCount());
+            if (currentRecipe.get().input2.getItems().length > 0) {
+                getInput().getStackInSlot(2).shrink(currentRecipe.get().input2.getItems()[0].getCount());
             }
         }
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         this.progressTicks = compound.getInt("progressTicks");
         //this.energy = new EnergyStorage(MAX_ENERGY, MAX_ENERGY, MAX_ENERGY, compound.getInt("energy"));
         if (compound.contains("heat")) {
             heat = new HeatStorage(compound.getDouble("heat"));
         } else {
-            heat = new HeatStorage(HeatHelper.getBiomeHeat(world, pos));
+            heat = new HeatStorage(HeatHelper.getBiomeHeat(level, getBlockPos()));
         }
         updateRecipe();
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putInt("progressTicks", progressTicks);
         //compound.putInt("energy", this.energy.getEnergyStored());
         compound.putDouble("heat", heat.getHeatStored());
-        return super.write(compound);
     }
 
 
@@ -119,7 +120,7 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return ReactionChamberRegistry.hasRecipe(world, stack, slot) && itemNotInOtherSlots(slot, stack);
+                return ReactionChamberRegistry.hasRecipe(level, stack, slot) && itemNotInOtherSlots(slot, stack);
             }
 
             @Override
@@ -127,12 +128,6 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
                 updateRecipe();
             }
         };
-    }
-
-    @Nullable
-    @Override
-    public Container createMenu(int i, PlayerInventory playerInv, PlayerEntity player) {
-        return new ReactionChamberContainer(i, world, pos, playerInv, player);
     }
 
     @Override
@@ -153,5 +148,10 @@ public class ReactionChamberTile extends BaseInventoryTile implements ITickableT
     @Override
     public LazyOptional<IHeatStorage> getHeat() {
         return heatHolder;
+    }
+
+    @Override
+    public Component getName() {
+        return null;
     }
 }

@@ -5,17 +5,18 @@ import al132.alib.tiles.CustomStackHandler;
 import al132.alib.tiles.EnergyTile;
 import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.BaseInventoryTile;
 import al132.techemistry.items.parts.GearItem;
 import al132.techemistry.utils.TUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
@@ -23,7 +24,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class MaceratorTile extends BaseInventoryTile implements ITickableTileEntity, EnergyTile, GuiTile {
+public class MaceratorTile extends BaseInventoryTile implements EnergyTile, GuiTile {
 
     public final static int MAX_ENERGY = 10000;
     public double progressTicks = 0;
@@ -31,44 +32,45 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
     public final static int ENERGY_PER_TICK = 100;
     private Optional<MaceratorRecipe> currentRecipe = Optional.empty();
 
-    public MaceratorTile() {
-        super(Ref.maceratorTile);
+    public MaceratorTile(BlockPos pos, BlockState state) {
+        super(Registration.MACERATOR_BE.get(), pos, state);
     }
 
     public Optional<GearItem> getGear() {
         Item item = getGearStack().getItem();
         if (item instanceof GearItem) {
-            return Optional.ofNullable((GearItem) item.getItem());
+            return Optional.ofNullable((GearItem) item);
         } else return Optional.empty();
     }
 
     public void updateRecipe() {
         if (!getInputStack().isEmpty()) {
-            currentRecipe = MaceratorRegistry.getRecipeForInput(world, getInputStack());
+            currentRecipe = MaceratorRegistry.getRecipeForInput(level, getInputStack());
         }
     }
 
-    @Override
-    public void tick() {
-        if (world.isRemote) return;
+    public void tickServer() {
+        if (level.isClientSide) return;
         if (canProcess()) process();
-        markDirtyGUI();
+        setChanged();
+        updateGUIEvery(5);
+
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         this.progressTicks = compound.getDouble("progressTicks");
         this.energy = new EnergyStorage(MAX_ENERGY, MAX_ENERGY, MAX_ENERGY, compound.getInt("energy"));
         updateRecipe();
-        //markDirtyGUI();
+        //setChanged();
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putDouble("progressTicks", progressTicks);
         compound.putInt("energy", this.energy.getEnergyStored());
-        return super.write(compound);
     }
 
     public ItemStack getInputStack() {
@@ -95,7 +97,7 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
                 && getGear().get().material.tier >= currentRecipe.get().tier
                 && energy.getEnergyStored() >= ENERGY_PER_TICK
                 && !getInputStack().isEmpty()
-                && (getOutput1Stack().isEmpty() || (currentRecipe.get().output.size() == 1 && ItemStack.areItemsEqual(currentRecipe.get().output.get(0).stack, getOutput1Stack())))
+                && (getOutput1Stack().isEmpty() || (currentRecipe.get().output.size() == 1 && ItemStack.isSame(currentRecipe.get().output.get(0).stack, getOutput1Stack())))
                 && TUtils.canStack(currentRecipe.get().output2, getOutput2Stack());
     }
 
@@ -107,13 +109,13 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
             getOutput().setOrIncrement(0, currentRecipe.get().calculateOutput(getGear().get().material.efficiency));
             getInputStack().shrink(1);
             ItemStack gearStack = getGearStack();
-            gearStack.attemptDamageItem(1, world.rand, null);//getItem().damageItem(gearStack, 1, null, null);
-            if (gearStack.getDamage() >= gearStack.getMaxDamage()) {
+            gearStack.hurt(1, level.random, null);//getItem().damageItem(gearStack, 1, null, null);
+            if (gearStack.getDamageValue() >= gearStack.getMaxDamage()) {
                 getInput().setStackInSlot(1, ItemStack.EMPTY);
             }
             updateRecipe();
         }
-        //markDirtyGUI();
+        //setChanged();
     }
 
 
@@ -122,7 +124,7 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
         return new CustomStackHandler(this, 2) {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                if (slot == 0) return MaceratorRegistry.hasRecipe(world, stack);
+                if (slot == 0) return MaceratorRegistry.hasRecipe(level, stack);
                 else return stack.getItem() instanceof GearItem;
             }
 
@@ -131,15 +133,9 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
             public void onContentsChanged(int slot) {
                 if (slot == 1) progressTicks = 0;
                 updateRecipe();
-                //markDirtyGUI();
+                //setChanged();
             }
         };
-    }
-
-    @Nullable
-    @Override
-    public Container createMenu(int i, PlayerInventory playerInv, PlayerEntity player) {
-        return new MaceratorContainer(i, world, pos, playerInv, player);
     }
 
     @Override
@@ -155,5 +151,10 @@ public class MaceratorTile extends BaseInventoryTile implements ITickableTileEnt
     @Override
     public int outputSlots() {
         return 2;
+    }
+
+    @Override
+    public Component getName() {
+        return null;
     }
 }

@@ -1,18 +1,18 @@
 package al132.techemistry.blocks.calcination_chamber;
 
-import al132.techemistry.Ref;
-import al132.techemistry.blocks.BaseContainer;
+import al132.alib.container.ABaseContainer;
+import al132.techemistry.Registration;
 import al132.techemistry.capabilities.heat.IHeatStorage;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class CalcinationContainer extends BaseContainer {
+public class CalcinationContainer extends ABaseContainer {
 
-    public CalcinationContainer(int id, World world, BlockPos pos, PlayerInventory playerInv, PlayerEntity player) {
-        super(Ref.calcinationContainer, id, world, pos, playerInv, player, 3);
+    public CalcinationContainer(int id, Level level, BlockPos pos, Inventory playerInv) {
+        super(Registration.calcinationContainer.get(), id, level, pos, playerInv, 3);
         CalcinationTile calcinationTile = ((CalcinationTile) tile);
         addSlot(new SlotItemHandler(calcinationTile.getInput(), 0, 44, 51));
         addSlot(new SlotItemHandler(calcinationTile.getOutput(), 0, 124, 42));
@@ -22,5 +22,10 @@ public class CalcinationContainer extends BaseContainer {
 
     public IHeatStorage getHeat() {
         return ((CalcinationTile) tile).heat;
+    }
+
+    @Override
+    public boolean stillValid(Player p_38874_) {
+        return true;
     }
 }

@@ -4,29 +4,30 @@ import al132.alib.client.CapabilityFluidDisplayWrapper;
 import al132.techemistry.blocks.BaseScreen;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.IHeatStorage;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+
 
 public class SteamBoilerScreen extends BaseScreen<SteamBoilerContainer> {
-    public SteamBoilerScreen(SteamBoilerContainer screenContainer, PlayerInventory inv, ITextComponent name) {
-        super(screenContainer, inv, name, "textures/gui/steam_boiler_gui.png");
-        displayData.add(new CapabilityFluidDisplayWrapper(8, 23, 16, 60, screenContainer::getFluid));
+
+    private SteamBoilerTile tile;
+    private static String path = "textures/gui/steam_boiler_gui.png";
+
+    public SteamBoilerScreen(SteamBoilerContainer screenContainer, Inventory inv, Component name) {
+        super(screenContainer, inv, name, path);
+        this.tile = (SteamBoilerTile) getMenu().tile;
+        displayData.add(new CapabilityFluidDisplayWrapper(8, 23, 16, 60, tile));
     }
 
-
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack ms, float f, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(ms, f, mouseX, mouseY);
-        SteamBoilerTile tile = (SteamBoilerTile) container.tile;
-        IHeatStorage heat = container.getHeat();
+    public void render(PoseStack ps, int mouseX, int mouseY, float f) {
+        super.render(ps, mouseX, mouseY, f);
+        IHeatStorage heat = menu.getHeat();
         String heatStr = "Heat: " + HeatHelper.format(heat, getTempType());
-        drawString(ms, Minecraft.getInstance().fontRenderer, heatStr, guiLeft + 10, guiTop + 10, 0xffffff);
-        this.minecraft.textureManager.bindTexture(this.GUI);
-        /*if (tile.progressTicks > 0) {
-            int k = this.getBarScaled(28, tile.progressTicks, tile.TICKS_PER_OPERATION);
-            this.blit(78, 47, 175, 0, k, 9);
-        }*/
+        drawString(ps, Minecraft.getInstance().font, heatStr, getGuiLeft() + 10, getGuiTop() + 10, 0xffffff);
+
+        this.temperatureTypeButton.renderButton(ps, mouseX, mouseY, 0.0f);
     }
 }

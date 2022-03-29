@@ -3,7 +3,7 @@ package al132.techemistry.data;
 import al132.chemlib.chemistry.ChemicalStack;
 import al132.chemlib.items.IChemical;
 import al132.techemistry.utils.TUtils;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;

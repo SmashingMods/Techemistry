@@ -3,14 +3,15 @@ package al132.techemistry.items.minerals;
 import al132.chemlib.ChemLib;
 import al132.chemlib.chemistry.ChemicalStack;
 import al132.techemistry.Ref;
+import al132.techemistry.Techemistry;
 import al132.techemistry.items.BaseItem;
+import al132.techemistry.items.BaseRegItem;
 import com.google.common.collect.Lists;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.world.World;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -29,27 +30,31 @@ public class Mineral {
     public Mineral(String name, List<ChemicalStack> components) {
         Ref.minerals.add(this);
         Mineral thisMineral = this;
-        mineralItem = new BaseItem(name) {
+        mineralItem = new BaseRegItem(name) {
             @Override
-            public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-                super.addInformation(stack, worldIn, tooltip, flagIn);
-                thisMineral.addInformation(stack, worldIn, tooltip, flagIn);
+            public void appendHoverText(ItemStack stack, @Nullable Level levelIn, List<Component> tooltips, TooltipFlag flagIn) {
+                super.appendHoverText(stack, levelIn, tooltips, flagIn);
+                thisMineral.appendHoverText(stack, levelIn, tooltips, flagIn);
             }
         };
-        crushedItem = new BaseItem("crushed_" + name) {
+        crushedItem = new BaseRegItem("crushed_" + name) {
             @Override
-            public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-                super.addInformation(stack, worldIn, tooltip, flagIn);
-                thisMineral.addInformation(stack, worldIn, tooltip, flagIn);
+            public void appendHoverText(ItemStack stack, @Nullable Level levelIn, List<Component> tooltips, TooltipFlag flagIn) {
+                super.appendHoverText(stack, levelIn, tooltips, flagIn);
+                thisMineral.appendHoverText(stack, levelIn, tooltips, flagIn);
             }
         };
-        slurryItem = new BaseItem(name + "_slurry") {
+        slurryItem = new BaseRegItem(name + "_slurry") {
             @Override
-            public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-                super.addInformation(stack, worldIn, tooltip, flagIn);
-                thisMineral.addInformation(stack, worldIn, tooltip, flagIn);
+            public void appendHoverText(ItemStack stack, @Nullable Level levelIn, List<Component> tooltips, TooltipFlag flagIn) {
+                super.appendHoverText(stack, levelIn, tooltips, flagIn);
+                thisMineral.appendHoverText(stack, levelIn, tooltips, flagIn);
             }
         };
+        //this.slurryItem.setRegistryName(Techemistry.MODID, name + "_slurry");
+        //this.mineralItem.setRegistryName(Techemistry.MODID, name);
+        //this.crushedItem.setRegistryName(Techemistry.MODID, "crushed_" + name);
+
         this.components = components;
     }
 
@@ -72,13 +77,13 @@ public class Mineral {
     }
 
 
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level levelIn, List<Component> tooltips, TooltipFlag flagIn) {
         if (!formula.isEmpty()) {
-            tooltip.add(new StringTextComponent(formula).mergeStyle(ChemLib.CHEM_TOOLTIP_COLOR));
+            tooltips.add(new TextComponent(formula).withStyle(ChemLib.CHEM_TOOLTIP_COLOR));
         } else if (components != null) {
             String line = components.stream().map(ChemicalStack::getAbbreviation).collect(Collectors.joining());
             if (line.charAt(0) == '(') line = line.substring(1, line.length() - 1);
-            tooltip.add(new StringTextComponent(line).mergeStyle(ChemLib.CHEM_TOOLTIP_COLOR));//.getAbbreviation()));
+            tooltips.add(new TextComponent(line).withStyle(ChemLib.CHEM_TOOLTIP_COLOR));//.getAbbreviation()));
         }
     }
 }

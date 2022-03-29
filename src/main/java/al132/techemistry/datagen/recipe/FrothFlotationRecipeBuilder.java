@@ -1,25 +1,27 @@
 package al132.techemistry.datagen.recipe;
 
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.datagen.DatagenUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.IRequirementsStrategy;
-import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 public class FrothFlotationRecipeBuilder extends BaseRecipeBuilder {
 
-    private final Advancement.Builder advancementBuilder = Advancement.Builder.builder();
+    private final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
     private String group = "minecraft:misc";
     private Ingredient input;
     private Ingredient input2;
@@ -59,22 +61,22 @@ public class FrothFlotationRecipeBuilder extends BaseRecipeBuilder {
     }
 
 
-    public void build(Consumer<IFinishedRecipe> consumerIn) {
-        String name = input.getMatchingStacks()[0].getItem().getRegistryName().getPath();
+    public void build(Consumer<FinishedRecipe> consumerIn) {
+        String name = input.getItems()[0].getItem().getRegistryName().getPath();
         this.build(consumerIn, new ResourceLocation("techemistry", "froth_flotation_chamber/" + name));
     }
 
     @Override
-    public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+    public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
         this.validate(id);
-        this.advancementBuilder.withParentId(new ResourceLocation("recipes/root"))
-                .withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(id))
-                .withRewards(AdvancementRewards.Builder.recipe(id)).withRequirementsStrategy(IRequirementsStrategy.OR);
+        this.advancementBuilder.parent(new ResourceLocation("recipes/root"))
+                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(id))
+                .rewards(AdvancementRewards.Builder.recipe(id)).requirements(RequirementsStrategy.OR);
 
         consumerIn.accept(new FrothFlotationRecipeBuilder.Result
                 (id, this.result, this.result2, this.group == null ? "" : this.group, this.input, this.input2, this.waterQuantity,
                         this.advancementBuilder, new ResourceLocation(id.getNamespace(),
-                        "recipes/" + this.result.getItem().getGroup().getPath() + "/" + id.getPath())));
+                        "recipes/" + this.result.getItem().getItemCategory().getRecipeFolderName() + "/" + id.getPath())));
 
     }
 
@@ -83,7 +85,7 @@ public class FrothFlotationRecipeBuilder extends BaseRecipeBuilder {
 
     }
 
-    public class Result implements IFinishedRecipe {
+    public class Result implements FinishedRecipe {
         private final ResourceLocation id;
         private final ItemStack result;
         private final ItemStack result2;
@@ -100,14 +102,15 @@ public class FrothFlotationRecipeBuilder extends BaseRecipeBuilder {
             this.result = result;
             this.result2 = result2;
             this.group = groupIn;
-            this.input = input.getMatchingStacks()[0];
-            this.input2 = input2.hasNoMatchingItems() ? ItemStack.EMPTY : input2.getMatchingStacks()[0];
+            this.input = input.getItems()[0];
+            this.input2 = input2.isEmpty() ? ItemStack.EMPTY : input2.getItems()[0];
             this.waterQuantity = waterQuantity;
             this.advancementBuilder = advancementBuilderIn;
             this.advancementId = advancementIdIn;
         }
 
-        public void serialize(JsonObject json) {
+        @Override
+        public void serializeRecipeData(JsonObject json) {
             if (!this.group.isEmpty()) json.addProperty("group", this.group);
 
             DatagenUtils.addStackToJson(json, "ingredient", input);
@@ -118,23 +121,25 @@ public class FrothFlotationRecipeBuilder extends BaseRecipeBuilder {
             json.add("waterQuantity", new JsonPrimitive(waterQuantity));
         }
 
-        public ResourceLocation getID() {
+        @Override
+        public ResourceLocation getId() {
             return this.id;
         }
 
-        public IRecipeSerializer<?> getSerializer() {
-            return Ref.FROTH_FLOTATION_SERIALIZER;
+        @Override
+        public RecipeSerializer<?> getType() {
+            return Registration.FROTH_FLOTATION_SERIALIZER.get();
         }
 
         @Nullable
         @Override
-        public JsonObject getAdvancementJson() {
-            return this.advancementBuilder.serialize();
+        public JsonObject serializeAdvancement() {
+            return this.advancementBuilder.serializeToJson();
         }
 
         @Nullable
         @Override
-        public ResourceLocation getAdvancementID() {
+        public ResourceLocation getAdvancementId() {
             return this.advancementId;
         }
     }

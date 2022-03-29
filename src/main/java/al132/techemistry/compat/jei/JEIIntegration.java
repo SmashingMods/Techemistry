@@ -1,6 +1,7 @@
 package al132.techemistry.compat.jei;
 
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.calcination_chamber.CalcinationRegistry;
 import al132.techemistry.blocks.calcination_chamber.CalcinationScreen;
 import al132.techemistry.blocks.distillery.DistilleryRegistry;
@@ -28,11 +29,17 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.*;
+import mezz.jei.load.registration.RecipeCatalystRegistration;
+import mezz.jei.load.registration.RecipeCategoryRegistration;
+import mezz.jei.load.registration.RecipeRegistration;
+import mezz.jei.load.registration.RecipeTransferRegistration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
+
+@SuppressWarnings("removal")
 @JeiPlugin
 public class JEIIntegration implements IModPlugin {
 
@@ -82,31 +89,31 @@ public class JEIIntegration implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration reg) {
-        World world = Minecraft.getInstance().world;
+        Level level = Minecraft.getInstance().level;
         CollectorRegistry.init();
         reg.addRecipes(CollectorRegistry.recipes, COLLECTOR_RESOURCE);
-        reg.addRecipes(MaceratorRegistry.getRecipes(world), MACERATOR_RESOURCE);
-        reg.addRecipes(FermenterRegistry.getRecipes(world), FERMENTER_RESOURCE);
-        reg.addRecipes(DistilleryRegistry.getRecipes(world), DISTILLERY_RESOURCE);
-        reg.addRecipes(ElectrolyzerRegistry.getRecipes(world), ELECTROLYZER_RESOURCE);
-        reg.addRecipes(CalcinationRegistry.getRecipes(world), CALCINATION_RESOURCE);
-        reg.addRecipes(ReactionChamberRegistry.getRecipes(world), REACTION_RESOURCE);
-        reg.addRecipes(SmelteryRegistry.getRecipes(world), SMELTERY_RESOURCE);
-        reg.addRecipes(FrothFlotationRegistry.getRecipes(world), FROTH_RESOURCE);
+        reg.addRecipes(MaceratorRegistry.getRecipes(level), MACERATOR_RESOURCE);
+        reg.addRecipes(FermenterRegistry.getRecipes(level), FERMENTER_RESOURCE);
+        reg.addRecipes(DistilleryRegistry.getRecipes(level), DISTILLERY_RESOURCE);
+        reg.addRecipes(ElectrolyzerRegistry.getRecipes(level), ELECTROLYZER_RESOURCE);
+        reg.addRecipes(CalcinationRegistry.getRecipes(level), CALCINATION_RESOURCE);
+        reg.addRecipes(ReactionChamberRegistry.getRecipes(level), REACTION_RESOURCE);
+        reg.addRecipes(SmelteryRegistry.getRecipes(level), SMELTERY_RESOURCE);
+        reg.addRecipes(FrothFlotationRegistry.getRecipes(level), FROTH_RESOURCE);
 
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration reg) {
-        reg.addRecipeCatalyst(new ItemStack(Ref.gasCollector), COLLECTOR_RESOURCE);
-        reg.addRecipeCatalyst(new ItemStack(Ref.macerator), MACERATOR_RESOURCE);
-        reg.addRecipeCatalyst(new ItemStack(Ref.fermenter), FERMENTER_RESOURCE);
-        reg.addRecipeCatalyst(new ItemStack(Ref.distilleryController), DISTILLERY_RESOURCE);
-        reg.addRecipeCatalyst(new ItemStack(Ref.electrolyzer), ELECTROLYZER_RESOURCE);
-        reg.addRecipeCatalyst(new ItemStack(Ref.calcinationChamber), CALCINATION_RESOURCE);
-        reg.addRecipeCatalyst(new ItemStack(Ref.reactionChamber), REACTION_RESOURCE);
-        reg.addRecipeCatalyst(new ItemStack(Ref.smeltery), SMELTERY_RESOURCE);
-        reg.addRecipeCatalyst(new ItemStack(Ref.frothFlotationChamber), FROTH_RESOURCE);
+        reg.addRecipeCatalyst(new ItemStack(Registration.GAS_COLLECTOR_BLOCK.get()), COLLECTOR_RESOURCE);
+        reg.addRecipeCatalyst(new ItemStack(Registration.MACERATOR_BLOCK.get()), MACERATOR_RESOURCE);
+        reg.addRecipeCatalyst(new ItemStack(Registration.FERMENTER_BLOCK.get()), FERMENTER_RESOURCE);
+        reg.addRecipeCatalyst(new ItemStack(Registration.DISTILLERY_CONTROLLER_BLOCK.get()), DISTILLERY_RESOURCE);
+        reg.addRecipeCatalyst(new ItemStack(Registration.ELECTROLYZER_BLOCK.get()), ELECTROLYZER_RESOURCE);
+        reg.addRecipeCatalyst(new ItemStack(Registration.CALCINATION_CHAMBER_BLOCK.get()), CALCINATION_RESOURCE);
+        reg.addRecipeCatalyst(new ItemStack(Registration.REACTION_CHAMBER_BLOCK.get()), REACTION_RESOURCE);
+        reg.addRecipeCatalyst(new ItemStack(Registration.SMELTERY_BLOCK.get()), SMELTERY_RESOURCE);
+        reg.addRecipeCatalyst(new ItemStack(Registration.FROTH_FLOTATION_BLOCK.get()), FROTH_RESOURCE);
 
     }
 

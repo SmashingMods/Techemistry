@@ -3,27 +3,29 @@ package al132.techemistry.blocks.distillery;
 import al132.techemistry.blocks.BaseScreen;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.IHeatStorage;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+
 
 public class DistilleryScreen extends BaseScreen<DistilleryContainer> {
 
-    public DistilleryScreen(DistilleryContainer screenContainer, PlayerInventory inv, ITextComponent name) {
+    public DistilleryScreen(DistilleryContainer screenContainer, Inventory inv, Component name) {
         super(screenContainer, inv, name, "textures/gui/distillery_gui.png");
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack ms, float f, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(ms, f, mouseX, mouseY);
-        IHeatStorage heat = container.getHeat();
+    public void render(PoseStack ps, int mouseX, int mouseY, float f) {
+        super.render(ps, mouseX, mouseY, f);
+        IHeatStorage heat = menu.getHeat();
         String heatStr = "Heat: " + HeatHelper.format(heat, getTempType());
-        DistilleryTile tile = (DistilleryTile) container.tile;
-        drawString(ms, Minecraft.getInstance().fontRenderer, heatStr, guiLeft + 10, guiTop + 10, 0xffffff);
+        DistilleryTile tile = (DistilleryTile) menu.tile;
+        drawString(ps, Minecraft.getInstance().font, heatStr, getGuiLeft() + 10, getGuiTop() + 10, 0xffffff);
         if (tile.progressTicks > 0) {
             int k = this.getBarScaled(28, tile.progressTicks, DistilleryTile.TICKS_PER_OPERATION);
-            this.drawRightArrow(ms, guiLeft + 81, guiTop + 47, k);
+            this.drawRightArrow(ps, getGuiLeft() + 81, getGuiTop() + 47, k);
         }
+        this.temperatureTypeButton.renderButton(ps, mouseX, mouseY, 0.0f);
     }
 }

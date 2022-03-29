@@ -1,18 +1,19 @@
 package al132.techemistry.blocks.smeltery;
 
-import al132.techemistry.Ref;
-import al132.techemistry.blocks.BaseContainer;
+import al132.alib.container.ABaseContainer;
+import al132.techemistry.Registration;
 import al132.techemistry.capabilities.heat.IHeatStorage;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class SmelteryContainer extends BaseContainer {
+public class SmelteryContainer extends ABaseContainer {
 
-    public SmelteryContainer(int id, World world, BlockPos pos, PlayerInventory playerInv, PlayerEntity player) {
-        super(Ref.smelteryContainer, id, world, pos, playerInv, player, 5);
+    public SmelteryContainer(int id, Level level, BlockPos pos, Inventory playerInv) {
+        super(Registration.smelteryContainer.get(), id, level, pos, playerInv, 5);
         SmelteryTile smelteryTile = ((SmelteryTile) tile);
         addSlot(new SlotItemHandler(smelteryTile.getInput(), 0, 44, 24));
         addSlot(new SlotItemHandler(smelteryTile.getInput(), 1, 44, 42));
@@ -26,4 +27,8 @@ public class SmelteryContainer extends BaseContainer {
         return ((SmelteryTile) tile).heat;
     }
 
+    @Override
+    public boolean stillValid(Player p_38874_) {
+        return true;
+    }
 }

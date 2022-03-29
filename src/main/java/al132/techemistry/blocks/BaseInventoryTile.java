@@ -3,10 +3,13 @@ package al132.techemistry.blocks;
 import al132.alib.tiles.ABaseInventoryTile;
 import al132.alib.tiles.AutomationStackHandler;
 import al132.alib.tiles.CustomStackHandler;
+
 import al132.techemistry.capabilities.heat.CapabilityHeat;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -15,21 +18,21 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class BaseInventoryTile extends ABaseInventoryTile {
-    public BaseInventoryTile(TileEntityType<?> tileEntityTypeIn) {
-        super(tileEntityTypeIn);
+    public BaseInventoryTile(BlockEntityType<?> BlockEntityTypeIn, BlockPos pos, BlockState state) {
+        super(BlockEntityTypeIn, pos, state);
     }
 
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (cap == CapabilityHeat.HEAT_CAP && this instanceof HeatTile) {
+        if (cap == CapabilityHeat.HEAT && this instanceof HeatTile) {
             return ((HeatTile) this).getHeat().cast();
         } else return super.getCapability(cap, side);
     }
 
     @Override
     public CustomStackHandler initOutput() {
-        return new CustomStackHandler(this,outputSlots()){
+        return new CustomStackHandler(this, outputSlots()) {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
                 return false;

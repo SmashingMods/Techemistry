@@ -1,9 +1,10 @@
 package al132.techemistry.blocks.distillery;
 
 import al132.techemistry.RecipeTypes;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,14 +19,14 @@ public class DistilleryRegistry {
     public static void init() {
     }
     /*
-        addRecipe(Ref.sugarWine, Ref.rum, 350);
-        addRecipe(Ref.rum, Utils.toStack("ethanol", 16), new ItemStack(Items.GLASS_BOTTLE), 350);
-        addRecipe(Ref.potatoWine, Ref.vodka, 350);
-        addRecipe(Ref.vodka, Utils.toStack("ethanol", 16), new ItemStack(Items.GLASS_BOTTLE), 350);
-        addRecipe(Ref.beer, Ref.whiskey, 350);
-        addRecipe(Ref.whiskey, Utils.toStack("ethanol", 16), new ItemStack(Items.GLASS_BOTTLE), 350);
-        addRecipe(Ref.cider, Ref.appleBrandy, 350);
-        addRecipe(Ref.appleBrandy, Utils.toStack("ethanol", 16), new ItemStack(Items.GLASS_BOTTLE), 350);
+        addRecipe(Registration.sugarWine, Registration.rum, 350);
+        addRecipe(Registration.rum, Utils.toStack("ethanol", 16), new ItemStack(Items.GLASS_BOTTLE), 350);
+        addRecipe(Registration.potatoWine, Registration.vodka, 350);
+        addRecipe(Registration.vodka, Utils.toStack("ethanol", 16), new ItemStack(Items.GLASS_BOTTLE), 350);
+        addRecipe(Registration.beer, Registration.whiskey, 350);
+        addRecipe(Registration.whiskey, Utils.toStack("ethanol", 16), new ItemStack(Items.GLASS_BOTTLE), 350);
+        addRecipe(Registration.cider, Registration.appleBrandy, 350);
+        addRecipe(Registration.appleBrandy, Utils.toStack("ethanol", 16), new ItemStack(Items.GLASS_BOTTLE), 350);
     }
 
     public static void addRecipe(Item input, Item output, double minimumTemp) {
@@ -37,14 +38,14 @@ public class DistilleryRegistry {
     }
 
     public static void addRecipe(Item input, ItemStack output, ItemStack output2, double minimumTemp) {
-        recipes.add(new DistilleryRecipe(Ref.DISTILLERY_TYPE, Ingredient.fromItems(input), output, output2, minimumTemp));
+        recipes.add(new DistilleryRecipe(Registration.DISTILLERY_TYPE, Ingredient.fromItems(input), output, output2, minimumTemp));
     }
 
  */
 
-    public static List<DistilleryRecipe> getRecipes(World world) {
+    public static List<DistilleryRecipe> getRecipes(Level level) {
         if(recipes == null) {
-            recipes = world.getRecipeManager().getRecipes().stream()
+            recipes = level.getRecipeManager().getRecipes().stream()
                     .filter(x -> x.getType() == RecipeTypes.DISTILLERY)
                     .map(x -> (DistilleryRecipe) x)
                     .collect(Collectors.toList());
@@ -52,12 +53,12 @@ public class DistilleryRegistry {
         return recipes;
     }
 
-    public static boolean inputHasRecipe(World world, ItemStack input) {
-        return getRecipes(world).stream().anyMatch(x -> matchesRecipe(x, input));
+    public static boolean inputHasRecipe(Level level, ItemStack input) {
+        return getRecipes(level).stream().anyMatch(x -> matchesRecipe(x, input));
     }
 
-    public static Optional<DistilleryRecipe> getRecipeForInput(World world, ItemStack input) {
-        return getRecipes(world).stream()
+    public static Optional<DistilleryRecipe> getRecipeForInput(Level level, ItemStack input) {
+        return getRecipes(level).stream()
                 .filter(recipe -> matchesRecipe(recipe, input))
                 .findFirst();
     }
@@ -65,7 +66,7 @@ public class DistilleryRegistry {
     public static boolean matchesRecipe(DistilleryRecipe recipe, ItemStack targetStack) {
         Item targetItem = targetStack.getItem();
         if(recipe.getIngredients().size() < 1) return false;
-        return Arrays.stream(recipe.getIngredients().get(0).getMatchingStacks())
+        return Arrays.stream(recipe.getIngredients().get(0).getItems())
                 .map(ItemStack::getItem)
                 .anyMatch(item -> item == targetItem);
 

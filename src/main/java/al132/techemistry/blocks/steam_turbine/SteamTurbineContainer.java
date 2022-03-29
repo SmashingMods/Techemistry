@@ -1,21 +1,21 @@
 package al132.techemistry.blocks.steam_turbine;
 
-import al132.techemistry.Ref;
-import al132.techemistry.blocks.BaseContainer;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.energy.IEnergyStorage;
+import al132.alib.container.ABaseContainer;
+import al132.techemistry.Registration;
 
-public class SteamTurbineContainer extends BaseContainer {
-    public SteamTurbineContainer(int id, World world, BlockPos pos, PlayerInventory playerInv, PlayerEntity player) {
-        super(Ref.steamTurbineContainer, id, world, pos, playerInv, player, 0);
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+
+public class SteamTurbineContainer extends ABaseContainer {
+    public SteamTurbineContainer(int id, Level level, BlockPos pos, Inventory playerInv) {
+        super(Registration.steamTurbineContainer.get(), id, level, pos, playerInv, 0);
         addPlayerSlots();
     }
 
-    public IEnergyStorage getEnergy() {
-        return ((SteamTurbineTile) tile).energy;
+    @Override
+    public boolean stillValid(Player p_38874_) {
+        return true;
     }
-
 }

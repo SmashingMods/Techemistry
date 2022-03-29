@@ -7,7 +7,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import java.nio.file.Path;
 
 public class Config {
-    public static String CATEGORY_WORLDGEN = "worldgen";
+    public static String CATEGORY_LevelGEN = "Levelgen";
 
     private static final ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec COMMON_CONFIG;
@@ -21,12 +21,12 @@ public class Config {
     public static ForgeConfigSpec.BooleanValue GENERATE_SULFUR;
 
     static {
-        initWorldgenConfig();
+        initLevelgenConfig();
         COMMON_CONFIG = COMMON_BUILDER.build();
     }
 
-    private static void initWorldgenConfig() {
-        COMMON_BUILDER.comment("Ores").push(CATEGORY_WORLDGEN);
+    private static void initLevelgenConfig() {
+        COMMON_BUILDER.comment("Ores").push(CATEGORY_LevelGEN);
         GENERATE_CARBONATE = COMMON_BUILDER.comment("Generate Carbonate Ore").define("generateCarbonate", true);
         GENERATE_DOLOMITE = COMMON_BUILDER.comment("Generate Dolomite").define("generateDolomite", true);
         GENERATE_SULFIDE = COMMON_BUILDER.comment("Generate Sulfide Ore").define("generateSulfide", true);

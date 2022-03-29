@@ -4,14 +4,14 @@ import al132.alib.tiles.CustomEnergyStorage;
 import al132.alib.tiles.EnergyTile;
 import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.BaseTile;
 import al132.techemistry.utils.TUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -19,42 +19,37 @@ import net.minecraftforge.energy.IEnergyStorage;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class SteamTurbineTile extends BaseTile implements ITickableTileEntity, GuiTile, EnergyTile {
-    public SteamTurbineTile() {
-        super(Ref.steamTurbineTile);
+public class SteamTurbineTile extends BaseTile implements GuiTile, EnergyTile {
+    public SteamTurbineTile(BlockPos pos, BlockState state) {
+        super(Registration.STEAM_TURBINE_BE.get(), pos, state);
     }
 
     public static final int MAX_ENERGY = 100000;
 
-    @Nullable
-    @Override
-    public Container createMenu(int id, PlayerInventory inv, PlayerEntity player) {
-        return new SteamTurbineContainer(id, world, pos, inv, player);
-    }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         this.energy = new EnergyStorage(MAX_ENERGY, MAX_ENERGY, MAX_ENERGY, compound.getInt("energy"));
-        markDirtyGUI();
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putInt("energy", energy.getEnergyStored());
-        return super.write(compound);
     }
 
-    @Override
-    public void tick() {
-        if (world.isRemote) return;
+
+    public void tickServer() {
+        if (this.level.isClientSide) return;
         //energy.receiveEnergy(1, false);
         distributeEnergy();
-        markDirtyGUI();
+        setChanged();
+        updateGUIEvery(5);
     }
 
     private void distributeEnergy() {
-        Optional<IEnergyStorage> neighbors = TUtils.getSurroundingEnergyTiles(world, pos).stream()
+        Optional<IEnergyStorage> neighbors = TUtils.getSurroundingEnergyTiles(level, getBlockPos()).stream()
                 .filter(LazyOptional::isPresent)
                 .map(x -> x.orElse(null))
                 .filter(x -> x.getEnergyStored() < x.getMaxEnergyStored())
@@ -74,5 +69,10 @@ public class SteamTurbineTile extends BaseTile implements ITickableTileEntity, G
     @Override
     public IEnergyStorage getEnergy() {
         return this.energy;
+    }
+
+    @Override
+    public Component getName() {
+        return null;
     }
 }

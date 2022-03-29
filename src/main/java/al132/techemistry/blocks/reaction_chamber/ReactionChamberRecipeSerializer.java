@@ -1,25 +1,22 @@
 package al132.techemistry.blocks.reaction_chamber;
 
+
+
 import al132.techemistry.data.Formula;
 import al132.techemistry.data.FormulaParser;
 import al132.techemistry.utils.ProcessingRecipe;
-import al132.techemistry.utils.RecipeUtils;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 
 public class ReactionChamberRecipeSerializer<T extends ReactionChamberRecipe>
-        extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
+        extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
 
     private final int temp;
     private IFactory<T> factory;
@@ -30,16 +27,16 @@ public class ReactionChamberRecipeSerializer<T extends ReactionChamberRecipe>
     }
 
     @Override
-    public T read(ResourceLocation recipeId, JsonObject json) {
-        String s = JSONUtils.getString(json, "group", "");
-        String formulaStr = JSONUtils.getString(json, "formula", "");
+    public T fromJson(ResourceLocation recipeId, JsonObject json) {
+        String s = json.get("group").getAsString();//JSONUtils.getString(json, "group", "");
+        String formulaStr = json.get("formula").getAsString();//JSONUtils.getString(json, "formula", "");
         Formula formula = FormulaParser.parse(formulaStr);
 
-        Ingredient input1 = Ingredient.fromStacks(formula.inputs.get(0));
+        Ingredient input1 = Ingredient.of(formula.inputs.get(0));
         Ingredient input2 = Ingredient.EMPTY;
         Ingredient input3 = Ingredient.EMPTY;
-        if (formula.inputs.size() >= 2) input2 = Ingredient.fromStacks(formula.inputs.get(1));
-        if (formula.inputs.size() >= 3) input3 = Ingredient.fromStacks(formula.inputs.get(2));
+        if (formula.inputs.size() >= 2) input2 = Ingredient.of(formula.inputs.get(1));
+        if (formula.inputs.size() >= 3) input3 = Ingredient.of(formula.inputs.get(2));
         /*
         JsonElement jsonIngredient1 = (JsonElement) (JSONUtils.isJsonArray(json, "ingredient") ? JSONUtils.getJsonArray(json, "ingredient") : JSONUtils.getJsonObject(json, "ingredient"));
         Ingredient input = Ingredient.deserialize(jsonIngredient1);
@@ -70,33 +67,33 @@ public class ReactionChamberRecipeSerializer<T extends ReactionChamberRecipe>
         if (formula.outputs.size() >= 2) output2 = formula.outputs.get(1);
         ItemStack output3 = ItemStack.EMPTY;
         if (formula.outputs.size() >= 3) output3 = formula.outputs.get(2);
-        int minimumHeat = JSONUtils.getInt(json, "minimumTemp", this.temp);
+        int minimumHeat = json.get("minimumTemp").getAsInt();//JSONUtils.getInt(json, "minimumTemp", this.temp);
         return this.factory.create(recipeId, s, input1, input2, input3, output1, output2, output3, minimumHeat);
     }
 
     @Nullable
     @Override
-    public T read(ResourceLocation recipeId, PacketBuffer buffer) {
-        String s = buffer.readString(32767);
-        Ingredient input = Ingredient.read(buffer);
-        Ingredient input2 = Ingredient.read(buffer);
-        Ingredient input3 = Ingredient.read(buffer);
-        ItemStack output = buffer.readItemStack();
-        ItemStack output1 = buffer.readItemStack();
-        ItemStack output2 = buffer.readItemStack();
+    public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        String s = buffer.readUtf(32767);
+        Ingredient input = Ingredient.fromNetwork(buffer);
+        Ingredient input2 = Ingredient.fromNetwork(buffer);
+        Ingredient input3 = Ingredient.fromNetwork(buffer);
+        ItemStack output = buffer.readItem();
+        ItemStack output1 = buffer.readItem();
+        ItemStack output2 = buffer.readItem();
         double minimumHeat = buffer.readDouble();
         return this.factory.create(recipeId, s, input, input2, input3, output, output1, output2, minimumHeat);
     }
 
     @Override
-    public void write(PacketBuffer buffer, T recipe) {
-        buffer.writeString(recipe.getGroup());
-        recipe.getIngredients().get(0).write(buffer);
-        recipe.getIngredients().get(1).write(buffer);
-        recipe.getIngredients().get(2).write(buffer);
-        buffer.writeItemStack(recipe.output0);
-        buffer.writeItemStack(recipe.output1);
-        buffer.writeItemStack(recipe.output2);
+    public void toNetwork(FriendlyByteBuf buffer, T recipe) {
+        buffer.writeUtf(recipe.getGroup());
+        recipe.getIngredients().get(0).toNetwork(buffer);
+        recipe.getIngredients().get(1).toNetwork(buffer);
+        recipe.getIngredients().get(2).toNetwork(buffer);
+        buffer.writeItem(recipe.output0);
+        buffer.writeItem(recipe.output1);
+        buffer.writeItem(recipe.output2);
         buffer.writeDouble(recipe.minimumHeat);
     }
 

@@ -1,6 +1,8 @@
 package al132.techemistry.datagen.recipe;
 
 import al132.techemistry.Ref;
+
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.macerator.WeightedItemStack;
 import al132.techemistry.datagen.DatagenUtils;
 import com.google.gson.JsonArray;
@@ -8,15 +10,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.IRequirementsStrategy;
-import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.core.Registry;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ import java.util.function.Consumer;
 
 public class MaceratorRecipeBuilder extends BaseRecipeBuilder {
 
-    private final Advancement.Builder advancementBuilder = Advancement.Builder.builder();
+    private final Advancement.Builder advancementBuilder = Advancement.Builder.advancement();
     private String group = "minecraft:misc";
     private Ingredient input;
     private List<WeightedItemStack> result = new ArrayList<>();
@@ -44,7 +46,7 @@ public class MaceratorRecipeBuilder extends BaseRecipeBuilder {
     }
 
     public static MaceratorRecipeBuilder recipe(Item input) {
-        return new MaceratorRecipeBuilder(Ingredient.fromItems(input));
+        return new MaceratorRecipeBuilder(Ingredient.of(input));
     }
 
     public MaceratorRecipeBuilder addWeightedResult(ItemStack stack, int weight) {
@@ -90,22 +92,22 @@ public class MaceratorRecipeBuilder extends BaseRecipeBuilder {
     }
 
 
-    public void build(Consumer<IFinishedRecipe> consumerIn) {
-        String name = input.getMatchingStacks()[0].getItem().getRegistryName().getPath();
+    public void build(Consumer<FinishedRecipe> consumerIn) {
+        String name = input.getItems()[0].getItem().getRegistryName().getPath();
         this.build(consumerIn, new ResourceLocation("techemistry", "macerator/" + name));
     }
 
     @Override
-    public void build(Consumer<IFinishedRecipe> consumerIn, ResourceLocation id) {
+    public void build(Consumer<FinishedRecipe> consumerIn, ResourceLocation id) {
         this.validate(id);
-        this.advancementBuilder.withParentId(new ResourceLocation("recipes/root"))
-                .withCriterion("has_the_recipe", RecipeUnlockedTrigger.create(id))
-                .withRewards(AdvancementRewards.Builder.recipe(id)).withRequirementsStrategy(IRequirementsStrategy.OR);
+        this.advancementBuilder.parent(new ResourceLocation("recipes/root"))
+                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(id))
+                .rewards(AdvancementRewards.Builder.recipe(id)).requirements(RequirementsStrategy.OR);
 
         consumerIn.accept(new MaceratorRecipeBuilder.Result
                 (id, this.result, this.result2, this.group == null ? "" : this.group, this.input, this.tier,
                         this.advancementBuilder, new ResourceLocation(id.getNamespace(),
-                        "recipes/" + this.input.getMatchingStacks()[0].getItem().getGroup().getPath() + "/" + id.getPath())));
+                        "recipes/" + this.input.getItems()[0].getItem().getItemCategory().getRecipeFolderName() + "/" + id.getPath())));
 
     }
 
@@ -114,7 +116,7 @@ public class MaceratorRecipeBuilder extends BaseRecipeBuilder {
 
     }
 
-    public class Result implements IFinishedRecipe {
+    public class Result implements FinishedRecipe {
         private final ResourceLocation id;
         private final List<WeightedItemStack> result;
         private final ItemStack result2;
@@ -130,13 +132,14 @@ public class MaceratorRecipeBuilder extends BaseRecipeBuilder {
             this.result = result;
             this.result2 = result2;
             this.group = groupIn;
-            this.input = input.getMatchingStacks()[0];
+            this.input = input.getItems()[0];
             this.tier = tier;
             this.advancementBuilder = advancementBuilderIn;
             this.advancementId = advancementIdIn;
         }
 
-        public void serialize(JsonObject json) {
+        @Override
+        public void serializeRecipeData(JsonObject json) {
             if (!this.group.isEmpty()) json.addProperty("group", this.group);
 
             DatagenUtils.addStackToJson(json, "ingredient", input);
@@ -153,23 +156,25 @@ public class MaceratorRecipeBuilder extends BaseRecipeBuilder {
             json.add("tier", new JsonPrimitive(tier));
         }
 
-        public ResourceLocation getID() {
+        @Override
+        public ResourceLocation getId() {
             return this.id;
         }
 
-        public IRecipeSerializer<?> getSerializer() {
-            return Ref.MACERATOR_SERIALIZER;
+        @Override
+        public RecipeSerializer<?> getType() {
+            return Registration.MACERATOR_SERIALIZER.get();
         }
 
         @Nullable
         @Override
-        public JsonObject getAdvancementJson() {
-            return this.advancementBuilder.serialize();
+        public JsonObject serializeAdvancement() {
+            return this.advancementBuilder.serializeToJson();
         }
 
         @Nullable
         @Override
-        public ResourceLocation getAdvancementID() {
+        public ResourceLocation getAdvancementId() {
             return this.advancementId;
         }
     }

@@ -1,17 +1,18 @@
 package al132.techemistry.blocks.macerator;
 
-import al132.techemistry.Ref;
-import al132.techemistry.blocks.BaseContainer;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import al132.alib.container.ABaseContainer;
+import al132.techemistry.Registration;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class MaceratorContainer extends BaseContainer {
-    public MaceratorContainer(int id, World world, BlockPos pos, PlayerInventory playerInv, PlayerEntity player) {
-        super(Ref.maceratorContainer, id, world, pos, playerInv, player, 4);
+public class MaceratorContainer extends ABaseContainer {
+    public MaceratorContainer(int id, Level level, BlockPos pos, Inventory playerInv) {
+        super(Registration.maceratorContainer.get(), id, level, pos, playerInv, 4);
         MaceratorTile mTile = ((MaceratorTile) tile);
         addSlot(new SlotItemHandler(mTile.getInput(), 0, 44, 43));
         addSlot(new SlotItemHandler(mTile.getInput(), 1, 84, 16));
@@ -20,8 +21,9 @@ public class MaceratorContainer extends BaseContainer {
         addPlayerSlots();
     }
 
-    public IEnergyStorage getEnergy() {
-        return ((MaceratorTile) tile).energy;
-    }
 
+    @Override
+    public boolean stillValid(Player p_38874_) {
+        return true;
+    }
 }

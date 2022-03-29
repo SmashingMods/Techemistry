@@ -2,20 +2,19 @@ package al132.techemistry.blocks.macerator;
 
 import al132.techemistry.RecipeTypes;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.utils.ProcessingRecipe;
-import com.google.common.collect.Lists;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static al132.techemistry.blocks.macerator.WeightedItemStack.weighted;
 
 public class MaceratorRecipe extends ProcessingRecipe {
 
@@ -81,7 +80,7 @@ public class MaceratorRecipe extends ProcessingRecipe {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
-        return Ref.MACERATOR_SERIALIZER;
+    public RecipeSerializer<?> getSerializer() {
+        return Registration.MACERATOR_SERIALIZER.get();
     }
 }

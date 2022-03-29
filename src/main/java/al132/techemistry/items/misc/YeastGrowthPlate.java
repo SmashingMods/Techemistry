@@ -1,20 +1,22 @@
 package al132.techemistry.items.misc;
 
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.items.BaseItem;
 import al132.techemistry.utils.TUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.SlabType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.SlabType;
+
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -26,20 +28,20 @@ public class YeastGrowthPlate extends BaseItem {
 
     @Override
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entity) {
-        World world = entity.getEntityWorld();
-        if (world.rand.nextInt(200) == 0) {
-            BlockState state = world.getBlockState(entity.getPosition());
+        Level level = entity.getLevel();
+        if (level.random.nextInt(200) == 0) {
+            BlockState state = level.getBlockState(new BlockPos(entity.getPosition(0)));
             if (state.getBlock() instanceof SlabBlock
                     && state.hasProperty(BlockStateProperties.WATERLOGGED)
-                    && state.get(BlockStateProperties.WATERLOGGED)
+                    && state.getValue(BlockStateProperties.WATERLOGGED)
                     && state.hasProperty(BlockStateProperties.SLAB_TYPE)
-                    && state.get(BlockStateProperties.SLAB_TYPE) == SlabType.BOTTOM) {
-                List<BlockState> surrounding = TUtils.getSurroundingBlocks(world, entity.getPosition());
+                    && state.getValue(BlockStateProperties.SLAB_TYPE) == SlabType.BOTTOM) {
+                List<BlockState> surrounding = TUtils.getSurroundingBlocks(level, new BlockPos(entity.getPosition(0)));
                 if (surrounding.stream().allMatch(x -> x.getBlock() != Blocks.WATER)) {
                     stack.shrink(1);
-                    BlockPos pos = entity.getPosition();
-                    ItemEntity yeast = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Ref.yeast));
-                    world.addEntity(yeast);
+                    BlockPos pos = new BlockPos(entity.getPosition(0));
+                    ItemEntity yeast = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Registration.YEAST_ITEM.get()));
+                    level.addFreshEntity(yeast);
                 }
             }
         }
@@ -47,9 +49,9 @@ public class YeastGrowthPlate extends BaseItem {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new StringTextComponent("Toss in a shallow pool of water, then wait and yeast will grow"));
-        tooltip.add(new StringTextComponent("(A single block of water with a slab on the bottom half, no surrounding water)"));
+    public void appendHoverText(ItemStack stack, @Nullable Level levelIn, List<Component> tooltips, TooltipFlag flagIn) {
+        super.appendHoverText(stack, levelIn, tooltips, flagIn);
+        tooltips.add(new TextComponent("Toss in a shallow pool of water, then wait and yeast will grow"));
+        tooltips.add(new TextComponent("(A single block of water with a slab on the bottom half, no surrounding water)"));
     }
 }

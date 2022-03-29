@@ -1,8 +1,5 @@
 package al132.techemistry.items.parts;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag;
 
 public class PartMaterial {
 

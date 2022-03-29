@@ -1,22 +1,18 @@
 package al132.techemistry.setup;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 public class ServerProxy implements IProxy {
 
-
     @Override
-    public void init() {
-    }
-
-    @Override
-    public World getClientWorld() {
+    public Level getClientLevel() {
         throw new IllegalStateException("Only run on the client");
     }
 
     @Override
-    public PlayerEntity getClientPlayer() {
+    public Player getClientPlayer() {
         throw new IllegalStateException("Only run on the client");
     }
 }

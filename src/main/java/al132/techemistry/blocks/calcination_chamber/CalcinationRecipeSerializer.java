@@ -5,20 +5,20 @@ import al132.techemistry.utils.RecipeUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+
 
 import javax.annotation.Nullable;
 
 public class CalcinationRecipeSerializer<T extends CalcinationRecipe>
-        extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
+        extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
 
     private final int temp;
     private IFactory<T> factory;
@@ -29,51 +29,53 @@ public class CalcinationRecipeSerializer<T extends CalcinationRecipe>
     }
 
     @Override
-    public T read(ResourceLocation recipeId, JsonObject json) {
-        String s = JSONUtils.getString(json, "group", "");
-        JsonElement jsonelement = (JsonElement) (JSONUtils.isJsonArray(json, "ingredient") ? JSONUtils.getJsonArray(json, "ingredient") : JSONUtils.getJsonObject(json, "ingredient"));
-        Ingredient ingredient = Ingredient.deserialize(jsonelement);
+    public T fromJson(ResourceLocation recipeId, JsonObject json) {
+        String s = json.get("group").getAsString();//JSONUtils.getString(json, "group", "");
+        JsonElement jsonelement = (JsonElement) (json.get("ingredient").isJsonArray()
+                ? json.getAsJsonArray("ingredient")
+                : json.getAsJsonObject("ingredient"));
+        Ingredient ingredient = Ingredient.fromJson(jsonelement);
         //Forge: Check if primitive string to keep vanilla or a object which can contain a count field.
         if (!json.has("result"))
             throw new JsonSyntaxException("Missing result, expected to find a string or object");
         ItemStack output1;
         if (json.get("result").isJsonObject())
-            output1 = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
+            output1 = ShapedRecipe.itemStackFromJson(json.getAsJsonObject("result"));//.getJsonObject(json, "result"));
         else {
-            String s1 = JSONUtils.getString(json, "result");
+            String s1 = json.get("result").getAsString();//JSONUtils.getString(json, "result");
             ResourceLocation resourcelocation = new ResourceLocation(s1);
 
-            output1 = new ItemStack(Registry.ITEM.getOrDefault(resourcelocation));
+            output1 = new ItemStack(Registry.ITEM.get(resourcelocation));
         }
         ItemStack output2 = RecipeUtils.getOptionalStack(json, "result2");
         ItemStack gas = RecipeUtils.getOptionalStack(json, "gas");
-        int d = JSONUtils.getInt(json, "minimumTemp", this.temp);
+        int d = json.get("minimumTemp").getAsInt();//JSONUtils.getInt(json, "minimumTemp", this.temp);
         return this.factory.create(recipeId, s, ingredient, d, output1, output2, gas);
     }
 
     @Nullable
     @Override
-    public T read(ResourceLocation recipeId, PacketBuffer buffer) {
-        String s = buffer.readString(32767);
-        Ingredient ingredient = Ingredient.read(buffer);
-        ItemStack output1 = buffer.readItemStack();
-        ItemStack output2 = buffer.readItemStack();
-        ItemStack gas = buffer.readItemStack();
+    public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+        String s = buffer.readUtf(32767);
+        Ingredient ingredient = Ingredient.fromNetwork(buffer);
+        ItemStack output1 = buffer.readItem();
+        ItemStack output2 = buffer.readItem();
+        ItemStack gas = buffer.readItem();
         double d = buffer.readDouble();
         return this.factory.create(recipeId, s, ingredient, d, output1, output2, gas);
     }
 
     @Override
-    public void write(PacketBuffer buffer, T recipe) {
-        buffer.writeString(recipe.getGroup());
-        recipe.getIngredients().get(0).write(buffer);
-        buffer.writeItemStack(recipe.getRecipeOutput());
-        buffer.writeItemStack(recipe.getRecipeOutput2());
-        buffer.writeItemStack(recipe.getRecipeGas());
+    public void toNetwork(FriendlyByteBuf buffer, T recipe) {
+        buffer.writeUtf(recipe.getGroup());
+        recipe.getIngredients().get(0).toNetwork(buffer);
+        buffer.writeItem(recipe.getResultItem());
+        buffer.writeItem(recipe.getRecipeOutput2());
+        buffer.writeItem(recipe.getRecipeGas());
         buffer.writeDouble(recipe.minimumHeat);
     }
 
     public interface IFactory<T extends ProcessingRecipe> {
-        T create(ResourceLocation resource, String group, Ingredient input,  double temp, ItemStack output1, ItemStack output2, ItemStack gas);
+        T create(ResourceLocation resource, String group, Ingredient input, double temp, ItemStack output1, ItemStack output2, ItemStack gas);
     }
 }

@@ -2,13 +2,15 @@ package al132.techemistry.blocks.reaction_chamber;
 
 import al132.techemistry.RecipeTypes;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.data.Formula;
 import al132.techemistry.utils.ProcessingRecipe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+
 
 public class ReactionChamberRecipe extends ProcessingRecipe {
 
@@ -47,8 +49,8 @@ public class ReactionChamberRecipe extends ProcessingRecipe {
 */
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
-        return Ref.REACTION_CHAMBER_SERIALIZER;
+    public RecipeSerializer<?> getSerializer() {
+        return Registration.REACTION_CHAMBER_SERIALIZER.get();
     }
 
     @Override

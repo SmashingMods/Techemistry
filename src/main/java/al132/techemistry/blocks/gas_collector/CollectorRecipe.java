@@ -1,7 +1,8 @@
 package al132.techemistry.blocks.gas_collector;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
+
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public class CollectorRecipe {
 

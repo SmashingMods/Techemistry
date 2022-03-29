@@ -4,6 +4,7 @@ import al132.alib.tiles.CustomStackHandler;
 import al132.alib.tiles.FluidTile;
 import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.BaseInventoryTile;
 import al132.techemistry.blocks.HeatTile;
 import al132.techemistry.blocks.gas_collector.GasCollectorTile;
@@ -11,16 +12,15 @@ import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
 import al132.techemistry.items.misc.YeastItem;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.WaterFluid;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.WaterFluid;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -34,7 +34,7 @@ import java.util.Optional;
 import static al132.techemistry.utils.TUtils.toStack;
 
 public class FermenterTile extends BaseInventoryTile
-        implements GuiTile, ITickableTileEntity, HeatTile, FluidTile {
+        implements GuiTile, HeatTile, FluidTile {
 
     protected FluidTank inputTank = new FluidTank(10000) {
         @Override
@@ -54,23 +54,22 @@ public class FermenterTile extends BaseInventoryTile
 
     private Optional<FermenterRecipe> currentRecipe = Optional.empty();
 
-    public FermenterTile() {
-        super(Ref.fermenterTile);
+    public FermenterTile(BlockPos pos, BlockState state) {
+        super(Registration.FERMENTER_BE.get(), pos, state);
     }
 
     public void updateRecipe() {
-        this.currentRecipe = FermenterRegistry.getRecipeForInput(world, getFood());
+        this.currentRecipe = FermenterRegistry.getRecipeForInput(level, getFood());
     }
 
-    @Override
-    public void tick() {
-        if (world.isRemote) return;
-        HeatHelper.balanceHeat(world, pos, heat);// updateHeat(); //TODO not every tick!
+    public void tickServer() {
+        HeatHelper.balanceHeat(level, getBlockPos(), heat);// updateHeat(); //TODO not every tick!
         if (this.heat.getHeatStored() > YeastItem.MAX_TEMP && !getYeast().isEmpty()) {
-            if (world.rand.nextInt((int) (20000 / heat.getHeatStored())) == 0) getYeast().shrink(1);
+            if (level.random.nextInt((int) (20000 / heat.getHeatStored())) == 0) getYeast().shrink(1);
         }
         if (canProcess()) process();
-        markDirtyGUI(); //TODO not every tick!
+        setChanged(); //TODO not every tick!
+        updateGUIEvery(5);
     }
 
     public ItemStack getYeast() {
@@ -89,7 +88,7 @@ public class FermenterTile extends BaseInventoryTile
         return currentRecipe.isPresent()
                 && this.heat.getHeatStored() > YeastItem.MIN_TEMP
                 && this.heat.getHeatStored() < YeastItem.MAX_TEMP
-                && getYeast().getItem() == Ref.yeast
+                && getYeast().getItem() == Registration.YEAST_ITEM.get()
                 && !getBottles().isEmpty()
                 && this.inputTank.getFluidAmount() >= currentRecipe.get().waterAmount
                 && getOutput().getStackInSlot(0).isEmpty();
@@ -97,7 +96,7 @@ public class FermenterTile extends BaseInventoryTile
 /*
     private ItemStack createOutput(ItemStack outputStack, int ethanol, int methanol) {
         //ItemStack outputStack = new ItemStack(outputItem);
-        CompoundNBT tag = new CompoundNBT();
+        CompoundTag tag = new CompoundTag();
         tag.putInt("ethanol", ethanol);
         tag.putInt("methanol", methanol);
         outputStack.setTag(tag);
@@ -116,12 +115,12 @@ public class FermenterTile extends BaseInventoryTile
             //int methanol = 20 - (int) (20 * (YeastItem.MAX_TEMP - avg) / YeastItem.getTempRange());
             this.totalTempThisOperation = 0;
             this.progressTicks = 0;
-            getOutput().setOrIncrement(0, currentRecipe.get().getRecipeOutput().copy());//, 100 - methanol, methanol));//new ItemStack(ModItems.sugarWine));
+            getOutput().setOrIncrement(0, currentRecipe.get().getResultItem().copy());//, 100 - methanol, methanol));//new ItemStack(ModItems.sugarWine));
             getYeast().shrink(1);
             getFood().shrink(1);
             getBottles().shrink(1);
             inputTank.drain(currentRecipe.get().waterAmount, FluidAction.EXECUTE);
-            TileEntity aboveTile = world.getTileEntity(pos.up());
+            BlockEntity aboveTile = level.getBlockEntity(getBlockPos().above());
             if (aboveTile instanceof GasCollectorTile) {
                 ((GasCollectorTile) aboveTile).getOutput().setOrIncrement(0, toStack("carbon_dioxide"));
             }
@@ -129,37 +128,31 @@ public class FermenterTile extends BaseInventoryTile
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         inputTank.readFromNBT(compound.getCompound("inputTank"));
         if (compound.contains("heat")) {
             heat = new HeatStorage(compound.getDouble("heat"));
         } else {
-            heat = new HeatStorage(HeatHelper.getBiomeHeat(world, pos));
+            heat = new HeatStorage(HeatHelper.getBiomeHeat(level, getBlockPos()));
         }
         progressTicks = compound.getInt("progressTicks");
         totalTempThisOperation = compound.getInt("totalTemp");
         updateRecipe();
-        //markDirtyGUI();
+        //setChanged();
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
-        compound.put("inputTank", inputTank.writeToNBT(new CompoundNBT()));
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
+        compound.put("inputTank", inputTank.writeToNBT(new CompoundTag()));
         compound.putDouble("heat", heat.getHeatStored());
         compound.putInt("progressTicks", progressTicks);
         compound.putInt("totalTemp", totalTempThisOperation);
-        return super.write(compound);
-    }
-
-    @Nullable
-    @Override
-    public Container createMenu(int i, PlayerInventory playerInv, PlayerEntity player) {
-        return new FermenterContainer(i, world, pos, playerInv, player);
     }
 
     /*  public void updateHeat() {
-        double base = Utils.getSurroundingBlocks(world, pos).stream().mapToDouble(x -> HeatHelper.getBlockHeat(world, pos, x)).sum() / 6.0;
+        double base = Utils.getSurroundingBlocks(Level, pos).stream().mapToDouble(x -> HeatHelper.getBlockHeat(Level, pos, x)).sum() / 6.0;
         if (base > heat.getHeatStored() + 1) {
             heat.receiveHeat(0.15f, false);
         } else if (base + 1 < heat.getHeatStored()) {
@@ -167,15 +160,6 @@ public class FermenterTile extends BaseInventoryTile
         }
     }*/
 
-    @Override
-    public int getWidth() {
-        return 175;
-    }
-
-    @Override
-    public int getHeight() {
-        return 183;
-    }
 
     @Override
     public LazyOptional<IHeatStorage> getHeat() {
@@ -187,8 +171,8 @@ public class FermenterTile extends BaseInventoryTile
         return new CustomStackHandler(this, 3) {
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                if (slot == 0) return stack.getItem() == Ref.yeast;
-                else if (slot == 1) return FermenterRegistry.inputHasRecipe(world, stack);
+                if (slot == 0) return stack.getItem() == Registration.YEAST_ITEM.get();
+                else if (slot == 1) return FermenterRegistry.inputHasRecipe(level, stack);
                 else if (slot == 2) return stack.getItem() == Items.GLASS_BOTTLE;
                 else return false;
             }
@@ -209,5 +193,10 @@ public class FermenterTile extends BaseInventoryTile
     @Override
     public int outputSlots() {
         return 1;
+    }
+
+    @Override
+    public Component getName() {
+        return null;
     }
 }

@@ -1,11 +1,5 @@
 package al132.techemistry.items.parts;
 
-import al132.techemistry.utils.TUtils;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.Tags;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,27 +3,31 @@ package al132.techemistry.blocks.gas_collector;
 import al132.alib.tiles.CustomStackHandler;
 import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.BaseInventoryTile;
 import al132.techemistry.utils.TUtils;
-import net.minecraft.block.*;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.phys.AABB;
+
 
 import javax.annotation.Nullable;
 
-public class GasCollectorTile extends BaseInventoryTile implements GuiTile, ITickableTileEntity {
+public class GasCollectorTile extends BaseInventoryTile implements GuiTile {
 
     private int progressTicks = 0;
 
-    public GasCollectorTile() {
-        super(Ref.gasCollectorTile);
+    public GasCollectorTile(BlockPos pos, BlockState state) {
+        super(Registration.GAS_COLLECTOR_BE.get(), pos, state);
     }
 
     public ItemStack getOutputStack() {
@@ -34,14 +38,13 @@ public class GasCollectorTile extends BaseInventoryTile implements GuiTile, ITic
         return getOutputStack().isEmpty() || getOutputStack().getItem() == item.getItem();
     }
 
-    @Override
-    public void tick() {
-        if (world.isRemote) return;
-        if (progressTicks % 100 == 0) {
+    public void tickServer() {
+        if (level.isClientSide) return;
+        if (progressTicks % 200 == 0) {
             progressTicks = 0;
             if (getOutputStack().getCount() == getOutputStack().getMaxStackSize()) return;
-            Block down1 = world.getBlockState(pos.down()).getBlock();
-            Block down2 = world.getBlockState(pos.down(2)).getBlock();
+            Block down1 = level.getBlockState(getBlockPos().below()).getBlock();
+            Block down2 = level.getBlockState(getBlockPos().below(2)).getBlock();
             if (down1 instanceof AirBlock) {
                 if (down2 instanceof FireBlock) {
                     ItemStack carbonDioxide = TUtils.toStack("carbon_dioxide");
@@ -49,46 +52,43 @@ public class GasCollectorTile extends BaseInventoryTile implements GuiTile, ITic
                         getOutput().setOrIncrement(0, carbonDioxide);
                     }
                 } else {
-                    BlockPos corner1 = this.pos.down().north().west();
-                    BlockPos corner2 = this.pos.down().south().east();
+                    BlockPos corner1 = this.getBlockPos().below().north().west();
+                    BlockPos corner2 = this.getBlockPos().below().south().east();
                     ItemStack methane = TUtils.toStack("methane");
                     if (canStackWithOutput(methane)) {
-                        if (!world.getEntitiesWithinAABB(EntityType.COW, new AxisAlignedBB(corner1, corner2), (entity -> true)).isEmpty()) {
+                        if (!level.getEntitiesOfClass(Cow.class, AABB.of(BoundingBox.fromCorners(corner1, corner2)), (entity -> true)).isEmpty()) {
                             getOutput().setOrIncrement(0, methane);
                         }
                     }
                 }
-            } else if (down1.getBlock() instanceof LeavesBlock) {
+            } else if (down1 instanceof LeavesBlock) {
                 ItemStack oxygen = TUtils.toStack("oxygen", 2);
                 if (canStackWithOutput(oxygen)) {
                     getOutput().setOrIncrement(0, oxygen);
                 }
-            } else if (down1.getBlock() instanceof CampfireBlock) {
+            } else if (down1 instanceof CampfireBlock) {
                 ItemStack carbonDioxide = TUtils.toStack("carbon_dioxide");
                 if (canStackWithOutput(carbonDioxide)) {
                     getOutput().setOrIncrement(0, carbonDioxide);
                 }
             }
         }
+        setChanged();
         progressTicks++;
+        updateGUIEvery(5);
+
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         progressTicks = compound.getInt("progressTicks");
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putInt("progressTicks", progressTicks);
-        return super.write(compound);
-    }
-
-    @Nullable
-    @Override
-    public Container createMenu(int i, PlayerInventory playerInv, PlayerEntity player) {
-        return new GasCollectorContainer(i, world, pos, playerInv, player);
     }
 
     @Override
@@ -109,5 +109,10 @@ public class GasCollectorTile extends BaseInventoryTile implements GuiTile, ITic
     @Override
     public int outputSlots() {
         return 1;
+    }
+
+    @Override
+    public Component getName() {
+        return null;
     }
 }

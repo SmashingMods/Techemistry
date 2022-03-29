@@ -2,11 +2,13 @@ package al132.techemistry.blocks.froth_flotation_chamber;
 
 import al132.techemistry.RecipeTypes;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.items.minerals.Mineral;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.world.World;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,9 +37,9 @@ public class FrothFlotationRegistry {
         //addRecipe(output1, ItemStack.EMPTY, input1, water);
     }
 
-    public static List<FrothFlotationRecipe> getRecipes(World world) {
+    public static List<FrothFlotationRecipe> getRecipes(Level level) {
         if (recipes == null) {
-            recipes = world.getRecipeManager().getRecipes().stream()
+            recipes = level.getRecipeManager().getRecipes().stream()
                     .filter(x -> x.getType() == RecipeTypes.FROTH_FLOTATION_CHAMBER)
                     .map(x -> (FrothFlotationRecipe) x)
                     .collect(Collectors.toList());
@@ -45,19 +47,19 @@ public class FrothFlotationRegistry {
         return recipes;
     }
 
-    public static boolean hasRecipe(World world, ItemStack stack) {
-        return getRecipes(world).stream().anyMatch(x -> matchesRecipe(x, stack));
+    public static boolean hasRecipe(Level level, ItemStack stack) {
+        return getRecipes(level).stream().anyMatch(x -> matchesRecipe(x, stack));
     }
 
     public static boolean matchesRecipe(FrothFlotationRecipe recipe, ItemStack targetStack) {
         Item targetItem = targetStack.getItem();
-        return Arrays.stream(recipe.input.getMatchingStacks())
+        return Arrays.stream(recipe.input.getItems())
                 .map(ItemStack::getItem)
                 .anyMatch(item -> item == targetItem);
     }
 
-    public static Optional<FrothFlotationRecipe> getRecipeForInput(World world, ItemStack input1) {
-        return getRecipes(world).stream()
+    public static Optional<FrothFlotationRecipe> getRecipeForInput(Level level, ItemStack input1) {
+        return getRecipes(level).stream()
                 .filter(recipe -> matchesRecipe(recipe, input1))
                 .findFirst();
     }

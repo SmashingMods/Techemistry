@@ -2,22 +2,23 @@ package al132.techemistry.blocks.steam_turbine;
 
 import al132.alib.client.CapabilityEnergyDisplayWrapper;
 import al132.techemistry.blocks.BaseScreen;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+
 
 public class SteamTurbineScreen extends BaseScreen<SteamTurbineContainer> {
-    public SteamTurbineScreen(SteamTurbineContainer screenContainer, PlayerInventory inv, ITextComponent name) {
+    public SteamTurbineScreen(SteamTurbineContainer screenContainer, Inventory inv, Component name) {
         super(screenContainer, inv, name, "textures/gui/steam_turbine_gui.png");
-        displayData.add(new CapabilityEnergyDisplayWrapper(8, 23, 16, 60, screenContainer::getEnergy));
+        displayData.add(new CapabilityEnergyDisplayWrapper(8, 23, 16, 60, getMenu().tile));
     }
 
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack ms, float f, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(ms, f, mouseX, mouseY);
-        SteamTurbineTile tile = (SteamTurbineTile) container.tile;
-        this.minecraft.textureManager.bindTexture(this.GUI);
+    public void render(PoseStack ps, int mouseX, int mouseY, float f) {
+        super.render(ps, mouseX, mouseY, f);
+        SteamTurbineTile tile = (SteamTurbineTile) menu.tile;
+        this.minecraft.textureManager.bindForSetup(this.GUI);
         /* if (tile.progressTicks > 0) {
             int k = this.getBarScaled(28, tile.progressTicks, tile.TICKS_PER_OPERATION);
             this.blit(78, 47, 175, 0, k, 9);

@@ -1,22 +1,22 @@
 package al132.techemistry.blocks.world;
-
 import al132.techemistry.utils.TUtils;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
+
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class OxideOre extends WorldBlock {
     public OxideOre() {
-        super("oxide_ore", 18, 8);
+        super(18, 8);
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-        TUtils.addBlockTooltip(tooltip, this);
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter getter, List<Component> tooltips, TooltipFlag flagIn) {
+        super.appendHoverText(stack, getter, tooltips, flagIn);
+        TUtils.addBlockTooltip(tooltips, this);
     }
 }

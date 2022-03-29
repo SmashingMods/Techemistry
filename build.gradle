@@ -1,15 +1,17 @@
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
+        maven { url = 'https://maven.parchmentmc.org' }
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
@@ -17,13 +19,13 @@ version = mc_version + '-' + mod_version
 group = 'al132.techemistry' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'techemistry'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 sourceSets{
     main.resources.srcDirs += 'src/main/generated_resources'
 }
 minecraft {
-    mappings channel: 'snapshot', version: snapshot_version
+    mappings channel: 'parchment', version: "2022.03.13-1.18.2"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -104,15 +106,12 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
-    // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+    implementation fg.deobf("mezz.jei:jei-${jei_version}")
 
     //compile fileTree(dir: "libs", include: '*.jar')
 
-    compile fg.deobf(files("libs/chemlib-" + chemlib_version + "-dev.jar"))
-    compile fg.deobf(files("libs/alib-" + alib_version + "-dev.jar"))
+    implementation fg.deobf(files("libs/chemlib-" + chemlib_version + "-dev.jar"))
+    implementation fg.deobf(files("libs/alib-" + alib_version + "-dev.jar"))
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

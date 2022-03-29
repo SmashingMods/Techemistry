@@ -3,26 +3,26 @@ package al132.techemistry.blocks.solar_heater;
 import al132.alib.tiles.CustomStackHandler;
 import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.BaseInventoryTile;
 import al132.techemistry.blocks.HeatTile;
 import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
 import al132.techemistry.utils.TUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class SolarHeaterTile extends BaseInventoryTile implements ITickableTileEntity, GuiTile, HeatTile {
-    public SolarHeaterTile() {
-        super(Ref.solarHeaterTile);
+public class SolarHeaterTile extends BaseInventoryTile implements GuiTile, HeatTile {
+    public SolarHeaterTile(BlockPos pos, BlockState state) {
+        super(Registration.SOLAR_HEATER_BE.get(), pos, state);
     }
 
     protected HeatStorage heat = new HeatStorage(HeatHelper.ROOM_TEMP);
@@ -32,31 +32,24 @@ public class SolarHeaterTile extends BaseInventoryTile implements ITickableTileE
     protected int currentFuelMaxTicks = 0;
 
 
-    @Nullable
-    @Override
-    public Container createMenu(int id, PlayerInventory inv, PlayerEntity player) {
-        return new SolarHeaterContainer(id, world, pos, inv, player);
-    }
-
-
-    @Override
-    public void tick() {
-        if (world.isRemote) return;
-        if (world.getGameTime() % 20 == 0) {
+    public void tickServer() {
+        if (level.getGameTime() % 20 == 0) {
             if (canGenerateHeat()) generateHeat();
-            List<IHeatStorage> tiles = TUtils.getSurroundingHeatTiles(world, pos);
+            List<IHeatStorage> tiles = TUtils.getSurroundingHeatTiles(level, getBlockPos());
             for (IHeatStorage tile : tiles) {
                 if (tile.getHeatStored() + 2.0 < this.heat.getHeatStored()) {
                     tile.receiveHeat(this.heat.extractHeat(2.0, false), false);
                 }
             }
-            HeatHelper.balanceHeat(world, pos, heat);
-            markDirtyGUI();
+            HeatHelper.balanceHeat(level, getBlockPos(), heat);
+            setChanged();
         }
+        updateGUIEvery(5);
+
     }
 
     public boolean canGenerateHeat() {
-        return world.isDaytime() && world.canBlockSeeSky(pos.up()) && heat.getHeatStored() < 400;
+        return level.isDay() && level.canSeeSky(getBlockPos().above()) && heat.getHeatStored() < 400;
     }
 
     public void generateHeat() {
@@ -66,15 +59,15 @@ public class SolarHeaterTile extends BaseInventoryTile implements ITickableTileE
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         heat = new HeatStorage(compound.getDouble("heat"));
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putDouble("heat", heat.getHeatStored());
-        return super.write(compound);
     }
 
     @Override
@@ -90,5 +83,10 @@ public class SolarHeaterTile extends BaseInventoryTile implements ITickableTileE
     @Override
     public int outputSlots() {
         return 0;
+    }
+
+    @Override
+    public Component getName() {
+        return null;
     }
 }

@@ -1,19 +1,20 @@
 package al132.techemistry.blocks.fermenter;
 
-import al132.techemistry.Ref;
-import al132.techemistry.blocks.BaseContainer;
-import al132.techemistry.capabilities.heat.IHeatStorage;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import al132.alib.container.ABaseContainer;
+import al132.techemistry.Registration;
+
+import al132.techemistry.capabilities.heat.HeatStorage;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class FermenterContainer extends BaseContainer {
+public class FermenterContainer extends ABaseContainer {
 
-    public FermenterContainer(int id, World world, BlockPos pos, PlayerInventory playerInv, PlayerEntity player) {
-        super(Ref.fermenterContainer, id, world, pos, playerInv, player, 4);
+    public FermenterContainer(int id, Level level, BlockPos pos, Inventory playerInv) {
+        super(Registration.fermenterContainer.get(), id, level, pos, playerInv, 4);
         FermenterTile fermenterTile = ((FermenterTile) tile);
         addSlot(new SlotItemHandler(fermenterTile.getInput(), 0, 70, 27)); //yeast
         addSlot(new SlotItemHandler(fermenterTile.getInput(), 1, 70, 45)); //food
@@ -22,11 +23,12 @@ public class FermenterContainer extends BaseContainer {
         addPlayerSlots();
     }
 
-    public IHeatStorage getHeat() {
+    public HeatStorage getHeat() {
         return ((FermenterTile) tile).heat;
     }
 
-    public IFluidHandler getFluid() {
-        return ((FermenterTile) tile).inputTank;
+    @Override
+    public boolean stillValid(Player player) {
+        return true;
     }
 }

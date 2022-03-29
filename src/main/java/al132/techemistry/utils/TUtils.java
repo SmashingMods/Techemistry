@@ -7,23 +7,22 @@ import al132.chemlib.items.ElementItem;
 import al132.chemlib.items.IChemical;
 import al132.techemistry.Techemistry;
 import al132.techemistry.capabilities.heat.CapabilityHeat;
+
 import al132.techemistry.capabilities.heat.IHeatStorage;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
-import net.minecraft.tags.TagCollectionManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -38,8 +37,8 @@ import java.util.stream.Collectors;
 
 public class TUtils {
 
-    public static ITag.INamedTag<Item> tag(String name) {
-        return ItemTags.createOptional(new ResourceLocation("forge", name));
+    public static Ingredient tag(String name) {
+        return null;//return ItemTags.create(new ResourceLocation("forge", name));
     }
 
 
@@ -62,41 +61,41 @@ public class TUtils {
     }
 
     public static boolean isIngredientEmpty(Ingredient ingredient) {
-        int length = ingredient.getMatchingStacks().length;
-        return length == 0 || (length == 1 && ingredient.getMatchingStacks()[0].isEmpty());
+        int length = ingredient.getItems().length;
+        return length == 0 || (length == 1 && ingredient.getItems()[0].isEmpty());
     }
 
     public static ResourceLocation toLocation(String path) {
-        return new ResourceLocation(Techemistry.data.MODID, path);
+        return new ResourceLocation(Techemistry.MODID, path);
     }
 
-    public static void addBlockTooltip(List<ITextComponent> tooltips, Block block) {
-        String key = block.getTranslationKey() + ".tooltip";
-        tooltips.add(new StringTextComponent(I18n.format(key)));
+    public static void addBlockTooltip(List<Component> tooltips, Block block) {
+        String key = block.getDescriptionId() + ".tooltip";
+        tooltips.add(new TextComponent(I18n.get(key)));
     }
 
     public static Ingredient toIngredient(String str) {
-        return Ingredient.fromStacks(toStack(str));
+        return Ingredient.of(toStack(str));
     }
 
     public static Ingredient toIngredient(Item... items) {
-        return Ingredient.fromItems(items);
+        return Ingredient.of(items);
     }
 
     public static Ingredient toIngredient(Block block) {
-        return Ingredient.fromItems(block.asItem());
+        return Ingredient.of(block.asItem());
     }
 
     public static Ingredient toIngredient(Item item, int quantity) {
-        return Ingredient.fromStacks(new ItemStack(item, quantity));
+        return Ingredient.of(new ItemStack(item, quantity));
     }
 
     public static Ingredient toIngredient(String str, int quantity) {
-        return Ingredient.fromStacks(toStack(str, quantity));
+        return Ingredient.of(toStack(str, quantity));
     }
 
     public static boolean isQuantityAdequate(ItemStack stack, Ingredient recipe) {
-        return recipe == Ingredient.EMPTY || stack.getCount() >= recipe.getMatchingStacks()[0].getCount();
+        return recipe == Ingredient.EMPTY || stack.getCount() >= recipe.getItems()[0].getCount();
     }
 
     public static boolean canStack(ItemStack recipeStack, ItemStack slotStack) {
@@ -143,8 +142,8 @@ public class TUtils {
 
     public static List<BlockPos> getSurroundingPositions(BlockPos pos) {
         ArrayList<BlockPos> output = new ArrayList<>();
-        output.add(pos.up());
-        output.add(pos.down());
+        output.add(pos.above());
+        output.add(pos.below());
         output.add(pos.north());
         output.add(pos.south());
         output.add(pos.east());
@@ -152,30 +151,30 @@ public class TUtils {
         return output;
     }
 
-    public static List<BlockState> getSurroundingBlocks(World world, BlockPos pos) {
+    public static List<BlockState> getSurroundingBlocks(Level level, BlockPos pos) {
         ArrayList<BlockState> output = new ArrayList<>();
-        getSurroundingPositions(pos).forEach(position -> output.add(world.getBlockState(position)));
+        getSurroundingPositions(pos).forEach(position -> output.add(level.getBlockState(position)));
         return output;
     }
 
-    public static List<LazyOptional<IEnergyStorage>> getSurroundingEnergyTiles(World world, BlockPos pos) {
+    public static List<LazyOptional<IEnergyStorage>> getSurroundingEnergyTiles(Level level, BlockPos pos) {
         return getSurroundingPositions(pos).stream()
-                .map(world::getTileEntity)
+                .map(level::getBlockEntity)
                 .filter(Objects::nonNull)
                 .map(x -> x.getCapability(CapabilityEnergy.ENERGY))
                 .collect(Collectors.toList());
     }
 
-    public static List<LazyOptional<IHeatStorage>> getSurroundingHeatCapabilities(World world, BlockPos pos) {
+    public static List<LazyOptional<IHeatStorage>> getSurroundingHeatCapabilities(Level level, BlockPos pos) {
         return getSurroundingPositions(pos).stream()
-                .map(world::getTileEntity)
+                .map(level::getBlockEntity)
                 .filter(Objects::nonNull)
-                .map(x -> x.getCapability(CapabilityHeat.HEAT_CAP))
+                .map(x -> x.getCapability(CapabilityHeat.HEAT))
                 .collect(Collectors.toList());
     }
 
-    public static List<IHeatStorage> getSurroundingHeatTiles(World world, BlockPos pos) {
-        return getSurroundingHeatCapabilities(world, pos).stream()
+    public static List<IHeatStorage> getSurroundingHeatTiles(Level level, BlockPos pos) {
+        return getSurroundingHeatCapabilities(level, pos).stream()
                 .filter(LazyOptional::isPresent)
                 .map(x -> x.orElse(null))
                 .collect(Collectors.toList());

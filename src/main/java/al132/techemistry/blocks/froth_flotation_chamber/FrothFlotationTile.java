@@ -2,17 +2,17 @@ package al132.techemistry.blocks.froth_flotation_chamber;
 
 import al132.alib.tiles.*;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.BaseInventoryTile;
 import al132.techemistry.utils.TUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.WaterFluid;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.Nameable;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.WaterFluid;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class FrothFlotationTile extends BaseInventoryTile
-        implements INamedContainerProvider, ITickableTileEntity, FluidTile, GuiTile, EnergyTile {
+        implements Nameable, FluidTile, GuiTile, EnergyTile {
 
     protected Optional<FrothFlotationRecipe> currentRecipe = Optional.empty();
     protected FluidTank inputTank = new FluidTank(10000) {
@@ -39,26 +39,21 @@ public class FrothFlotationTile extends BaseInventoryTile
     public final static int ENERGY_PER_TICK = 0;
     public static final int TICKS_PER_OPERATION = 100;
 
-    public FrothFlotationTile() {
-        super(Ref.frothFlotationTile);
-    }
-
-    @Nullable
-    @Override
-    public Container createMenu(int i, PlayerInventory playerInv, PlayerEntity player) {
-        return new FrothFlotationContainer(i, world, pos, playerInv, player);
+    public FrothFlotationTile(BlockPos pos, BlockState state) {
+        super(Registration.FROTH_FLOTATION_BE.get(), pos, state);
     }
 
     public void updateRecipe() {
-        this.currentRecipe = FrothFlotationRegistry.getRecipeForInput(world,getInputStack());
+        this.currentRecipe = FrothFlotationRegistry.getRecipeForInput(level, getInputStack());
     }
 
-    @Override
-    public void tick() {
-        if (world.isRemote) return;
+    public void tickServer() {
+        if (level.isClientSide) return;
         updateRecipe();
         if (canProcess()) process();
-        markDirtyGUI();
+        setChanged();
+        updateGUIEvery(5);
+
     }
 
     private boolean canProcess() {
@@ -67,8 +62,8 @@ public class FrothFlotationTile extends BaseInventoryTile
                 && inputTank.getFluidAmount() >= currentRecipe.get().water
                 && TUtils.canStack(currentRecipe.get().output, getOutputStack())
                 && TUtils.canStack(currentRecipe.get().output2, getOutput2Stack())
-                && TUtils.isQuantityAdequate(getInputStack(),currentRecipe.get().input)
-                && TUtils.isQuantityAdequate(getInputStack(),currentRecipe.get().input2);
+                && TUtils.isQuantityAdequate(getInputStack(), currentRecipe.get().input)
+                && TUtils.isQuantityAdequate(getInputStack(), currentRecipe.get().input2);
     }
 
     private void process() {
@@ -78,25 +73,25 @@ public class FrothFlotationTile extends BaseInventoryTile
             progressTicks = 0;
             getOutput().setOrIncrement(0, currentRecipe.get().output.copy());
             getOutput().setOrIncrement(1, currentRecipe.get().output2.copy());
-            getInputStack().shrink(currentRecipe.get().input.getMatchingStacks()[0].getCount());
-            getInputAdditive().shrink(currentRecipe.get().input.getMatchingStacks()[0].getCount());
+            getInputStack().shrink(currentRecipe.get().input.getItems()[0].getCount());
+            getInputAdditive().shrink(currentRecipe.get().input.getItems()[0].getCount());
 
         }
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state,compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         this.progressTicks = compound.getInt("progressTicks");
         inputTank.readFromNBT(compound.getCompound("inputTank"));
         updateRecipe();
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
-        compound.put("inputTank", inputTank.writeToNBT(new CompoundNBT()));
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
+        compound.put("inputTank", inputTank.writeToNBT(new CompoundTag()));
         compound.putInt("progressTicks", progressTicks);
-        return super.write(compound);
     }
 
     public ItemStack getInputStack() {
@@ -147,4 +142,8 @@ public class FrothFlotationTile extends BaseInventoryTile
         return energy;
     }
 
+    @Override
+    public Component getName() {
+        return null;
+    }
 }

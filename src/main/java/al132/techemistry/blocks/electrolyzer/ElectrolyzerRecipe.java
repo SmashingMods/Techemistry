@@ -2,19 +2,21 @@ package al132.techemistry.blocks.electrolyzer;
 
 import al132.techemistry.RecipeTypes;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.utils.ProcessingRecipe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+
 
 public class ElectrolyzerRecipe extends ProcessingRecipe {
 
     public Ingredient input2;
     public double minimumHeat;
-    public Ingredient anode = Ingredient.fromItems(Ref.platinumElectrode);
-    public Ingredient cathode = Ingredient.fromItems(Ref.platinumElectrode);
+    public Ingredient anode = Ingredient.of(Registration.PLATINUM_ELECTRODE_ITEM.get());
+    public Ingredient cathode = Ingredient.of(Registration.PLATINUM_ELECTRODE_ITEM.get());
     public ItemStack output2;
     public ItemStack output3;
 
@@ -88,7 +90,7 @@ public class ElectrolyzerRecipe extends ProcessingRecipe {
     }
 */
     @Override
-    public IRecipeSerializer<?> getSerializer() {
-        return Ref.ELECTROLYZER_SERIALIZER;
+    public RecipeSerializer<?> getSerializer() {
+        return Registration.ELECTROLYZER_SERIALIZER.get();
     }
 }

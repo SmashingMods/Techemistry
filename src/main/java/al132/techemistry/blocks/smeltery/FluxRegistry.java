@@ -1,7 +1,8 @@
 package al132.techemistry.blocks.smeltery;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.StringTextComponent;
+
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -17,7 +18,7 @@ public class FluxRegistry {
     @SubscribeEvent
     public void tooltipEvent(ItemTooltipEvent e) {
         if (isFlux(e.getItemStack())) {
-            e.getToolTip().add(new StringTextComponent("Smeltery Flux"));
+            e.getToolTip().add(new TextComponent("Smeltery Flux"));
         }
     }
 

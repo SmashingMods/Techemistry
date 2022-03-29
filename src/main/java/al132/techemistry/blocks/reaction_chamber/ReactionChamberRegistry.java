@@ -3,8 +3,9 @@ package al132.techemistry.blocks.reaction_chamber;
 import al132.techemistry.RecipeTypes;
 import al132.techemistry.utils.TUtils;
 import com.google.common.collect.Lists;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.items.IItemHandler;
 
 import java.util.Arrays;
@@ -44,7 +45,7 @@ public class ReactionChamberRegistry {
         addRecipe("3NO2 + H2O -> 2HNO3 + NO", 273);
 
         //TODO addRecipe(toStack("carbon_dioxide"), toStack("sulfur_dioxide", 2), toStack("water", 2),
-                370, toIngredient("sulfuric_acid", 2), toIngredient(Items.COAL, Ref.coke));
+                370, toIngredient("sulfuric_acid", 2), toIngredient(Items.COAL, Registration.coke));
 
 
         Lists.newArrayList("Li", "Na", "K", "Rb", "Cs")
@@ -91,9 +92,9 @@ public class ReactionChamberRegistry {
     }
 */
 
-    public static List<ReactionChamberRecipe> getRecipes(World world) {
+    public static List<ReactionChamberRecipe> getRecipes(Level level) {
         if (recipes == null) {
-            recipes = world.getRecipeManager().getRecipes().stream()
+            recipes = level.getRecipeManager().getRecipes().stream()
                     .filter(x -> x.getType() == RecipeTypes.REACTION_CHAMBER)
                     .map(x -> (ReactionChamberRecipe) x)
                     .collect(Collectors.toList());
@@ -101,8 +102,8 @@ public class ReactionChamberRegistry {
         return recipes;
     }
 
-    public static boolean hasRecipe(World world, ItemStack stack, int slot) {
-        return getRecipes(world).stream().map(x -> Lists.newArrayList(x.getInput(slot).getMatchingStacks()))
+    public static boolean hasRecipe(Level level, ItemStack stack, int slot) {
+        return getRecipes(level).stream().map(x -> Lists.newArrayList(x.getInput(slot).getItems()))
                 .anyMatch(x -> x.stream().anyMatch(y -> y.getItem() == stack.getItem()));
     }
 
@@ -111,19 +112,19 @@ public class ReactionChamberRegistry {
         ItemStack stack1 = inputHandler.getStackInSlot(1);
         ItemStack stack2 = inputHandler.getStackInSlot(2);
 
-        return ((stack0.isEmpty() && TUtils.isIngredientEmpty(recipe.input0)) || Arrays.stream(recipe.input0.getMatchingStacks())
+        return ((stack0.isEmpty() && TUtils.isIngredientEmpty(recipe.input0)) || Arrays.stream(recipe.input0.getItems())
                 .map(ItemStack::getItem)
                 .anyMatch(item -> item == stack0.getItem()))
-                && ((stack1.isEmpty() && TUtils.isIngredientEmpty(recipe.input1)) || Arrays.stream(recipe.input1.getMatchingStacks())
+                && ((stack1.isEmpty() && TUtils.isIngredientEmpty(recipe.input1)) || Arrays.stream(recipe.input1.getItems())
                 .map(ItemStack::getItem)
                 .anyMatch(item -> item == stack1.getItem()))
-                && ((stack2.isEmpty() && TUtils.isIngredientEmpty(recipe.input2)) || Arrays.stream(recipe.input2.getMatchingStacks())
+                && ((stack2.isEmpty() && TUtils.isIngredientEmpty(recipe.input2)) || Arrays.stream(recipe.input2.getItems())
                 .map(ItemStack::getItem)
                 .anyMatch(item -> item == stack2.getItem()));
     }
 
-    public static Optional<ReactionChamberRecipe> getRecipeForInput(World world, IItemHandler input) {
-        return getRecipes(world).stream()
+    public static Optional<ReactionChamberRecipe> getRecipeForInput(Level level, IItemHandler input) {
+        return getRecipes(level).stream()
                 .filter(recipe -> matchesRecipe(recipe, input))
                 .findFirst();
     }

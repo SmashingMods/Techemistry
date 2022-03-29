@@ -1,12 +1,12 @@
 package al132.techemistry.capabilities.heat;
 
 import al132.techemistry.utils.TUtils;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+
 
 import java.text.DecimalFormat;
 
@@ -63,14 +63,14 @@ public class HeatHelper {
         }
     }
 
-    public static double getBiomeHeat(World world, BlockPos pos) {
-        return world.getBiome(pos).getTemperature(pos);
+    public static double getBiomeHeat(Level level, BlockPos pos) {
+        return ROOM_TEMP;//T0DO level.getBiome(pos).getTemperature(pos);
     }
 
 
-    public static double getBlockHeat(World world, BlockPos pos, BlockState state) {
+    public static double getBlockHeat(Level level, BlockPos pos, BlockState state) {
         Block block = state.getBlock();
-        /*TileEntity tile = world.getTileEntity(pos);
+        /*TileEntity tile = Level.getBlockEntity(pos);
         if (tile != null) {
             LazyOptional<Double> temp = tile.getCapability(CapabilityHeat.HEAT_CAP).map(IHeatStorage::getHeatStored);
             if (temp.isPresent()) return temp.orElse(-1.0);
@@ -84,13 +84,13 @@ public class HeatHelper {
         else if (block == Blocks.ICE) return 255.0;
         else if (block == Blocks.PACKED_ICE) return 240.0;
         else if (block == Blocks.BLUE_ICE) return 200.0;
-        else return getBiomeHeat(world, pos);
+        else return getBiomeHeat(level, pos);
     }
 
-    public static void balanceHeat(World world, BlockPos pos, IHeatStorage heat) {
+    public static void balanceHeat(Level level, BlockPos pos, IHeatStorage heat) {
         //int tickInterval = 5;
-        //if (world.getGameTime() % tickInterval == 0) {
-        double base = TUtils.getSurroundingBlocks(world, pos).stream().mapToDouble(x -> HeatHelper.getBlockHeat(world, pos, x)).sum() / 6.0;
+        //if (Level.getGameTime() % tickInterval == 0) {
+        double base = TUtils.getSurroundingBlocks(level, pos).stream().mapToDouble(x -> HeatHelper.getBlockHeat(level, pos, x)).sum() / 6.0;
         if (base > heat.getHeatStored() + 1) {
             heat.receiveHeat(0.01f, false);
         } else if (base + 1 < heat.getHeatStored()) {

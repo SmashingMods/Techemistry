@@ -1,9 +1,11 @@
 package al132.techemistry.blocks.calcination_chamber;
 
+
+
 import al132.techemistry.RecipeTypes;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,40 +21,40 @@ public class CalcinationRegistry {
     }
     /*
         //=====SULFATE=====
-        addRecipe(toStack("lead_oxide"), toStack("sulfur_trioxide"), toIngredient(Ref.anglesite.crushedItem), 1360);
-        addRecipe(toStack("lead_oxide"), toStack("sulfur_trioxide"), toIngredient(Ref.anglesite.slurryItem), 1360);
+        addRecipe(toStack("lead_oxide"), toStack("sulfur_trioxide"), toIngredient(Registration.anglesite.crushedItem), 1360);
+        addRecipe(toStack("lead_oxide"), toStack("sulfur_trioxide"), toIngredient(Registration.anglesite.slurryItem), 1360);
 
-        //addRecipe(toStack("barium_oxide"), toStack("sulfur_trioxide"), toIngredient(Ref.barite.crushedItem), 1870);
-        //addRecipe(toStack("barium_oxide"), toStack("sulfur_trioxide"), toIngredient(Ref.barite.slurryItem), 1870);
+        //addRecipe(toStack("barium_oxide"), toStack("sulfur_trioxide"), toIngredient(Registration.barite.crushedItem), 1870);
+        //addRecipe(toStack("barium_oxide"), toStack("sulfur_trioxide"), toIngredient(Registration.barite.slurryItem), 1870);
 
         //=====SULFIDE=====
         addRecipe(toStack("iron_oxide"), toStack("sulfur_dioxide"), toIngredient("iron_disulfide", 2), 820);
-        addRecipe(toStack("iron_oxide"), toStack("sulfur_dioxide"), toIngredient(Ref.pyrite.crushedItem, 2), 820);
-        addRecipe(toStack("iron_oxide"), toStack("gold"), toStack("sulfur_dioxide"), toIngredient(Ref.pyrite.slurryItem, 2), 820);
+        addRecipe(toStack("iron_oxide"), toStack("sulfur_dioxide"), toIngredient(Registration.pyrite.crushedItem, 2), 820);
+        addRecipe(toStack("iron_oxide"), toStack("gold"), toStack("sulfur_dioxide"), toIngredient(Registration.pyrite.slurryItem, 2), 820);
 
         addRecipe(toStack("lead_oxide"), toStack("sulfur_dioxide"), toIngredient("lead_sulfide"), 820);
-        addRecipe(toStack("lead_oxide"), toStack("sulfur_dioxide"), toIngredient(Ref.galena.crushedItem), 820);
-        addRecipe(toStack("lead_oxide"), toStack("silver"), toStack("sulfur_dioxide"), toIngredient(Ref.galena.slurryItem), 1235);
+        addRecipe(toStack("lead_oxide"), toStack("sulfur_dioxide"), toIngredient(Registration.galena.crushedItem), 820);
+        addRecipe(toStack("lead_oxide"), toStack("silver"), toStack("sulfur_dioxide"), toIngredient(Registration.galena.slurryItem), 1235);
 
         addRecipe(toStack("zinc_oxide"), toStack("sulfur_dioxide"), toIngredient("zinc_sulfide"), 1460);
-        addRecipe(toStack("zinc_oxide"), toStack("sulfur_dioxide"), toIngredient(Ref.sphalerite.crushedItem), 1460);
-        addRecipe(toStack("zinc_oxide"), toStack("cadmium"), toStack("sulfur_dioxide"), toIngredient(Ref.sphalerite.slurryItem), 1460);
+        addRecipe(toStack("zinc_oxide"), toStack("sulfur_dioxide"), toIngredient(Registration.sphalerite.crushedItem), 1460);
+        addRecipe(toStack("zinc_oxide"), toStack("cadmium"), toStack("sulfur_dioxide"), toIngredient(Registration.sphalerite.slurryItem), 1460);
 
         addRecipe(toStack("copper_i_oxide", 2), toStack("sulfur_dioxide", 2), toIngredient("copper_i_sulfide", 2), 870);
-        addRecipe(toStack("copper_i_oxide", 2), toStack("sulfur_dioxide", 2), toIngredient(Ref.chalcocite.crushedItem, 2), 870);
-        addRecipe(toStack("copper_i_oxide", 2), toStack("iron", 2), toStack("sulfur_dioxide", 2), toIngredient(Ref.chalcocite.slurryItem, 2), 870);
+        addRecipe(toStack("copper_i_oxide", 2), toStack("sulfur_dioxide", 2), toIngredient(Registration.chalcocite.crushedItem, 2), 870);
+        addRecipe(toStack("copper_i_oxide", 2), toStack("iron", 2), toStack("sulfur_dioxide", 2), toIngredient(Registration.chalcocite.slurryItem, 2), 870);
 
         addRecipe(toStack("mercury"), toStack("sulfur_dioxide"), toIngredient("mercury_sulfide"), 630);
-        addRecipe(toStack("mercury"), toStack("sulfur_dioxide"), toIngredient(Ref.cinnabar.crushedItem), 630);
-        addRecipe(toStack("mercury", 2), toStack("sulfur_dioxide", 2), toIngredient(Ref.cinnabar.slurryItem), 630);
+        addRecipe(toStack("mercury"), toStack("sulfur_dioxide"), toIngredient(Registration.cinnabar.crushedItem), 630);
+        addRecipe(toStack("mercury", 2), toStack("sulfur_dioxide", 2), toIngredient(Registration.cinnabar.slurryItem), 630);
 
         addRecipe(toStack("antimony_trioxide"), toStack("sulfur_dioxide", 3), toIngredient("antimony_trisulfide"), 670);
-        addRecipe(toStack("antimony_trioxide"), toStack("sulfur_dioxide", 3), toIngredient(Ref.stibnite.crushedItem), 670);
-        addRecipe(toStack("antimony_trioxide", 2), toStack("sulfur_dioxide", 6), toIngredient(Ref.stibnite.slurryItem), 670);
+        addRecipe(toStack("antimony_trioxide"), toStack("sulfur_dioxide", 3), toIngredient(Registration.stibnite.crushedItem), 670);
+        addRecipe(toStack("antimony_trioxide", 2), toStack("sulfur_dioxide", 6), toIngredient(Registration.stibnite.slurryItem), 670);
 
-        addRecipe(toStack("nickel_oxide"), toStack("platinum"), toStack("sulfur_dioxide"), toIngredient(Ref.braggite.slurryItem), 1600);
-        addRecipe(toStack("nickel_oxide", 2), toStack("sulfur_dioxide", 2), toIngredient(Ref.millerite.slurryItem), 1600);
-        addRecipe(toStack("sulfuric_acid"), toStack("iron_ii_oxide"), toStack("water", 6), toIngredient(Ref.melanterite.crushedItem), 950);
+        addRecipe(toStack("nickel_oxide"), toStack("platinum"), toStack("sulfur_dioxide"), toIngredient(Registration.braggite.slurryItem), 1600);
+        addRecipe(toStack("nickel_oxide", 2), toStack("sulfur_dioxide", 2), toIngredient(Registration.millerite.slurryItem), 1600);
+        addRecipe(toStack("sulfuric_acid"), toStack("iron_ii_oxide"), toStack("water", 6), toIngredient(Registration.melanterite.crushedItem), 950);
 
 
         //=====NITRATE=====
@@ -75,23 +77,23 @@ public class CalcinationRegistry {
         addRecipe(toStack("calcium_oxide"), toStack("carbon_dioxide"), toIngredient("calcium_carbonate"), 1098.0);
         addRecipe(toStack("magnesium_oxide"), toStack("carbon_dioxide"), toIngredient("magnesium_carbonate"), 1173.0);
         addRecipe(toStack("strontium_oxide"), toStack("carbon_dioxide"), toIngredient("strontium_carbonate"), 1400);
-        addRecipe(toStack("strontium_oxide"), toStack("carbon_dioxide"), toIngredient(Ref.strontianite.crushedItem), 1400);
-        addRecipe(toStack("strontium_oxide"), toStack("carbon_dioxide"), toIngredient(Ref.strontianite.slurryItem), 1400);
+        addRecipe(toStack("strontium_oxide"), toStack("carbon_dioxide"), toIngredient(Registration.strontianite.crushedItem), 1400);
+        addRecipe(toStack("strontium_oxide"), toStack("carbon_dioxide"), toIngredient(Registration.strontianite.slurryItem), 1400);
         addRecipe(toStack("barium_oxide"), toStack("carbon_dioxide"), toIngredient("barium_carbonate"), 1720);
 
-        addRecipe(toStack("manganese_oxide"), toStack("carbon_dioxide"), toIngredient(Ref.rhodochrosite.crushedItem), 570);
-        addRecipe(toStack("manganese_oxide"), toStack("carbon_dioxide"), toIngredient(Ref.rhodochrosite.slurryItem), 570);
+        addRecipe(toStack("manganese_oxide"), toStack("carbon_dioxide"), toIngredient(Registration.rhodochrosite.crushedItem), 570);
+        addRecipe(toStack("manganese_oxide"), toStack("carbon_dioxide"), toIngredient(Registration.rhodochrosite.slurryItem), 570);
         addRecipe(toStack("manganese_oxide"), toStack("carbon_dioxide"), toIngredient("manganese_carbonate"), 570);
 
         addRecipe(toStack("lead_oxide"), toStack("carbon_dioxide"), toIngredient("lead_carbonate"), 590);
-        addRecipe(toStack("lead_oxide"), toStack("carbon_dioxide"), toIngredient(Ref.cerussite.crushedItem), 590);
-        addRecipe(toStack("lead_oxide"), toStack("carbon_dioxide"), toIngredient(Ref.cerussite.slurryItem), 590);
+        addRecipe(toStack("lead_oxide"), toStack("carbon_dioxide"), toIngredient(Registration.cerussite.crushedItem), 590);
+        addRecipe(toStack("lead_oxide"), toStack("carbon_dioxide"), toIngredient(Registration.cerussite.slurryItem), 590);
 
-        addRecipe(toStack("iron_ii_oxide"), toStack("carbon_dioxide"), toIngredient(Ref.siderite.crushedItem), 605);
-        addRecipe(toStack("iron_ii_oxide"), toStack("carbon_dioxide"), toIngredient(Ref.siderite.slurryItem), 605);
+        addRecipe(toStack("iron_ii_oxide"), toStack("carbon_dioxide"), toIngredient(Registration.siderite.crushedItem), 605);
+        addRecipe(toStack("iron_ii_oxide"), toStack("carbon_dioxide"), toIngredient(Registration.siderite.slurryItem), 605);
 
         //=====OTHER=====
-        addRecipe(toStack(Ref.coke), ItemStack.EMPTY, toIngredient(Items.COAL), 1320.0);
+        addRecipe(toStack(Registration.coke), ItemStack.EMPTY, toIngredient(Items.COAL), 1320.0);
         addRecipe(toStack("hydrochloric_acid"), toStack("ammonia"), toIngredient("ammonium_chloride"), 610);
         addRecipe(toStack("calcium_oxide"), toStack("water"), toIngredient("calcium_hydroxide"), 853.0);
         addRecipe(toStack("water", 2), toStack("oxygen", 2), toStack("nitrogen_dioxide", 4),
@@ -107,9 +109,9 @@ public class CalcinationRegistry {
     }
     */
 
-    public static List<CalcinationRecipe> getRecipes(World world) {
+    public static List<CalcinationRecipe> getRecipes(Level level) {
         if (recipes == null) {
-            recipes = world.getRecipeManager().getRecipes().stream()
+            recipes = level.getRecipeManager().getRecipes().stream()
                     .filter(x -> x.getType() == RecipeTypes.CALCINATION_CHAMBER)
                     .map(x -> (CalcinationRecipe) x)
                     .collect(Collectors.toList());
@@ -117,20 +119,20 @@ public class CalcinationRegistry {
         return recipes;
     }
 
-    public static boolean hasRecipe(World world, ItemStack stack) {
-        return getRecipes(world).stream().anyMatch(x -> matchesRecipe(x, stack));
+    public static boolean hasRecipe(Level level, ItemStack stack) {
+        return getRecipes(level).stream().anyMatch(x -> matchesRecipe(x, stack));
     }
 
     public static boolean matchesRecipe(CalcinationRecipe recipe, ItemStack targetStack) {
         Item targetItem = targetStack.getItem();
         if(recipe.getIngredients().size() < 1) return false;
-        return Arrays.stream(recipe.getIngredients().get(0).getMatchingStacks())
+        return Arrays.stream(recipe.getIngredients().get(0).getItems())
                 .map(ItemStack::getItem)
                 .anyMatch(item -> item == targetItem);
     }
 
-    public static Optional<CalcinationRecipe> getRecipeForInput(World world,ItemStack input1) {
-        return getRecipes(world).stream()
+    public static Optional<CalcinationRecipe> getRecipeForInput(Level level,ItemStack input1) {
+        return getRecipes(level).stream()
                 .filter(recipe -> matchesRecipe(recipe, input1))
                 .findFirst();
     }

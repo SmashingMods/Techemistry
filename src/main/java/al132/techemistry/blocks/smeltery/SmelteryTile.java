@@ -3,6 +3,7 @@ package al132.techemistry.blocks.smeltery;
 import al132.alib.tiles.CustomStackHandler;
 import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.BaseInventoryTile;
 import al132.techemistry.blocks.HeatTile;
 import al132.techemistry.blocks.gas_collector.GasCollectorTile;
@@ -10,16 +11,15 @@ import al132.techemistry.capabilities.heat.HeatHelper;
 import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
 import al132.techemistry.utils.TUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.Nameable;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class SmelteryTile extends BaseInventoryTile
-        implements INamedContainerProvider, ITickableTileEntity, HeatTile, GuiTile {
+        implements Nameable, HeatTile, GuiTile {
 
     private Optional<SmelteryRecipe> currentRecipe = Optional.empty();
     protected IHeatStorage heat = new HeatStorage(HeatHelper.ROOM_TEMP);
@@ -37,27 +37,22 @@ public class SmelteryTile extends BaseInventoryTile
 
     public static final int TICKS_PER_OPERATION = 100;
 
-    public SmelteryTile() {
-        super(Ref.smelteryTile);
-    }
-
-    @Nullable
-    @Override
-    public Container createMenu(int i, PlayerInventory playerInv, PlayerEntity player) {
-        return new SmelteryContainer(i, world, pos, playerInv, player);
+    public SmelteryTile(BlockPos pos, BlockState state) {
+        super(Registration.SMELTERY_BE.get(), pos, state);
     }
 
     public void updateRecipe() {
-        if (world != null) this.currentRecipe = SmelteryRegistry.getRecipeForInput(world, getInputStack());
+        if (level != null) this.currentRecipe = SmelteryRegistry.getRecipeForInput(level, getInputStack());
     }
 
-    @Override
-    public void tick() {
-        if (world.isRemote) return;
+    public void tickServer() {
+        if (level.isClientSide) return;
         updateRecipe();
         if (canProcess()) process();
-        HeatHelper.balanceHeat(world, pos, heat);
-        markDirtyClient();
+        HeatHelper.balanceHeat(level, getBlockPos(), heat);
+        setChanged();
+        updateGUIEvery(5);
+
     }
 
     private boolean canProcess() {
@@ -66,14 +61,14 @@ public class SmelteryTile extends BaseInventoryTile
                 && getInputStack().getCount() >= currentRecipe.get().inputCount//.get().getIngredients().get(0).getMatchingStacks()[0].getCount()
                 && !getFluxStack().isEmpty()
                 && !getFuelStack().isEmpty()
-                && TUtils.canStack(currentRecipe.get().getRecipeOutput(), getOutputStack());
+                && TUtils.canStack(currentRecipe.get().getResultItem(), getOutputStack());
     }
 
     private void process() {
         progressTicks++;
-        world.addOptionalParticle(ParticleTypes.SMOKE, pos.getX(), pos.getY(), pos.getZ(), 0, 1, 0);
-        if (world.rand.nextInt(10) == 0) {
-            TileEntity temp = world.getTileEntity(pos.up());
+        level.addParticle(ParticleTypes.SMOKE, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), 0, 1, 0);
+        if (level.random.nextInt(10) == 0) {
+            BlockEntity temp = level.getBlockEntity(getBlockPos().above());
             if (temp instanceof GasCollectorTile) {
                 GasCollectorTile collectorTile = (GasCollectorTile) temp;
                 ItemStack s = collectorTile.getOutputStack();
@@ -84,7 +79,7 @@ public class SmelteryTile extends BaseInventoryTile
         }
         if (progressTicks >= TICKS_PER_OPERATION) {
             progressTicks = 0;
-            getOutput().setOrIncrement(0, currentRecipe.get().getRecipeOutput().copy());
+            getOutput().setOrIncrement(0, currentRecipe.get().getResultItem().copy());
             getInputStack().shrink(currentRecipe.get().inputCount);//currentRecipe.get().getIngredients().get(0).getMatchingStacks()[0].getCount());
             getFluxStack().shrink(1);
             getFuelStack().shrink(1);
@@ -92,22 +87,22 @@ public class SmelteryTile extends BaseInventoryTile
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         this.progressTicks = compound.getInt("progressTicks");
         if (compound.contains("heat")) {
             heat = new HeatStorage(compound.getDouble("heat"));
         } else {
-            heat = new HeatStorage(HeatHelper.getBiomeHeat(world, pos));
+            heat = new HeatStorage(HeatHelper.getBiomeHeat(level, getBlockPos()));
         }
         updateRecipe();
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putInt("progressTicks", progressTicks);
         compound.putDouble("heat", heat.getHeatStored());
-        return super.write(compound);
     }
 
     public ItemStack getInputStack() {
@@ -138,7 +133,7 @@ public class SmelteryTile extends BaseInventoryTile
                 if (slot == 0) {
                     if (SmelteryRegistry.hasRecipe(stack)) return true;
                 } else if (slot == 1) {
-                    if (stack.getItem() == Ref.coke) return true;
+                    if (stack.getItem() == Registration.COKE_ITEM.get()) return true;
                 } else if (slot == 2) {
                     return FluxRegistry.isFlux(stack);
                 }
@@ -155,5 +150,10 @@ public class SmelteryTile extends BaseInventoryTile
     @Override
     public int outputSlots() {
         return 2;
+    }
+
+    @Override
+    public Component getName() {
+        return null;
     }
 }

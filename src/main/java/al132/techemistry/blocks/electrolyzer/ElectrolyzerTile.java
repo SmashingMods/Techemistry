@@ -5,6 +5,7 @@ import al132.alib.tiles.CustomStackHandler;
 import al132.alib.tiles.EnergyTile;
 import al132.alib.tiles.GuiTile;
 import al132.techemistry.Ref;
+import al132.techemistry.Registration;
 import al132.techemistry.blocks.BaseInventoryTile;
 import al132.techemistry.blocks.HeatTile;
 import al132.techemistry.capabilities.heat.HeatHelper;
@@ -12,23 +13,20 @@ import al132.techemistry.capabilities.heat.HeatStorage;
 import al132.techemistry.capabilities.heat.IHeatStorage;
 import al132.techemistry.items.parts.ElectrodeItem;
 import al132.techemistry.utils.TUtils;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.Nameable;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class ElectrolyzerTile extends BaseInventoryTile
-        implements INamedContainerProvider, ITickableTileEntity, EnergyTile, HeatTile, GuiTile {
+        implements Nameable, EnergyTile, HeatTile, GuiTile {
 
     public static final int MAX_ENERGY = 10000;
     private Optional<ElectrolyzerRecipe> currentRecipe = Optional.empty();
@@ -40,27 +38,21 @@ public class ElectrolyzerTile extends BaseInventoryTile
     public static final int TICKS_PER_OPERATION = 100;
     public static final int ENERGY_PER_TICK = 50;
 
-    public ElectrolyzerTile() {
-        super(Ref.electrolyzerTile);
-    }
-
-    @Nullable
-    @Override
-    public Container createMenu(int i, PlayerInventory playerInv, PlayerEntity player) {
-        return new ElectrolyzerContainer(i, world, pos, playerInv, player);
+    public ElectrolyzerTile(BlockPos pos, BlockState state) {
+        super(Registration.ELECTROLYZER_BE.get(), pos, state);
     }
 
     public void updateRecipe() {
-        this.currentRecipe = ElectrolyzerRegistry.getRecipeForInput(world, getInput1Stack(), getInput2Stack());
+        this.currentRecipe = ElectrolyzerRegistry.getRecipeForInput(level, getInput1Stack(), getInput2Stack());
     }
 
-    @Override
-    public void tick() {
-        if (world.isRemote) return;
+    public void tickServer() {
+        if (level.isClientSide) return;
         updateRecipe();
         if (canProcess()) process();
-        HeatHelper.balanceHeat(world, pos, heat);
-        markDirtyClient();
+        HeatHelper.balanceHeat(level, getBlockPos(), heat);
+        setChanged(); //TODO
+        updateGUIEvery(5);
     }
 
     private boolean canProcess() {
@@ -81,38 +73,38 @@ public class ElectrolyzerTile extends BaseInventoryTile
             getOutput().setOrIncrement(0, currentRecipe.get().getOutput1().copy());
             getOutput().setOrIncrement(1, currentRecipe.get().output2.copy());
             getOutput().setOrIncrement(2, currentRecipe.get().output3.copy());
-            getInput().getStackInSlot(0).shrink(currentRecipe.get().getInput1().getMatchingStacks()[0].getCount());
-            if (!currentRecipe.get().input2.hasNoMatchingItems()) {
-                getInput().getStackInSlot(1).shrink(currentRecipe.get().input2.getMatchingStacks()[0].getCount());
+            getInput().getStackInSlot(0).shrink(currentRecipe.get().getInput1().getItems()[0].getCount());
+            if (!currentRecipe.get().input2.isEmpty()) {
+                getInput().getStackInSlot(1).shrink(currentRecipe.get().input2.getItems()[0].getCount());
             }
-            getAnode().attemptDamageItem(1, world.rand, null);
-            if (getAnode().getDamage() >= getAnode().getMaxDamage()) {
+            getAnode().hurt(1, level.random, null);
+            if (getAnode().getDamageValue() >= getAnode().getMaxDamage()) {
                 getInput().setStackInSlot(2, ItemStack.EMPTY);
             }
-            getCathode().attemptDamageItem(1, world.rand, null);
-            if (getCathode().getDamage() >= getCathode().getMaxDamage()) {
+            getCathode().hurt(1, level.random, null);
+            if (getCathode().getDamageValue() >= getCathode().getMaxDamage()) {
                 getInput().setStackInSlot(3, ItemStack.EMPTY);
             }
         }
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         this.progressTicks = compound.getInt("progressTicks");
         if (compound.contains("heat")) {
             heat = new HeatStorage(compound.getDouble("heat"));
         } else {
-            heat = new HeatStorage(HeatHelper.getBiomeHeat(world, pos));
+            heat = new HeatStorage(HeatHelper.getBiomeHeat(level, getBlockPos()));
         }
         updateRecipe();
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putInt("progressTicks", progressTicks);
         compound.putDouble("heat", heat.getHeatStored());
-        return super.write(compound);
     }
 
     public ItemStack getInput1Stack() {
@@ -163,5 +155,10 @@ public class ElectrolyzerTile extends BaseInventoryTile
     @Override
     public int outputSlots() {
         return 3;
+    }
+
+    @Override
+    public Component getName() {
+        return null;
     }
 }

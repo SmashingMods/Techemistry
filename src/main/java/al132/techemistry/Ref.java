@@ -1,32 +1,7 @@
 package al132.techemistry;
 
-import al132.alib.blocks.ABaseBlock;
 import al132.chemlib.Utils;
 import al132.chemlib.chemistry.ChemicalStack;
-import al132.techemistry.blocks.calcination_chamber.*;
-import al132.techemistry.blocks.distillery.*;
-import al132.techemistry.blocks.electrolyzer.*;
-import al132.techemistry.blocks.fermenter.*;
-import al132.techemistry.blocks.froth_flotation_chamber.*;
-import al132.techemistry.blocks.gas_collector.GasCollectorBlock;
-import al132.techemistry.blocks.gas_collector.GasCollectorContainer;
-import al132.techemistry.blocks.gas_collector.GasCollectorTile;
-import al132.techemistry.blocks.macerator.*;
-import al132.techemistry.blocks.reaction_chamber.*;
-import al132.techemistry.blocks.smeltery.*;
-import al132.techemistry.blocks.solar_heater.SolarHeaterBlock;
-import al132.techemistry.blocks.solar_heater.SolarHeaterContainer;
-import al132.techemistry.blocks.solar_heater.SolarHeaterTile;
-import al132.techemistry.blocks.solid_fuel_heater.SolidHeaterBlock;
-import al132.techemistry.blocks.solid_fuel_heater.SolidHeaterContainer;
-import al132.techemistry.blocks.solid_fuel_heater.SolidHeaterTile;
-import al132.techemistry.blocks.steam_boiler.SteamBoilerBlock;
-import al132.techemistry.blocks.steam_boiler.SteamBoilerContainer;
-import al132.techemistry.blocks.steam_boiler.SteamBoilerTile;
-import al132.techemistry.blocks.steam_turbine.SteamTurbineBlock;
-import al132.techemistry.blocks.steam_turbine.SteamTurbineContainer;
-import al132.techemistry.blocks.steam_turbine.SteamTurbineTile;
-import al132.techemistry.blocks.world.*;
 import al132.techemistry.items.BaseItem;
 import al132.techemistry.items.minerals.Mineral;
 import al132.techemistry.items.minerals.MineralItem;
@@ -35,9 +10,7 @@ import al132.techemistry.items.parts.ElectrodeItem;
 import al132.techemistry.items.parts.GearItem;
 import al132.techemistry.items.parts.PartMaterial;
 import al132.techemistry.items.parts.PartMaterialRegistry;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Food;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.world.food.FoodProperties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,22 +21,6 @@ public class Ref {
 
     public static final List<GearItem> gears = new ArrayList<>();
 
-    public static BaseItem yeast;
-    public static BaseItem sugarWine;
-    public static BaseItem crushedWheat;
-    public static BaseItem beer;
-    public static BaseItem cider;
-    public static BaseItem potatoWine;
-    public static BaseItem rum;
-    public static BaseItem vodka;
-    public static BaseItem whiskey;
-    public static BaseItem appleBrandy;
-    public static BaseItem appleSauce;
-    public static BaseItem coke;
-    public static BaseItem yeastGrowthPlate;
-    public static BaseItem sulfurChunk;
-    public static MineralItem salAmmoniac;
-    public static MineralItem natron;
 
 
     public static List<Mineral> minerals = new ArrayList<>();
@@ -103,101 +60,13 @@ public class Ref {
     public static Mineral celestite;
     public static Mineral anglesite;
 
-    public static ElectrodeItem platinumElectrode;
-
-    //public static BucketItem rumBucket;
-
-    public static ABaseBlock fermenter;
-    public static ABaseBlock macerator;
-    public static ABaseBlock gasCollector;
-    public static ABaseBlock electrolyzer;
-    public static ABaseBlock calcinationChamber;
-    public static ABaseBlock reactionChamber;
-    public static ABaseBlock smeltery;
-    public static ABaseBlock frothFlotationChamber;
-    public static ABaseBlock distilleryController;
-    public static ABaseBlock distilleryColumn;
-    public static ABaseBlock solidFuelHeater;
-    public static ABaseBlock steamBoiler;
-    public static ABaseBlock steamTurbine;
-    public static ABaseBlock solarHeater;
-
-    public static WorldBlock dolomite;
-    public static WorldBlock sulfideOre;
-    public static WorldBlock oxideOre;
-    public static WorldBlock carbonateOre;
-    public static WorldBlock phosphateOre;
-    public static WorldBlock sulfurOre;
-    public static WorldBlock sulfateOre;
-
-
-// static FlowingFluidBlock rumBlock;
-    // public static FlowingFluid rum;
-    //public static FlowingFluid flowingRum;
-
-    public static List<TileEntityType<?>> types = new ArrayList<>();
-    public static TileEntityType<FermenterTile> fermenterTile;
-    public static TileEntityType<MaceratorTile> maceratorTile;
-    public static TileEntityType<GasCollectorTile> gasCollectorTile;
-    public static TileEntityType<ElectrolyzerTile> electrolyzerTile;
-    public static TileEntityType<DistilleryTile> distilleryTile;
-    public static TileEntityType<SolidHeaterTile> solidHeaterTile;
-    public static TileEntityType<SteamBoilerTile> steamBoilerTile;
-    public static TileEntityType<SteamTurbineTile> steamTurbineTile;
-    public static TileEntityType<CalcinationTile> calcinationTile;
-    public static TileEntityType<ReactionChamberTile> reactionChamberTile;
-    public static TileEntityType<SmelteryTile> smelteryTile;
-    public static TileEntityType<FrothFlotationTile> frothFlotationTile;
-    public static TileEntityType<SolarHeaterTile> solarHeaterTile;
-
-
-    public static ContainerType<FermenterContainer> fermenterContainer;
-    public static ContainerType<MaceratorContainer> maceratorContainer;
-    public static ContainerType<GasCollectorContainer> gasCollectorContainer;
-    public static ContainerType<ElectrolyzerContainer> electrolyzerContainer;
-    public static ContainerType<DistilleryContainer> distilleryContainer;
-    public static ContainerType<SolidHeaterContainer> solidHeaterContainer;
-    public static ContainerType<SteamBoilerContainer> steamBoilerContainer;
-    public static ContainerType<SteamTurbineContainer> steamTurbineContainer;
-    public static ContainerType<CalcinationContainer> calcinationContainer;
-    public static ContainerType<ReactionChamberContainer> reactionChamberContainer;
-    public static ContainerType<SmelteryContainer> smelteryContainer;
-    public static ContainerType<FrothFlotationContainer> frothFlotationContainer;
-    public static ContainerType<SolarHeaterContainer> solarHeaterContainer;
 
     public static String s(int input) {
         return Utils.getSubscript(input);
     }
 
-    public static DistilleryRecipeSerializer<DistilleryRecipe> DISTILLERY_SERIALIZER = new DistilleryRecipeSerializer<>(DistilleryRecipe::new, 350);
-    public static CalcinationRecipeSerializer<CalcinationRecipe> CALCINATION_SERIALIZER = new CalcinationRecipeSerializer<>(CalcinationRecipe::new, 350);
-    public static ElectrolyzerRecipeSerializer<ElectrolyzerRecipe> ELECTROLYZER_SERIALIZER = new ElectrolyzerRecipeSerializer<>(ElectrolyzerRecipe::new, 350);
-    public static FermenterRecipeSerializer<FermenterRecipe> FERMENTER_SERIALIZER = new FermenterRecipeSerializer<>(FermenterRecipe::new, 1000);
-    public static FrothFlotationRecipeSerializer<FrothFlotationRecipe> FROTH_FLOTATION_SERIALIZER = new FrothFlotationRecipeSerializer<>(FrothFlotationRecipe::new, 1000);
-    public static MaceratorRecipeSerializer<MaceratorRecipe> MACERATOR_SERIALIZER = new MaceratorRecipeSerializer<MaceratorRecipe>(MaceratorRecipe::new, 1000);
-    public static ReactionChamberRecipeSerializer<ReactionChamberRecipe> REACTION_CHAMBER_SERIALIZER = new ReactionChamberRecipeSerializer<ReactionChamberRecipe>(ReactionChamberRecipe::new, 1000);
-    public static SmelteryRecipeSerializer<SmelteryRecipe> SMELTERY_SERIALIZER = new SmelteryRecipeSerializer<SmelteryRecipe>(SmelteryRecipe::new, 1000);
-
 
     public static void initItems() {
-        yeast = new YeastItem();
-        sugarWine = new DrinkItem("sugar_wine");
-        crushedWheat = new CrushedWheatItem();
-        beer = new DrinkItem("beer", new Food.Builder().hunger(6).saturation(0.4f).build());
-        cider = new DrinkItem("cider", new Food.Builder().hunger(6).saturation(0.4f).build());
-        rum = new DrinkItem("rum");
-        potatoWine = new DrinkItem("potato_wine");
-        vodka = new DrinkItem("vodka");
-        whiskey = new DrinkItem("whiskey");
-        appleBrandy = new DrinkItem("apple_brandy");
-        appleSauce = new AppleSauceItem();
-        coke = new CokeItem();
-        platinumElectrode = new ElectrodeItem("platinum_electrode");
-        yeastGrowthPlate = new YeastGrowthPlate();
-        sulfurChunk = new BaseItem("sulfur_chunk");
-        salAmmoniac = new MineralItem("sal_ammoniac", new ChemicalStack("ammonium_chloride"));
-        natron = new MineralItem("natron", new ChemicalStack("sodium_carbonate"));
-
         galena = new Mineral("galena", new ChemicalStack("lead_oxide"));
         pyrite = new Mineral("pyrite", new ChemicalStack("iron_disulfide"));
         chalcocite = new Mineral("chalcocite", new ChemicalStack("copper", 2), new ChemicalStack("sulfur"));
@@ -227,63 +96,5 @@ public class Ref {
         celestite = new Mineral("celestite", new ChemicalStack("strontium_sulfate"));
         anglesite = new Mineral("anglesite", new ChemicalStack("lead_sulfate"));
 
-        for (PartMaterial material : PartMaterialRegistry.materials) {
-            new GearItem(material);
-        }
-        /*rumBucket = new BucketItem(() -> rum,
-                new Item.Properties().group(Alchemistry2.data.itemGroup).maxStackSize(1).containerItem(Items.BUCKET)) {
-            @Override
-            protected ItemStack emptyBucket(ItemStack stack, PlayerEntity entity) {
-                return !entity.abilities.isCreativeMode ? new ItemStack(Ref.rumBucket) : stack;
-            }
-        };
-        rumBucket.setRegistryName(Utils.toLocation("rum_bucket"));
-         */
     }
-
-    public static void initBlocks() {
-        dolomite = new DolomiteBlock();
-        sulfideOre = new SulfideOre();
-        oxideOre = new OxideOre();
-        carbonateOre = new CarbonateOre();
-        phosphateOre = new PhosphateOre();
-        sulfurOre = new SulfurOre();
-        sulfateOre = new SulfateOre();
-
-        fermenter = new FermenterBlock();
-        macerator = new MaceratorBlock();
-        gasCollector = new GasCollectorBlock();
-        electrolyzer = new ElectrolyzerBlock();
-        calcinationChamber = new CalcinationBlock();
-        reactionChamber = new ReactionChamberBlock();
-        smeltery = new SmelteryBlock();
-        frothFlotationChamber = new FrothFlotationBlock();
-        solarHeater = new SolarHeaterBlock();
-
-        distilleryController = new DistilleryControllerBlock();
-        distilleryColumn = new DistilleryColumnBlock();
-
-        solidFuelHeater = new SolidHeaterBlock();
-        steamBoiler = new SteamBoilerBlock();
-        steamTurbine = new SteamTurbineBlock();
-
-
-        //  rumBlock = createFluidBlock(() -> Ref.rum);
-        // rumBlock.setRegistryName(Utils.toLocation("rum"));
-    }
-
-    /*
-    public static void initFluids() {
-        ForgeFlowingFluid.Properties rumProperties = Alchemistry2Data.fluidProperties("rum", () -> rum, () -> flowingRum)
-                .block(() -> rumBlock)
-                .bucket(() -> rumBucket);
-        flowingRum = Alchemistry2Data.registerFluid("flowing_rum", new ForgeFlowingFluid.Flowing(rumProperties));
-        rum = Alchemistry2Data.registerFluid("rum", new ForgeFlowingFluid.Flowing(rumProperties));
-    }
-
-    public static FlowingFluidBlock createFluidBlock(Supplier<FlowingFluid> fluid) {
-        return new FlowingFluidBlock(fluid,
-                Block.Properties.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100F).noDrops());
-    }
-*/
 }
