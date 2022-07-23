@@ -1,6 +1,0 @@
-{
-  "type": "techemistry:reaction_chamber",
-  "group": "minecraft:misc",
-  "formula": "NiS + 2H + 4CO -> Ni + H2O + 4CO",
-  "minimumTemp": 520
-}
