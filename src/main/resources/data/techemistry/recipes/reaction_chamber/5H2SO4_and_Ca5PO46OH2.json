@@ -1,6 +1,0 @@
-{
-  "type": "techemistry:reaction_chamber",
-  "group": "minecraft:misc",
-  "formula": "5H2SO4 + Ca5PO46OH2 -> 3H3PO4 + 5CaSO4 + H2O",
-  "minimumTemp": 273
-}
