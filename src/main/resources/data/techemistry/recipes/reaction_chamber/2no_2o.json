@@ -1,6 +1,0 @@
-{
-  "type": "techemistry:reaction_chamber",
-  "group": "minecraft:misc",
-  "formula": "2NO + 2O -> 2NO2",
-  "minimumTemp": 500
-}
