@@ -1,0 +1,6 @@
+{
+  "type": "techemistry:reaction_chamber",
+  "group": "minecraft:misc",
+  "formula": "2CH4 + 8S + Al2O3 -> 2CS2 + 4H2S + Al2O3",
+  "minimumTemp": 870
+}
