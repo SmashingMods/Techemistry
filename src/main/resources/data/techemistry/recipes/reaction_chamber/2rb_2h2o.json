@@ -1,6 +1,0 @@
-{
-    "type": "techemistry:reaction_chamber",
-    "group": "minecraft:misc",
-    "formula": "2Rb + 2H2O -> 2RbOH + 2H",
-    "minimumTemp": 273
-}
