@@ -1,6 +1,0 @@
-{
-    "type": "techemistry:reaction_chamber",
-    "group": "minecraft:misc",
-    "formula": "2Li + 2H2O -> 2LiOH + 2H",
-    "minimumTemp": 273
-}
