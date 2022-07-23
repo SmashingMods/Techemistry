@@ -1,6 +1,0 @@
-{
-  "type": "techemistry:reaction_chamber",
-  "group": "minecraft:misc",
-  "formula": "NH4Cl + NaOH -> NH3 + NaCl + H2O",
-  "minimumTemp": 273
-}
