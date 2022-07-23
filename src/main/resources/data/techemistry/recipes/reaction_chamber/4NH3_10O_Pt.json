@@ -1,6 +1,0 @@
-{
-  "type": "techemistry:reaction_chamber",
-  "group": "minecraft:misc",
-  "formula": "4NH3 + 10O + Pt -> 4NO + 6H2O + Pt",
-  "minimumTemp": 500
-}
