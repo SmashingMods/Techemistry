@@ -1,6 +1,0 @@
-{
-  "type": "techemistry:reaction_chamber",
-  "group": "minecraft:misc",
-  "formula": "C2H5OH + CS2 + KOH -> C3H5KOS2 + H2O",
-  "minimumTemp": 273
-}
