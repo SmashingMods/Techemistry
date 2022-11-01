@@ -1,0 +1,186 @@
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://maven.parchmentmc.org' }
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath 'org.parchmentmc:librarian:1.+'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'maven-publish'
+
+version = "$minecraft_version-$mod_version"
+group = 'com.smashingmods'
+
+java {
+    archivesBaseName = 'techemistry'
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    withSourcesJar()
+}
+
+minecraft {
+    mappings channel: 'parchment', version: "$parchment_version-$minecraft_version"
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'techemistry'
+            jvmArgs '-XX:+AllowEnhancedClassRedefinition'
+
+            mods {
+                techemistry {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'techemistry'
+            jvmArgs '-XX:+AllowEnhancedClassRedefinition'
+            args 'nogui'
+
+            mods {
+                techemistry {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        gameTestServer {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            property 'forge.enabledGameTestNamespaces', 'techemistry'
+            jvmArgs '-XX:+AllowEnhancedClassRedefinition'
+
+            mods {
+                techemistry {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            jvmArgs '-XX:+AllowEnhancedClassRedefinition'
+
+            args '--mod', 'techemistry', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
+            mods {
+                techemistry {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    maven { url "https://maven.tamaized.com/releases" }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    implementation fg.deobf("smashingmods:chemlib:${minecraft_version}-${chemlib_version}")
+    implementation fg.deobf("smashingmods:alchemylib:${minecraft_version}-${alchemylib_version}")
+}
+
+// Example for how to get properties into the manifest for reading at runtime.
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : "$archivesBaseName",
+                "Specification-Vendor"    : "DarkArcana",
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.version,
+                "Implementation-Vendor"   : "SmashingMods",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+}
+
+def secrets = new Properties()
+file('secrets.properties').withInputStream {
+    stream -> secrets.load(stream)
+}
+
+fileTree("secrets").matching {
+    include "**/*.properties"
+}.each {
+    File file ->
+        file.withInputStream {
+            stream -> secrets.load(stream)
+        }
+}
+
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            afterEvaluate {
+                artifact project.jar
+                artifact project.sourcesJar
+            }
+            setGroupId 'smashingmods'
+            setArtifactId 'alchemistry'
+        }
+    }
+    repositories {
+        maven {
+            url "https://maven.tamaized.com/releases"
+            credentials {
+                username secrets.getProperty("maven_username")
+                password secrets.getProperty("maven_password")
+            }
+        }
+    }
+}
+
+//curseforge {
+//    apiKey = secrets.getProperty("apiKey")
+//    project {
+//        id = ''
+//        releaseType = 'alpha'
+//        changelogType = 'markdown'
+//        changelog = file("changelog.md")
+//        addGameVersion 'Forge'
+//        addGameVersion 'Java 17'
+//        addGameVersion '1.19.2'
+//        mainArtifact(jar) {
+//            displayName = "Techemistry - $project.version"
+//            relations {
+//                requiredDependency 'chemlib'
+//                requiredDependency 'alchemylib'
+//            }
+//        }
+//    }
+//}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

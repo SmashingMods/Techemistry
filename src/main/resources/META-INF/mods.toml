@@ -1,0 +1,40 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+license = "All Rights Reserved"
+
+[[mods]]
+modId = "techemistry"
+version = "${file.jarVersion}"
+displayName = "Techemistry"
+#logoFile="techemistry-logo.png"
+authors="SmashingMods"
+description='''
+'''
+
+[[dependencies.techemistry]]
+modId = "forge"
+mandatory = true
+versionRange = "[43.1.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.techemistry]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.2,1.20)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.techemistry]]
+modId="chemlib"
+mandatory=true
+versionRange="[1.19.2-2.0.13,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.techemistry]]
+modId="alchemylib"
+mandatory=true
+versionRange="[1.19.2-2.0.16,)"
+ordering="NONE"
+side="BOTH"
