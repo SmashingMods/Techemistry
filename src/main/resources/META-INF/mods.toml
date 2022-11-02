@@ -35,6 +35,6 @@ side="BOTH"
 [[dependencies.techemistry]]
 modId="alchemylib"
 mandatory=true
-versionRange="[1.19.2-2.0.16,)"
+versionRange="[1.19.2-1.0.16,)"
 ordering="NONE"
 side="BOTH"
